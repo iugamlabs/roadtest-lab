@@ -119,11 +119,22 @@
 .page-title { font-size: 1.5rem; font-weight: 600; line-height: 1.4; }
 .muted { color: var(--muted-foreground); line-height: 1.75; }
 .form-field { display: grid; gap: .6rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
-.training-grid { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(300px, 1fr); gap: 1rem; align-items: start; }
+.training-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(400px, 1fr); gap: 1rem; align-items: start; }
+.training-video-column { position: sticky; top: 1rem; }
 .video-frame { position: relative; aspect-ratio: 16/9; background: #000; overflow: hidden; }
+.training-workspace .video-frame { max-height: calc(100dvh - 330px); min-height: 220px; }
 .video-frame video { width: 100%; height: 100%; display: block; object-fit: contain; }
+.video-state { position: absolute; top: .6rem; left: .6rem; right: .6rem; width: fit-content; max-width: calc(100% - 1.2rem); border-radius: var(--radius-md); padding: .4rem .6rem; background: rgb(0 0 0 / 75%); color: white; font-size: .8rem; }
 .subtitle-mask { position: absolute; left: 0; right: 0; backdrop-filter: blur(22px); background: rgb(0 0 0 / 38%); pointer-events: none; }
-.control-button { min-height: 88px; white-space: normal; flex-direction: column; gap: .35rem; }
+.control-button { min-height: 56px; padding: .6rem .4rem; white-space: normal; gap: .35rem; font-size: 1rem; }
+.practice-panel { display: flex; flex-direction: column; gap: .4rem; }
+.practice-instruction { border-bottom: 1px solid var(--border); padding: .2rem 0 .6rem; }
+.practice-feedback { border-radius: var(--radius-md); background: var(--secondary); color: var(--secondary-foreground); padding: .5rem .75rem; min-height: 3rem; font-size: 1rem; line-height: 1.5; }
+.player-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 input[type=range] { width: 100%; accent-color: var(--primary); }
-@media (max-width: 1200px) { .training-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1023px) {
+  .training-grid { grid-template-columns: 1fr; }
+  .training-video-column { position: static; }
+  .training-workspace .video-frame { max-height: 45dvh; min-height: 0; }
+}
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

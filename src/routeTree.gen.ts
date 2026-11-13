@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MaterialsRouteImport } from './routes/materials'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as TrainIndexRouteImport } from './routes/train.index'
 import { Route as TrainRouteIdRouteImport } from './routes/train.$routeId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TrainIndexRoute = TrainIndexRouteImport.update({
+  id: '/train/',
+  path: '/train/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrainRouteIdRoute = TrainRouteIdRouteImport.update({
   id: '/train/$routeId',
   path: '/train/$routeId',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
   '/train/$routeId': typeof TrainRouteIdRoute
+  '/train/': typeof TrainIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
   '/train/$routeId': typeof TrainRouteIdRoute
+  '/train': typeof TrainIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
   '/train/$routeId': typeof TrainRouteIdRoute
+  '/train/': typeof TrainIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/materials' | '/settings' | '/train/$routeId'
+  fullPaths: '/' | '/materials' | '/settings' | '/train/$routeId' | '/train/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/materials' | '/settings' | '/train/$routeId'
-  id: '__root__' | '/' | '/materials' | '/settings' | '/train/$routeId'
+  to: '/' | '/materials' | '/settings' | '/train/$routeId' | '/train'
+  id:
+    | '__root__'
+    | '/'
+    | '/materials'
+    | '/settings'
+    | '/train/$routeId'
+    | '/train/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +82,7 @@ export interface RootRouteChildren {
   MaterialsRoute: typeof MaterialsRoute
   SettingsRoute: typeof SettingsRoute
   TrainRouteIdRoute: typeof TrainRouteIdRoute
+  TrainIndexRoute: typeof TrainIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/train/': {
+      id: '/train/'
+      path: '/train'
+      fullPath: '/train/'
+      preLoaderRoute: typeof TrainIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/train/$routeId': {
       id: '/train/$routeId'
       path: '/train/$routeId'
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   MaterialsRoute: MaterialsRoute,
   SettingsRoute: SettingsRoute,
   TrainRouteIdRoute: TrainRouteIdRoute,
+  TrainIndexRoute: TrainIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
