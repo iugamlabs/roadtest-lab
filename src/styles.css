@@ -162,6 +162,12 @@ input[type=range] { width: 100%; accent-color: var(--primary); }
 .prototype-control[data-selected=true] { box-shadow: inset 0 -4px 0 var(--action); }
 .prototype-status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted-foreground); }
 .prototype-status-dot.is-moving { background: var(--prototype-go); }
+.map-route-overview { width: 78px; height: 148px; }
+.map-route-overview svg { height: calc(100% - 18px); }
+.map-workspace .map-route-canvas { height: clamp(280px, calc(100dvh - 440px), 610px); }
+.map-workspace.map-parking .map-route-canvas { height: clamp(250px, calc(100dvh - 505px), 550px); }
+.map-route-thumbnail svg { max-height: 170px; }
+@media (max-width: 767px) { .map-workspace .map-route-canvas { height: 300px; } .map-route-overview { width: 56px; height: 105px; } .map-route-look { top: auto; bottom: .5rem; max-width: 70%; } }
 @media (max-width: 767px) { .prototype-map-wrap { height: 300px; } .prototype-control { min-height: 64px; gap: .3rem; } .prototype-look { top: auto; bottom: .5rem; max-width: 65%; } }
 /* Media-only palette, independent from the application theme. */
 .exam-scene, .exam-mirror {

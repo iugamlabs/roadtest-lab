@@ -17,6 +17,7 @@ import { Route as ExamRouteIdRouteImport } from './routes/exam.$routeId'
 import { Route as ExamPrototypeRouteImport } from './routes/exam.prototype'
 import { Route as TrainIndexRouteImport } from './routes/train.index'
 import { Route as TrainRouteIdRouteImport } from './routes/train.$routeId'
+import { Route as ExamLegacyRouteIdRouteImport } from './routes/exam.legacy.$routeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const TrainRouteIdRoute = TrainRouteIdRouteImport.update({
   path: '/train/$routeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExamLegacyRouteIdRoute = ExamLegacyRouteIdRouteImport.update({
+  id: '/exam/legacy/$routeId',
+  path: '/exam/legacy/$routeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam/': typeof ExamIndexRoute
   '/train/': typeof TrainIndexRoute
+  '/exam/legacy/$routeId': typeof ExamLegacyRouteIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam': typeof ExamIndexRoute
   '/train': typeof TrainIndexRoute
+  '/exam/legacy/$routeId': typeof ExamLegacyRouteIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam/': typeof ExamIndexRoute
   '/train/': typeof TrainIndexRoute
+  '/exam/legacy/$routeId': typeof ExamLegacyRouteIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
     | '/train/$routeId'
     | '/exam/'
     | '/train/'
+    | '/exam/legacy/$routeId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/train/$routeId'
     | '/exam'
     | '/train'
+    | '/exam/legacy/$routeId'
   id:
     | '__root__'
     | '/'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/train/$routeId'
     | '/exam/'
     | '/train/'
+    | '/exam/legacy/$routeId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +144,7 @@ export interface RootRouteChildren {
   TrainRouteIdRoute: typeof TrainRouteIdRoute
   ExamIndexRoute: typeof ExamIndexRoute
   TrainIndexRoute: typeof TrainIndexRoute
+  ExamLegacyRouteIdRoute: typeof ExamLegacyRouteIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrainRouteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/exam/legacy/$routeId': {
+      id: '/exam/legacy/$routeId'
+      path: '/exam/legacy/$routeId'
+      fullPath: '/exam/legacy/$routeId'
+      preLoaderRoute: typeof ExamLegacyRouteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,6 +224,7 @@ const rootRouteChildren: RootRouteChildren = {
   TrainRouteIdRoute: TrainRouteIdRoute,
   ExamIndexRoute: ExamIndexRoute,
   TrainIndexRoute: TrainIndexRoute,
+  ExamLegacyRouteIdRoute: ExamLegacyRouteIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
