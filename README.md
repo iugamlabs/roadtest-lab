@@ -2,7 +2,9 @@
 
 汕头大学路科目三实景学习工具。第一阶段面向约 60 岁的学员，电脑优先，兼顾手机和平板，仅支持 C2 自动挡。
 
-当前支持三条实景路线、视频播放与回看、操作按钮熟悉、局部字幕模糊、学习设置，以及统一的教学字幕。字幕以 ASR 为主、OCR 辅助校对；前端只显示一份成稿，原文、修订理由和待核实项保留在仓库。三条路线已有独立的画面时间校准与暂停练习数据，尚未接入页面、操作状态机或评分；不会把旧 DEMO 时间点用于训练。
+当前支持三条实景路线、视频播放与回看、局部字幕模糊、学习设置、统一教学字幕，以及 62 项暂停操作练习。可开始全程练习或选择单项，视频到节点暂停后按步骤操作；支持车辆状态判断、独立计时、纠正提示和重练。字幕以 ASR 为主、OCR 辅助校对；前端只显示一份成稿，原文、修订理由和待核实项保留在仓库。练习使用独立校准的时间点，不沿用旧 DEMO 的节点、方向或评分。
+
+进入路线后先观看视频，点击“开始全程练习”从当前位置练习；需要从头开始时先拖至开头。操作完成后手动继续，也可重练本项或回看暂停点前 5 秒。页面隐藏、路线图和用户暂停会冻结操作计时，回来后手动继续；拖动中止当前尝试，不将跳过记为完成。详细行为与教学步骤见 [训练引擎约定](docs/training-engine.md)。当前不计分、不设超时淘汰，正式模拟考试尚未开放。
 
 路线定位、范围限制和剩余疑点见 [事件校准记录](docs/event-calibration.md)。维护者可运行 `pnpm prepare:events` 生成事件数据和报告；安装 FFmpeg 后运行 `pnpm calibrate:media`，打开 `artifacts/calibration/index.html`，集中查看疑点原声片段、逐项证据图和字幕依据。所有音视频处理在本机进行，原片保持不变。画面复核不等于独立听音或考规核实，正式评分事件尚未开放。
 
@@ -22,7 +24,7 @@ pnpm dev
 pnpm import:ocr  # 原始 SRT 有变化时，重新生成可追溯的 OCR JSON
 pnpm import:asr  # ASR 素材有变化时，更新原文快照
 pnpm prepare:subtitles # 应用人工修订，生成唯一成稿、SRT 与校对记录
-pnpm test        # 字幕解析及数据边界检查
+pnpm test        # 字幕、数据边界、训练状态机与媒体控制检查
 pnpm build       # 生成路由、生产构建、TypeScript 检查
 pnpm typecheck   # 首次请先运行 dev 或 build，生成 routeTree.gen.ts
 pnpm preview
@@ -35,6 +37,7 @@ src/routes/             TanStack Router 文件路由与页面
 src/components/ui/      shadcn/ui 组件
 src/features/content/   路线、字幕查询及 Zod 数据契约
 src/features/settings/  学习设置与本机持久化
+src/features/training/  训练引擎、媒体控制、操作面板与项目重练
 src/lib/                通用工具及按需加载的 Motion 特性
 public/data/            前端使用的统一字幕 JSON，以及保留的 OCR 来源快照
 content/subtitle-sources/ 可提交的 ASR 原文快照
@@ -55,7 +58,8 @@ React + TypeScript + Vite；Tailwind CSS；shadcn/ui；TanStack Router + Query�
 
 ## 当前边界
 
-- 播放以视频时间为准；操作区仅用于熟悉按钮，不影响影片车速，也不计分。
+- 视频位置触发暂停练习；操作计时独立于视频暂停与播放倍速。按钮不影响影片中的真实车速，也不代表工具已经检测到实际驾驶动作，不计分。
+- 练习记录仅保留在当前路线会话，刷新、离开路线或重新开始全程练习会重置；学习设置仍在本机保存。
 - 当前视频为教学片，有原声和画面字幕。字幕遮罩为 CSS 局部模糊，范围需要对照画面调整；默认关闭，设置暂时共用于三条路线。
-- 已完成文字层面的 ASR/OCR 交叉校对，尚未逐段听音或核对画面。规则、方向、数值及动作窗口不能仅据字幕确认；详见 [校对记录](docs/subtitle-review.md) 和 [内容维护流程](docs/content-workflow.md)。
+- 已完成文字层面的 ASR/OCR 交叉校对与独立的抽样画面定位，尚未独立逐段听音或核实考规。画面定位不升级字幕文字状态，也不授权考试评分；详见 [校对记录](docs/subtitle-review.md)、[事件校准](docs/event-calibration.md) 和 [内容维护流程](docs/content-workflow.md)。
 - 本次仅搭建当前仓库内的项目，未配置线上托管。静态部署需要支持 SPA 路由回退至 index.html，并准备媒体文件；不需要业务后端。
