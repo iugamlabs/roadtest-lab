@@ -13,7 +13,7 @@ export const settingsSchema = z.object({
   message: '遮罩位置与高度之和不能超过 100%。', path: ['maskHeight'],
 })
 export type Settings = z.infer<typeof settingsSchema>
-export const defaultSettings: Settings = { playbackRate: '1', originalAudio: true, blurSubtitles: false, maskTop: 70, maskHeight: 22 }
+export const defaultSettings: Settings = { playbackRate: '1', originalAudio: true, blurSubtitles: false, maskTop: 82, maskHeight: 8 }
 const storageKey = 'roadtest.settings.v1'
 function readSettings(): Settings {
   try {
