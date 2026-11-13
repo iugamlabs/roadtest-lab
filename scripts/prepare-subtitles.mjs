@@ -47,4 +47,4 @@ for (const document of documents) {
   report.push('')
   console.log(`${id} 号线：生成 ${document.cues.length} 条成稿，${document.summary.correctionCount} 条修订，${document.summary.supplementCount} 条补段。`)
 }
-await writeFile(new URL('docs/subtitle-review.md', root), report.join('\n') + '\n')
+await writeFile(new URL('docs/subtitle-review.md', root), report.join('\n').trimEnd() + '\n')

@@ -9,7 +9,7 @@
 - 电脑优先，兼顾手机和平板；第一阶段仅支持 C2 自动挡。
 - 使用五、六、七号线真实教学视频。核心方向是实景视频自动行驶，学员练习打灯、观察、制动等关键动作，不模拟驾驶物理。
 - 保持纯前端架构，设置和学习数据优先本机保存。引入账号、跨设备同步或业务后端前，先与用户讨论需求。
-- 当前已实现视频学习、操作按钮熟悉、路线图、字幕遮罩、OCR 原文查看及学习设置。经核对的考试事件、动作状态机和评分尚未接入，不能将按钮试用描述成完整模拟考试。
+- 当前已实现视频学习、操作按钮熟悉、路线图、字幕遮罩、统一教学字幕及学习设置。字幕以 ASR 为主、OCR 辅助校对，前端只显示一份成稿。经核对的考试事件、动作状态机和评分尚未接入，不能将按钮试用描述成完整模拟考试。
 
 ## 技术栈与工具
 
@@ -57,6 +57,8 @@
 - `raw/`：原始视频、OCR SRT、ASR 素材和旧 DEMO，保留原文件，不覆盖修改。
 - `raw/asr/route-5.srt`、`route-6.srt`、`route-7.srt`：ASR 文件约定位置，接入时检查实际内容；文件存在不代表已对齐或已核对。
 - `public/data/route-*.ocr.json`：脚本生成的原始 OCR 记录，可以提交。人工修订应另存，避免重新导入覆盖。
+- `content/subtitle-sources/` 保留可提交的 ASR 原文快照；`content/subtitle-reviews/` 保存人工修订、来源引用和疑点；`content/subtitles/` 保存成稿 SRT。
+- `public/data/route-*.subtitles.json` 是前端唯一使用的字幕成稿，由脚本生成，不直接编辑；校对详情见 `docs/subtitle-review.md`。
 - `public/media/`：从原始素材准备的视频及路线图；与 `raw/`、`dist/` 一样不提交 Git。
 - 不编辑 `dist/` 修复页面，必须修改源码后重新构建。
 
@@ -64,6 +66,8 @@
 
 - 详细流程见 [docs/content-workflow.md](docs/content-workflow.md)。
 - ASR 与 OCR 保留各自原文、来源和毫秒时间戳；校正文另存并记录理由，不覆盖 `rawText`。
+- 前端统一显示校正文（未修改处使用原文），搜索也使用同一文本，不提供来源切换或维护状态。当前仅完成文字校对，内部 `text-reviewed` 不等于原声、画面或考规已核实。
+- 更新字幕后运行 `pnpm prepare:subtitles`；构建也会生成成稿。原文与修订中的 `expectedRawText` 不符时应重新审阅，不能绕过校验强行套用旧修订。
 - 不要求两种字幕逐条对应，允许一对多、多对一和单侧内容。冲突或缺失处回看视频与原声；不确定的内容保留待核对状态。
 - 方向、数值、规则及缺失整句不能靠语境猜测后标为已核实。
 - 区分考试口令、教练提前讲解、事后解释、实际操作与临时交通情景。字幕出现时间只用于候选定位，不能直接当成操作触发时间。
@@ -79,6 +83,8 @@ pnpm install
 pnpm prepare:media  # 从 raw 准备视频及路线图，不修改原始素材
 pnpm dev
 pnpm import:ocr     # OCR 原始 SRT 变化后重新导入，不用于人工校正
+pnpm import:asr     # ASR 原始 SRT 变化后更新来源快照
+pnpm prepare:subtitles # 应用修订，生成前端字幕、成稿 SRT 和校对记录
 pnpm build         # 生成路由、生产构建及 TypeScript 检查
 pnpm typecheck     # 首次需先运行 dev/build 生成路由
 pnpm test

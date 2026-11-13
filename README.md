@@ -2,7 +2,7 @@
 
 汕头大学路科目三实景学习工具。第一阶段面向约 60 岁的学员，电脑优先，兼顾手机和平板，仅支持 C2 自动挡。
 
-当前为项目框架：三条实景路线、视频播放与回看、操作按钮熟悉、局部字幕模糊、学习设置、OCR 原文查看。尚未接入经核对的考试事件、操作状态机或评分；不会把旧 DEMO 时间点用于训练。
+当前支持三条实景路线、视频播放与回看、操作按钮熟悉、局部字幕模糊、学习设置，以及统一的教学字幕。字幕以 ASR 为主、OCR 辅助校对；前端只显示一份成稿，原文、修订理由和待核实项保留在仓库。尚未接入经核对的考试事件、操作状态机或评分；不会把旧 DEMO 时间点用于训练。
 
 ## 启动
 
@@ -18,6 +18,8 @@ pnpm dev
 
 ```sh
 pnpm import:ocr  # 原始 SRT 有变化时，重新生成可追溯的 OCR JSON
+pnpm import:asr  # ASR 素材有变化时，更新原文快照
+pnpm prepare:subtitles # 应用人工修订，生成唯一成稿、SRT 与校对记录
 pnpm test        # 字幕解析及数据边界检查
 pnpm build       # 生成路由、生产构建、TypeScript 检查
 pnpm typecheck   # 首次请先运行 dev 或 build，生成 routeTree.gen.ts
@@ -32,7 +34,10 @@ src/components/ui/      shadcn/ui 组件
 src/features/content/   路线、字幕查询及 Zod 数据契约
 src/features/settings/  学习设置与本机持久化
 src/lib/                通用工具及按需加载的 Motion 特性
-public/data/            可提交的原始 OCR JSON，保留来源与待校对状态
+public/data/            前端使用的统一字幕 JSON，以及保留的 OCR 来源快照
+content/subtitle-sources/ 可提交的 ASR 原文快照
+content/subtitle-reviews/ 人工修订、来源引用与待核实项
+content/subtitles/      同一成稿的标准 SRT 导出
 public/media/           本机准备的视频和路线图，Git 忽略
 scripts/                素材准备与字幕导入
 docs/content-workflow.md 字幕与事件校对约定
@@ -50,5 +55,5 @@ React + TypeScript + Vite；Tailwind CSS；shadcn/ui；TanStack Router + Query�
 
 - 播放以视频时间为准；操作区仅用于熟悉按钮，不影响影片车速，也不计分。
 - 当前视频为教学片，有原声和画面字幕。字幕遮罩为 CSS 局部模糊，范围需要对照画面调整；默认关闭，设置暂时共用于三条路线。
-- JSON 字幕不被当作考试指令；任何原文中的规则、方向、数值尚未经人工确认。
+- 已完成文字层面的 ASR/OCR 交叉校对，尚未逐段听音或核对画面。规则、方向、数值及动作窗口不能仅据字幕确认；详见 [校对记录](docs/subtitle-review.md) 和 [内容维护流程](docs/content-workflow.md)。
 - 本次仅搭建当前仓库内的项目，未配置线上托管。静态部署需要支持 SPA 路由回退至 index.html，并准备媒体文件；不需要业务后端。
