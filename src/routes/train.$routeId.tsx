@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowLeft, ArrowUpLeft, ArrowUpRight, CircleOff, Eye, Footprints, Map, Pause, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react'
+import { ArrowLeft, Map, Pause, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -10,12 +10,17 @@ import { Switch } from '@/components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { routeIdSchema, subtitleText, type RouteId } from '@/features/content/schema'
-import { formatTime, mediaUrl, roadRoutes, subtitlesQueryOptions } from '@/features/content/queries'
+import { eventsQueryOptions, formatTime, mediaUrl, roadRoutes, subtitlesQueryOptions } from '@/features/content/queries'
 import { useSettings } from '@/features/settings/settings'
+import { useTraining } from '@/features/training/use-training'
+import { TrainingEventList, TrainingPanel } from '@/features/training/training-panel'
 
 export const Route = createFileRoute('/train/$routeId')({
   beforeLoad: ({ params }) => { if (!routeIdSchema.safeParse(params.routeId).success) throw notFound() },
-  loader: ({ context, params }) => context.queryClient.ensureQueryData(subtitlesQueryOptions(routeIdSchema.parse(params.routeId))),
+  loader: ({ context, params }) => Promise.all([
+    context.queryClient.ensureQueryData(subtitlesQueryOptions(routeIdSchema.parse(params.routeId))),
+    context.queryClient.ensureQueryData(eventsQueryOptions(routeIdSchema.parse(params.routeId))),
+  ]),
   pendingComponent: () => <p role="status" className="rounded-lg border p-6">正在准备路线资料…</p>,
   component: TrainingPage,
 })
@@ -29,8 +34,10 @@ function TrainingPage() {
 function RoutePlayer({ routeId }: { routeId: RouteId }) {
   const route = roadRoutes.find(value => value.id === routeId)!
   const { data } = useSuspenseQuery(subtitlesQueryOptions(routeId))
+  const { data: eventData } = useSuspenseQuery(eventsQueryOptions(routeId))
   const { settings, save } = useSettings()
   const video = useRef<HTMLVideoElement>(null)
+  const training = useTraining(eventData.events, video)
   const [playing, setPlaying] = useState(false)
   const [time, setTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -40,39 +47,34 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
   const [maskTop, setMaskTop] = useState(settings.maskTop)
   const [maskHeight, setMaskHeight] = useState(settings.maskHeight)
   const [mediaError, setMediaError] = useState(false)
-  const [feedback, setFeedback] = useState('点击一个按钮，熟悉它的位置与作用。')
-  const [playbackMessage, setPlaybackMessage] = useState('')
   const [maskMessage, setMaskMessage] = useState('')
-  const [indicator, setIndicator] = useState<'left' | 'right' | 'off'>('off')
   const [showMap, setShowMap] = useState(false)
   const [mapError, setMapError] = useState(false)
   const [showSubtitles, setShowSubtitles] = useState(false)
   const currentCue = data.cues.find(cue => cue.startMs <= time * 1000 && cue.endMs > time * 1000)
+  const mediaReady = duration > 0 && !mediaError
+  const practicing = training.state.enabled && training.state.phase === 'practice'
+  const pauseControl = practicing ? !training.state.suspensions.includes('user') : playing
+  const playbackLabel = practicing ? pauseControl ? '暂停练习' : '继续练习' : playing ? '暂停' : '播放视频'
+  const playbackDisabled = !training.controller || mediaError || training.state.seeking
+    || training.state.enabled && (training.state.phase === 'review' || training.state.phase === 'finished')
+    || training.state.suspensions.some(reason => reason !== 'user' && reason !== 'buffering')
 
   useEffect(() => { if (video.current) video.current.playbackRate = Number(speed) }, [speed])
-  async function togglePlayback() {
-    const element = video.current
-    if (!element || mediaError) return
-    if (!element.paused) { element.pause(); return }
-    try { await element.play(); setPlaybackMessage('') } catch { setPlaybackMessage('视频暂时无法播放，请稍后再试。') }
-  }
+  function togglePlayback() { if (!mediaError) training.controller?.toggle() }
   function seek(value: number) {
     if (video.current && duration > 0) {
       const next = Math.max(0, Math.min(duration, value))
-      video.current.currentTime = next
+      training.controller?.seek(next)
       setTime(next)
     }
-  }
-  function setLight(value: 'left' | 'right' | 'off') {
-    setIndicator(value)
-    setFeedback(value === 'off' ? '已关闭转向灯。' : `已打开${value === 'left' ? '左' : '右'}转向灯。`)
   }
 
   return <>
     <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
       <div className="flex items-center gap-3"><Button asChild variant="ghost" size="icon" className="size-11"><Link to="/" aria-label="返回路线选择" title="返回路线选择"><ArrowLeft aria-hidden /></Link></Button><h1 className="page-title">{route.name}</h1></div>
-      <div className="flex items-center gap-3"><Badge variant="secondary">路线学习 · C2</Badge>
-        <Dialog open={showMap} onOpenChange={open => { if (open) video.current?.pause(); setShowMap(open) }}>
+      <div className="flex items-center gap-3"><Badge variant="secondary">{training.state.enabled ? '操作练习' : '路线学习'} · C2</Badge>
+        <Dialog open={showMap} onOpenChange={open => { training.controller?.setMap(open); setShowMap(open) }}>
           <DialogTrigger asChild><Button variant="outline"><Map aria-hidden />路线图</Button></DialogTrigger>
           <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-[min(90vw,64rem)]">
             <DialogHeader><DialogTitle>{route.name}路线图</DialogTitle><DialogDescription>对照路线示意图熟悉位置。关闭后，点击播放视频继续学习。</DialogDescription></DialogHeader>
@@ -83,7 +85,7 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
       </div>
     </div>
     <div className="training-grid">
-      <Card className="gap-0 overflow-hidden py-0" role="region" aria-label="路线视频">
+      <Card className="gap-0 min-w-0 overflow-hidden py-0" role="region" aria-label="路线视频">
         <div className="video-frame">
           <video ref={video} src={mediaUrl(routeId, 'mp4')} playsInline preload="metadata" muted={!audio}
             aria-label={`${route.name}教学视频`} onLoadedMetadata={event => { const element = event.currentTarget; element.playbackRate = Number(speed); setDuration(Number.isFinite(element.duration) ? element.duration : 0) }}
@@ -94,22 +96,12 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
         </div>
         <CardContent className="space-y-4 p-5">
           <div className="flex items-center gap-3"><span className="min-w-12 text-sm tabular-nums">{formatTime(time)}</span><input aria-label="视频播放进度" type="range" min={0} max={duration || 1} step={.1} value={time} disabled={!duration || mediaError} onChange={event => seek(Number(event.target.value))} /><span className="text-sm tabular-nums">{formatTime(duration)}</span></div>
-          <div className="flex flex-wrap gap-3"><Button onClick={togglePlayback} disabled={mediaError}>{playing ? <Pause aria-hidden /> : <Play aria-hidden />}{playing ? '暂停' : '播放视频'}</Button><Button variant="outline" disabled={!duration || mediaError} onClick={() => seek(time - 10)}><RotateCcw aria-hidden />后退 10 秒</Button><Button variant="outline" aria-pressed={audio} onClick={() => setAudio(value => !value)}>{audio ? <Volume2 aria-hidden /> : <VolumeX aria-hidden />}{audio ? '原声开启' : '原声关闭'}</Button></div>
+          <div className="flex flex-wrap gap-3"><Button onClick={togglePlayback} disabled={playbackDisabled}>{pauseControl ? <Pause aria-hidden /> : <Play aria-hidden />}{playbackLabel}</Button><Button variant="outline" disabled={!mediaReady || !training.controller} onClick={() => seek(time - 10)}><RotateCcw aria-hidden />后退 10 秒</Button><Button variant="outline" aria-pressed={audio} onClick={() => setAudio(value => !value)}>{audio ? <Volume2 aria-hidden /> : <VolumeX aria-hidden />}{audio ? '原声开启' : '原声关闭'}</Button></div>
           <div className="flex flex-wrap items-center gap-3"><Label htmlFor="playback-speed">播放速度</Label><Select value={speed} onValueChange={value => { if (value === '0.75' || value === '1' || value === '1.25') setSpeed(value) }}><SelectTrigger id="playback-speed" className="min-h-[56px] w-[7rem] text-base"><SelectValue /></SelectTrigger><SelectContent>{['0.75', '1', '1.25'].map(value => <SelectItem key={value} value={value} className="min-h-11 text-base">{value} 倍</SelectItem>)}</SelectContent></Select></div>
-          {playbackMessage && <p role="status" className="text-base text-destructive">{playbackMessage}</p>}
         </CardContent>
       </Card>
-      <aside className="space-y-4">
-        <Card className="gap-0"><CardContent><h2 className="text-xl font-bold">操作熟悉</h2><p className="muted mb-5 mt-2 text-base">这些按钮可以先试一试。当前不判断考试步骤，也不计分。</p>
-          <div className="grid grid-cols-2 gap-3">
-            <Button variant={indicator === 'left' ? 'default' : 'outline'} className="control-button" aria-pressed={indicator === 'left'} onClick={() => setLight('left')}><ArrowUpLeft aria-hidden />左转向灯</Button>
-            <Button variant={indicator === 'right' ? 'default' : 'outline'} className="control-button" aria-pressed={indicator === 'right'} onClick={() => setLight('right')}><ArrowUpRight aria-hidden />右转向灯</Button>
-            <Button variant="outline" className="control-button" onClick={() => setFeedback('已点击观察左后方。实际驾驶时，需要亲自观察交通情况。')}><Eye aria-hidden />观察左后方</Button>
-            <Button variant="outline" className="control-button" onClick={() => setFeedback('已点击观察右后方。实际驾驶时，需要亲自观察交通情况。')}><Eye aria-hidden />观察右后方</Button>
-            <Button variant="outline" className="control-button" onClick={() => setFeedback('已点击踩刹车。这是按钮练习，不会改变视频里的车速。')}><Footprints aria-hidden />踩刹车</Button>
-            <Button variant="outline" className="control-button" onClick={() => setLight('off')}><CircleOff aria-hidden />关闭转向灯</Button>
-          </div><p role="status" className="mt-4 rounded-md bg-secondary p-3 text-base leading-relaxed">{feedback}</p>
-        </CardContent></Card>
+      <aside className="min-w-0 space-y-4">
+        <TrainingPanel {...training} mediaReady={mediaReady} />
         <Card className="gap-0"><CardContent><div className="flex items-center justify-between gap-3"><Label htmlFor="player-blur" className="min-h-11 flex-1">模糊画面字幕</Label><Switch id="player-blur" checked={blur} onCheckedChange={setBlur} /></div><p className="muted mt-2 text-base">遮罩为手动设置，开启后请确认没有挡住道路标志。视频原声可单独关闭。</p>
           <details className="mt-3"><summary className="cursor-pointer py-3 text-base">调整遮罩范围</summary><div className="space-y-4 pt-3">
             <label className="block text-base">顶部位置：{maskTop}%<input type="range" min={0} max={100 - maskHeight} value={maskTop} onChange={event => setMaskTop(Number(event.target.value))} /></label>
@@ -119,6 +111,7 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
         </CardContent></Card>
       </aside>
     </div>
+    <TrainingEventList {...training} mediaReady={mediaReady} />
     <Card className="mt-5 gap-0"><CardContent><div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-lg font-semibold">教学字幕</h2><Button variant="outline" aria-expanded={showSubtitles} onClick={() => setShowSubtitles(value => !value)}>{showSubtitles ? '收起字幕' : '显示当前字幕'}</Button></div><p className="muted mt-2 text-base">跟随视频查看讲解。完整字幕可在路线资料中查看。</p>{showSubtitles && <p className="mt-4 whitespace-pre-line rounded-md bg-secondary p-4 text-lg">{currentCue ? subtitleText(currentCue) : '当前时段没有字幕。'}</p>}</CardContent></Card>
   </>
 }
