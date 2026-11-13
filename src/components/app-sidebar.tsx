@@ -13,7 +13,7 @@ export function AppSidebar() {
     { to: '/' as const, title: '首页', icon: House, active: pathname === '/' },
     { to: '/train' as const, title: '路线练习', icon: RouteIcon, active: pathname.startsWith('/train') },
     { to: '/exam' as const, title: '场景考试', icon: ClipboardCheck, active: pathname.startsWith('/exam') },
-    { to: '/materials' as const, title: '路线资料', icon: BookOpen, active: pathname === '/materials' },
+    { to: '/materials' as const, title: '学习资料', icon: BookOpen, active: pathname === '/materials' },
   ]
   return <Sidebar collapsible="icon">
     <SidebarHeader className="border-b p-1.5">
