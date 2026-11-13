@@ -164,7 +164,7 @@ input[type=range] { width: 100%; accent-color: var(--primary); }
 .prototype-status-dot.is-moving { background: var(--prototype-go); }
 .map-route-overview { width: 78px; height: 148px; }
 .map-route-overview svg { height: calc(100% - 18px); }
-.map-workspace .map-route-canvas { height: clamp(280px, calc(100dvh - 440px), 610px); }
+.map-workspace .map-route-canvas { height: clamp(260px, calc(100dvh - 470px), 590px); }
 .map-workspace.map-parking .map-route-canvas { height: clamp(250px, calc(100dvh - 505px), 550px); }
 .map-route-thumbnail svg { max-height: 170px; }
 @media (max-width: 767px) { .map-workspace .map-route-canvas { height: 300px; } .map-route-overview { width: 56px; height: 105px; } .map-route-look { top: auto; bottom: .5rem; max-width: 70%; } }
@@ -189,3 +189,14 @@ input[type=range] { width: 100%; accent-color: var(--primary); }
   .training-workspace .video-frame { max-height: 45dvh; min-height: 0; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+/* Clear persistent operation states, with a single short confirmation motion. */
+.map-control { min-height: 80px; }
+.map-workspace .map-control[data-selected=true] { background: var(--action); color: var(--background); border-color: var(--action); box-shadow: none; }
+.map-action-feedback { --action: var(--prototype-go); --action-soft: var(--prototype-go-soft); color: var(--action); background: var(--action-soft); border-left: 5px solid var(--action); animation: map-action-confirm 180ms ease-out; }
+.map-action-feedback[data-kind=signal] { --action: var(--prototype-signal); --action-soft: var(--prototype-signal-soft); }
+.map-action-feedback[data-kind=observe] { --action: var(--prototype-observe); --action-soft: var(--prototype-observe-soft); }
+.map-action-feedback[data-kind=slow] { --action: var(--prototype-slow); --action-soft: var(--prototype-slow-soft); }
+.map-action-feedback[data-kind=stop] { --action: var(--prototype-stop); --action-soft: var(--prototype-stop-soft); }
+.map-action-feedback[data-blocked=true] { border-left-width: 8px; }
+@keyframes map-action-confirm { from { transform: translateY(3px); } to { transform: translateY(0); } }
+@media (max-width: 767px) { .map-control { flex-direction: column; min-height: 94px; gap: .15rem; padding-inline: .3rem; } .map-control > span { text-align: center; } }

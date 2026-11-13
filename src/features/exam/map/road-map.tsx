@@ -9,8 +9,8 @@ function Car({ x, y, angle = 0, self = false, indicator, brake }: { x: number; y
     <rect x="-15" y="-28" width="30" height="58" rx="8" fill={self ? 'var(--prototype-car)' : 'var(--prototype-other-car)'} stroke="var(--prototype-road-ink)" strokeWidth="1.5" />
     <path d="M-10 -11 L-8 -21 H8 L10 -11 Z M-10 15 L-8 23 H8 L10 15 Z" fill="var(--prototype-glass)" />
     <path d="M-5 -31 L0 -37 L5 -31" fill={self ? 'var(--prototype-car)' : 'var(--prototype-other-car)'} />
-    {self && <g fill={brake ? 'var(--prototype-stop)' : 'var(--prototype-line)'}><rect x="-13" y="25" width="7" height="4" /><rect x="6" y="25" width="7" height="4" /></g>}
-    {indicator && <g fill="var(--prototype-lamp)"><rect x={indicator === 'left' ? -21 : 15} y="-20" width="6" height="11" rx="2" /><rect x={indicator === 'left' ? -21 : 15} y="16" width="6" height="11" rx="2" /></g>}
+    {self && <g fill={brake ? 'var(--prototype-stop)' : 'var(--prototype-line)'}><rect x="-14" y="23" width="9" height="7" rx="1" /><rect x="5" y="23" width="9" height="7" rx="1" />{brake && <path d="M-22 38 H22" stroke="var(--prototype-stop)" strokeWidth="5" strokeLinecap="round" />}</g>}
+    {indicator && <g fill="var(--prototype-lamp)" stroke="var(--prototype-road-ink)" strokeWidth="1"><rect x={indicator === 'left' ? -24 : 15} y="-21" width="9" height="14" rx="2" /><rect x={indicator === 'left' ? -24 : 15} y="15" width="9" height="14" rx="2" /><path transform={indicator === 'right' ? 'scale(-1 1)' : undefined} d="M-30 -5 H-43 V-13 L-58 0 L-43 13 V5 H-30 Z" /></g>}
   </g>
 }
 function Roads({ detail = true }: { detail?: boolean }) {
@@ -70,7 +70,8 @@ export function MapRoadView({ route, seed, frame, showPlan = true, stopped = fal
       <rect x="-2000" y="-2000" width="6000" height="6000" fill="var(--background)" />
       <Roads />
       {showPlan && <path d={pathData(route.trace)} fill="none" stroke="var(--prototype-car)" strokeWidth="3" strokeDasharray="7 10" opacity=".35" />}
-      {frame.observed && <g transform={`translate(${decision.x} ${decision.y}) rotate(${decision.angle})`} stroke="var(--prototype-observe)" strokeWidth="1.5" strokeDasharray="6 6" fill="var(--prototype-observe-soft)" opacity=".8">
+      {frame.phase === 'moving' && <path d={pathData(scene.actions[frame.leg])} fill="none" stroke="var(--prototype-go)" strokeWidth="7" strokeLinecap="round" opacity=".85" />}
+      {frame.observed && <g transform={`translate(${decision.x} ${decision.y}) rotate(${decision.angle})`} stroke="var(--prototype-observe)" strokeWidth="3" strokeDasharray="8 6" fill="var(--prototype-observe-soft)" opacity=".85">
         {scene.kind === 'lane' || scene.kind === 'overtake' ? <rect x={scene.kind === 'overtake' ? frame.leg ? 15 : -65 : scene.direction === 'left' ? -65 : 15} y="-90" width="50" height="220" rx="20" /> : <rect x="-80" y="-100" width="160" height="70" rx="15" />}
       </g>}
       {['look','turn','uturn','slow'].includes(scene.kind) && <g transform={`translate(${cross.x} ${cross.y}) rotate(${decision.angle})`} stroke="var(--prototype-line)" strokeWidth="6">
@@ -83,9 +84,10 @@ export function MapRoadView({ route, seed, frame, showPlan = true, stopped = fal
       {hazardKind === 'red' && <g transform={`translate(${cross.x + right.x * 88} ${cross.y + right.y * 88})`}><rect x="-12" y="-25" width="24" height="50" rx="5" fill="var(--prototype-road-ink)" /><circle cy="-12" r="8" fill={traffic === 'red' ? 'var(--prototype-stop)' : 'var(--prototype-road)'} /><circle cy="12" r="8" fill={traffic !== 'red' ? 'var(--prototype-go)' : 'var(--prototype-road)'} /></g>}
       {traffic !== 'clear' && traffic !== 'red' && traffic !== 'pedestrian' && <Car {...other} />}
       {traffic === 'pedestrian' && <g transform={`translate(${person.x} ${person.y})`} stroke="var(--prototype-person)" strokeWidth="4" strokeLinecap="round" fill="none"><circle cy="-13" r="6" fill="var(--prototype-person)" stroke="none" /><path d="M0 -3 V13 M-10 3 L0 -2 L10 3 M0 13 L-8 25 M0 13 L8 25" /></g>}
+      {frame.stopped && <circle cx={car.x} cy={car.y} r="44" fill="none" stroke="var(--prototype-stop)" strokeWidth="3" strokeDasharray="9 5" />}
       <Car {...car} self indicator={frame.indicator} brake={frame.stopped || frame.slow} />
-      <rect x={car.x + 25} y={car.y - 12} width="42" height="22" rx="4" fill="var(--background)" stroke="var(--border)" />
-      <text x={car.x + 46} y={car.y + 3} textAnchor="middle" fill="var(--foreground)" fontSize="13" fontFamily="inherit">本车</text>
+      <rect x={car.x + 30} y={car.y + 26} width="110" height="27" rx="4" fill="var(--background)" stroke={frame.stopped ? 'var(--prototype-stop)' : frame.slow ? 'var(--prototype-slow)' : 'var(--prototype-go)'} strokeWidth="2" />
+      <text x={car.x + 85} y={car.y + 45} textAnchor="middle" fill="var(--foreground)" fontSize="16" fontFamily="inherit">本车 · {stopped ? '已暂停' : frame.stopped ? '已停稳' : frame.phase === 'ready' ? '待出发' : frame.phase === 'decision' ? '等待通行' : frame.slow ? '减速中' : '行驶中'}</text>
     </svg>
     <div className="map-route-overview absolute right-3 top-3 rounded-md border bg-background/95 p-1" aria-hidden="true"><svg viewBox="0 0 1070 1900" className="h-full w-full"><Roads detail={false} /><path d={pathData(route.trace)} stroke="var(--prototype-car)" strokeWidth="14" fill="none" /><circle cx={car.x} cy={car.y} r="32" fill="var(--prototype-stop)" stroke="var(--background)" strokeWidth="10" /></svg><span className="block text-center text-xs text-muted-foreground">全线</span></div>
     {frame.observed && !['review','finished'].includes(frame.phase) && <div className="map-route-look absolute left-3 top-3 max-w-[58%] rounded-md border bg-background/95 px-3 py-2 text-base" role={replay ? undefined : 'status'}><span className="font-medium">观察范围已展开</span><p className="mt-1">{trafficMessage(traffic)}</p></div>}
