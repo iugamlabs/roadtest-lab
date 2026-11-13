@@ -1,0 +1,9 @@
+raw/
+node_modules/
+dist/
+public/media/
+.vite/
+.tanstack/
+coverage/
+*.local
+.sites-runtime/
