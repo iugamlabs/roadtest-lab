@@ -1,0 +1,1512 @@
+{
+  "version": 1,
+  "routeId": "7",
+  "source": "asr",
+  "sourceFile": "asr/route-7.srt",
+  "cues": [
+    {
+      "id": "1",
+      "startMs": 333,
+      "endMs": 3333,
+      "rawText": "我们从出考场大门的右转弯开始录制",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "2",
+      "startMs": 3933,
+      "endMs": 6683,
+      "rawText": "转过来之后车辆中间靠右一点行驶",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "3",
+      "startMs": 6966,
+      "endMs": 8600,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "4",
+      "startMs": 9650,
+      "endMs": 11050,
+      "rawText": "请停车瞭望",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "5",
+      "startMs": 11450,
+      "endMs": 13600,
+      "rawText": "听到第二段语音停车瞭望后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "6",
+      "startMs": 13600,
+      "endMs": 15283,
+      "rawText": "立即停车3秒左右",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "7",
+      "startMs": 15366,
+      "endMs": 16766,
+      "rawText": "观察左右来车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "8",
+      "startMs": 16766,
+      "endMs": 19733,
+      "rawText": "确定安全后打转向灯即可继续行驶",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "9",
+      "startMs": 20250,
+      "endMs": 21766,
+      "rawText": "前轮掉下主路后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "10",
+      "startMs": 21766,
+      "endMs": 24200,
+      "rawText": "缓慢打死方向盘进入大学路",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "11",
+      "startMs": 24533,
+      "endMs": 26566,
+      "rawText": "注意方向盘不可操作太快",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "12",
+      "startMs": 26566,
+      "endMs": 27850,
+      "rawText": "以免压到实线",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "13",
+      "startMs": 29933,
+      "endMs": 32050,
+      "rawText": "一定要记住大学路上每通过",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "14",
+      "startMs": 32050,
+      "endMs": 33966,
+      "rawText": "一个路口都会有公交车站",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "15",
+      "startMs": 33966,
+      "endMs": 35533,
+      "rawText": "都需要轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "16",
+      "startMs": 41083,
+      "endMs": 42400,
+      "rawText": "点完公交车站后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "17",
+      "startMs": 42400,
+      "endMs": 44566,
+      "rawText": "将车速提高至30码以上",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "18",
+      "startMs": 44566,
+      "endMs": 45966,
+      "rawText": "保持3-5秒",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "19",
+      "startMs": 46483,
+      "endMs": 48650,
+      "rawText": "这里刚好前面有车要变道",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "20",
+      "startMs": 48650,
+      "endMs": 50933,
+      "rawText": "我们等他变完车道再提速",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "21",
+      "startMs": 73000,
+      "endMs": 75483,
+      "rawText": "随后降回正常行驶的车速",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "22",
+      "startMs": 76000,
+      "endMs": 78200,
+      "rawText": "这次考试要求每一条线",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "23",
+      "startMs": 78200,
+      "endMs": 79883,
+      "rawText": "都必须完成这个操作",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "24",
+      "startMs": 89333,
+      "endMs": 91000,
+      "rawText": "已驶离学校区域",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "25",
+      "startMs": 91600,
+      "endMs": 93483,
+      "rawText": "我们把已驶离学校区域",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "26",
+      "startMs": 93483,
+      "endMs": 95733,
+      "rawText": "理解成前方路口直行即可",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "27",
+      "startMs": 95733,
+      "endMs": 97366,
+      "rawText": "不需要做任何操作",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "28",
+      "startMs": 108733,
+      "endMs": 110366,
+      "rawText": "这里我们遇到了红灯",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "29",
+      "startMs": 110366,
+      "endMs": 111766,
+      "rawText": "并且我们车辆没有停",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "30",
+      "startMs": 111766,
+      "endMs": 113283,
+      "rawText": "在第一辆车的位置",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "31",
+      "startMs": 113850,
+      "endMs": 115683,
+      "rawText": "所以我们绿灯后行驶到",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "32",
+      "startMs": 115683,
+      "endMs": 118166,
+      "rawText": "停止线前还是需要轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "33",
+      "startMs": 131050,
+      "endMs": 133933,
+      "rawText": "过路口的同时要留意公交车站的位置",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "34",
+      "startMs": 133933,
+      "endMs": 135133,
+      "rawText": "准备点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "35",
+      "startMs": 160366,
+      "endMs": 162133,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "36",
+      "startMs": 162683,
+      "endMs": 164133,
+      "rawText": "听到右转弯指令后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "37",
+      "startMs": 164133,
+      "endMs": 165366,
+      "rawText": "不着急做动作",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "38",
+      "startMs": 175283,
+      "endMs": 177533,
+      "rawText": "等到车辆完全行驶到虚线处",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "39",
+      "startMs": 177533,
+      "endMs": 178566,
+      "rawText": "再打转向灯",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "40",
+      "startMs": 178566,
+      "endMs": 179533,
+      "rawText": "轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "41",
+      "startMs": 179933,
+      "endMs": 181400,
+      "rawText": "观察右后方安全后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "42",
+      "startMs": 181400,
+      "endMs": 183483,
+      "rawText": "再打方向盘进入工业区",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "43",
+      "startMs": 184133,
+      "endMs": 185883,
+      "rawText": "虚线过后的实线可以压",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "44",
+      "startMs": 185883,
+      "endMs": 186883,
+      "rawText": "不会扣分",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "45",
+      "startMs": 187283,
+      "endMs": 189450,
+      "rawText": "让车子往中间车道行驶",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "46",
+      "startMs": 189566,
+      "endMs": 191166,
+      "rawText": "目光盯着中间车道的",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "47",
+      "startMs": 191166,
+      "endMs": 193333,
+      "rawText": "远方去调整方向盘进入",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "48",
+      "startMs": 193800,
+      "endMs": 195133,
+      "rawText": "这里的三条车道",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "49",
+      "startMs": 195133,
+      "endMs": 197450,
+      "rawText": "我们一定要选择中间车道行驶",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "50",
+      "startMs": 199966,
+      "endMs": 201566,
+      "rawText": "前方路口直行",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "51",
+      "startMs": 202366,
+      "endMs": 204450,
+      "rawText": "听到前方路口直行指令后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "52",
+      "startMs": 204450,
+      "endMs": 205850,
+      "rawText": "我们开到停止线前",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "53",
+      "startMs": 205850,
+      "endMs": 206883,
+      "rawText": "轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "54",
+      "startMs": 213450,
+      "endMs": 214766,
+      "rawText": "前面这三条车道",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "55",
+      "startMs": 214766,
+      "endMs": 216933,
+      "rawText": "不管几号线都可以随意行驶",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "56",
+      "startMs": 217050,
+      "endMs": 219566,
+      "rawText": "自行选择容易进入的车道行驶",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "57",
+      "startMs": 219683,
+      "endMs": 221800,
+      "rawText": "因为路口的箭头都是一样的",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "58",
+      "startMs": 221800,
+      "endMs": 223650,
+      "rawText": "都可以左转以及掉头",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "59",
+      "startMs": 232366,
+      "endMs": 233566,
+      "rawText": "前方会车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "60",
+      "startMs": 234333,
+      "endMs": 236050,
+      "rawText": "听到前方会车指令后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "61",
+      "startMs": 236050,
+      "endMs": 237366,
+      "rawText": "我们轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "62",
+      "startMs": 251883,
+      "endMs": 253050,
+      "rawText": "前方掉头",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "63",
+      "startMs": 253250,
+      "endMs": 255133,
+      "rawText": "前方掉头口令播出之后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "64",
+      "startMs": 255133,
+      "endMs": 256483,
+      "rawText": "在停止线前完成",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "65",
+      "startMs": 256483,
+      "endMs": 258483,
+      "rawText": "转向灯和点刹车的操作",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "66",
+      "startMs": 258600,
+      "endMs": 260566,
+      "rawText": "每个掉头都尽量开远一点",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "67",
+      "startMs": 260566,
+      "endMs": 261683,
+      "rawText": "再操作方向盘",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "68",
+      "startMs": 261683,
+      "endMs": 262766,
+      "rawText": "不容易压线",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "69",
+      "startMs": 264766,
+      "endMs": 266333,
+      "rawText": "这里有一个小技巧",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "70",
+      "startMs": 266366,
+      "endMs": 268800,
+      "rawText": "从左边车道掉头进中间车道",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "71",
+      "startMs": 268800,
+      "endMs": 271883,
+      "rawText": "方向盘打满一圈加1/4即可完美进入",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "72",
+      "startMs": 271883,
+      "endMs": 272933,
+      "rawText": "不需要调整",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "73",
+      "startMs": 275850,
+      "endMs": 277800,
+      "rawText": "请保持直线行驶",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "74",
+      "startMs": 278333,
+      "endMs": 280250,
+      "rawText": "听到直线行驶指令后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "75",
+      "startMs": 280250,
+      "endMs": 281400,
+      "rawText": "保持视野开阔",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "76",
+      "startMs": 281400,
+      "endMs": 282250,
+      "rawText": "眼睛放松",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "77",
+      "startMs": 282250,
+      "endMs": 283083,
+      "rawText": "目视前方",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "78",
+      "startMs": 283083,
+      "endMs": 284366,
+      "rawText": "微调方向盘",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "79",
+      "startMs": 284800,
+      "endMs": 286200,
+      "rawText": "注意不要走神",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "80",
+      "startMs": 286450,
+      "endMs": 288083,
+      "rawText": "直线行驶完成",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "81",
+      "startMs": 292333,
+      "endMs": 294050,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "82",
+      "startMs": 294650,
+      "endMs": 295966,
+      "rawText": "听到右转指令后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "83",
+      "startMs": 295966,
+      "endMs": 297800,
+      "rawText": "我们行驶到停止线前",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "84",
+      "startMs": 298283,
+      "endMs": 299533,
+      "rawText": "先打右转向灯",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "85",
+      "startMs": 299533,
+      "endMs": 300850,
+      "rawText": "再轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "86",
+      "startMs": 301333,
+      "endMs": 304050,
+      "rawText": "这里是7号线第一个要记住的点",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "87",
+      "startMs": 304050,
+      "endMs": 305533,
+      "rawText": "第一次掉头后的右转",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "88",
+      "startMs": 305533,
+      "endMs": 307283,
+      "rawText": "我们要转进右侧车道",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "89",
+      "startMs": 307366,
+      "endMs": 309966,
+      "rawText": "这样子方便我们接下来的超车项目",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "90",
+      "startMs": 310483,
+      "endMs": 312083,
+      "rawText": "因这个拐弯比较急",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "91",
+      "startMs": 312133,
+      "endMs": 313800,
+      "rawText": "我们如果方向盘打慢了",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "92",
+      "startMs": 313800,
+      "endMs": 315800,
+      "rawText": "进入到左边车道也没关系",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "93",
+      "startMs": 315800,
+      "endMs": 317533,
+      "rawText": "不要强行压线回来",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "94",
+      "startMs": 317533,
+      "endMs": 319200,
+      "rawText": "我们只需要在合适地点",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "95",
+      "startMs": 319200,
+      "endMs": 320650,
+      "rawText": "变更回右边车道即可",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "96",
+      "startMs": 320650,
+      "endMs": 321483,
+      "rawText": "前方路口直行",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "97",
+      "startMs": 322133,
+      "endMs": 323883,
+      "rawText": "听到前方路口直行",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "98",
+      "startMs": 323883,
+      "endMs": 325733,
+      "rawText": "我们只需开到停止线前",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "99",
+      "startMs": 325733,
+      "endMs": 326766,
+      "rawText": "轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "100",
+      "startMs": 344400,
+      "endMs": 345966,
+      "rawText": "前方路口直行",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "101",
+      "startMs": 346450,
+      "endMs": 348883,
+      "rawText": "这个直行指令还是一样的操作",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "102",
+      "startMs": 360283,
+      "endMs": 361766,
+      "rawText": "请完成超车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "103",
+      "startMs": 362250,
+      "endMs": 363933,
+      "rawText": "听到完成超车动作后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "104",
+      "startMs": 363933,
+      "endMs": 365283,
+      "rawText": "我们要压慢车速",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "105",
+      "startMs": 365450,
+      "endMs": 367533,
+      "rawText": "为7号线超车的距离较短",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "106",
+      "startMs": 367533,
+      "endMs": 368683,
+      "rawText": "容易超出距离",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "107",
+      "startMs": 370733,
+      "endMs": 372133,
+      "rawText": "车辆行驶平稳后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "108",
+      "startMs": 372133,
+      "endMs": 373566,
+      "rawText": "再变更回原车道",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "109",
+      "startMs": 373566,
+      "endMs": 375083,
+      "rawText": "即超车项目完成",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "110",
+      "startMs": 377400,
+      "endMs": 379000,
+      "rawText": "前方路口直行",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "111",
+      "startMs": 379683,
+      "endMs": 381766,
+      "rawText": "直行口令还是一样的操作",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "112",
+      "startMs": 403850,
+      "endMs": 406283,
+      "rawText": "请选择合适地点掉头",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "113",
+      "startMs": 406883,
+      "endMs": 408850,
+      "rawText": "听到第二个掉头指令后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "114",
+      "startMs": 408850,
+      "endMs": 410483,
+      "rawText": "行驶到前方地面黑白",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "115",
+      "startMs": 410483,
+      "endMs": 412166,
+      "rawText": "交界处之前打转向灯",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "116",
+      "startMs": 412166,
+      "endMs": 413166,
+      "rawText": "轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "117",
+      "startMs": 413200,
+      "endMs": 414766,
+      "rawText": "这里由于路口较窄",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "118",
+      "startMs": 414766,
+      "endMs": 415933,
+      "rawText": "容易转不过去",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "119",
+      "startMs": 415933,
+      "endMs": 417966,
+      "rawText": "我们可以尽量往前开一点",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "120",
+      "startMs": 418000,
+      "endMs": 420050,
+      "rawText": "行驶到车头接近地上的井盖",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "121",
+      "startMs": 420050,
+      "endMs": 421333,
+      "rawText": "再打满方向盘",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "122",
+      "startMs": 430166,
+      "endMs": 431000,
+      "rawText": "调完头以后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "123",
+      "startMs": 431000,
+      "endMs": 432733,
+      "rawText": "我们靠左边车道行驶",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "124",
+      "startMs": 432800,
+      "endMs": 434200,
+      "rawText": "避开右边的小卖部",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "125",
+      "startMs": 434333,
+      "endMs": 436166,
+      "rawText": "相信很多来练过车的同学",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "126",
+      "startMs": 436166,
+      "endMs": 438133,
+      "rawText": "都来这里上过免费厕所",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "127",
+      "startMs": 438566,
+      "endMs": 441283,
+      "rawText": "这是7号线第二个要记住的点",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "128",
+      "startMs": 444366,
+      "endMs": 445966,
+      "rawText": "前方路口直行",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "129",
+      "startMs": 446533,
+      "endMs": 448883,
+      "rawText": "这个直行路口很多学员漏踩",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "130",
+      "startMs": 448933,
+      "endMs": 449800,
+      "rawText": "千万注意",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "131",
+      "startMs": 463800,
+      "endMs": 465333,
+      "rawText": "请变更车道",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "132",
+      "startMs": 465933,
+      "endMs": 467733,
+      "rawText": "听到变更车道指令后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "133",
+      "startMs": 467733,
+      "endMs": 469966,
+      "rawText": "我们打够转向灯即可变道",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "134",
+      "startMs": 470533,
+      "endMs": 473400,
+      "rawText": "切记转向灯一定要打够3秒以上",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "135",
+      "startMs": 489400,
+      "endMs": 491166,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "136",
+      "startMs": 491650,
+      "endMs": 493166,
+      "rawText": "这个右转弯指令还是",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "137",
+      "startMs": 493166,
+      "endMs": 495050,
+      "rawText": "到停止线前打灯点刹",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "138",
+      "startMs": 530733,
+      "endMs": 532483,
+      "rawText": "这个右转坑了很多人",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "139",
+      "startMs": 532483,
+      "endMs": 534083,
+      "rawText": "因为它入口是斜的",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "140",
+      "startMs": 534083,
+      "endMs": 536450,
+      "rawText": "如你一出路口就打很多方向盘",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "141",
+      "startMs": 536450,
+      "endMs": 537650,
+      "rawText": "极其容易压线",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "142",
+      "startMs": 537733,
+      "endMs": 540050,
+      "rawText": "大家可以参考我视频里的做法",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "143",
+      "startMs": 540050,
+      "endMs": 541683,
+      "rawText": "先打少一点方向盘",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "144",
+      "startMs": 541850,
+      "endMs": 543600,
+      "rawText": "直到你眼睛看到一整条路",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "145",
+      "startMs": 543600,
+      "endMs": 545566,
+      "rawText": "再补方向即可完美进入",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "146",
+      "startMs": 588333,
+      "endMs": 590133,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "147",
+      "startMs": 591050,
+      "endMs": 592533,
+      "rawText": "请停车瞭望",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "148",
+      "startMs": 593450,
+      "endMs": 594966,
+      "rawText": "这里的停车瞭望在",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "149",
+      "startMs": 594966,
+      "endMs": 596683,
+      "rawText": "考试的时候会比较晚播",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "150",
+      "startMs": 596683,
+      "endMs": 598933,
+      "rawText": "不管这个语音播放的时机如何",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "151",
+      "startMs": 598933,
+      "endMs": 601050,
+      "rawText": "我们都需要行驶到停止线前",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "152",
+      "startMs": 601050,
+      "endMs": 603366,
+      "rawText": "停车才算完成停车瞭望操作",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "153",
+      "startMs": 603966,
+      "endMs": 606333,
+      "rawText": "像视频里前方有障碍车辆",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "154",
+      "startMs": 606333,
+      "endMs": 608050,
+      "rawText": "我们在后方等候都不算",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "155",
+      "startMs": 608050,
+      "endMs": 609683,
+      "rawText": "我们完成了停车瞭望",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "156",
+      "startMs": 658483,
+      "endMs": 661883,
+      "rawText": "开到停止线前仍需重新停车完成操作",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "157",
+      "startMs": 661966,
+      "endMs": 663566,
+      "rawText": "过停止线前要先亮",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "158",
+      "startMs": 663566,
+      "endMs": 665366,
+      "rawText": "转向灯才可继续前进",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "159",
+      "startMs": 693650,
+      "endMs": 694733,
+      "rawText": "我们转出来后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "160",
+      "startMs": 694733,
+      "endMs": 696483,
+      "rawText": "看到终点牌附近有学员",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "161",
+      "startMs": 696483,
+      "endMs": 698366,
+      "rawText": "在完成靠边停车项目",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "162",
+      "startMs": 698933,
+      "endMs": 701050,
+      "rawText": "那我们就需要在后方等候",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "163",
+      "startMs": 701166,
+      "endMs": 702566,
+      "rawText": "基本上车子拐出来",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "164",
+      "startMs": 702566,
+      "endMs": 704450,
+      "rawText": "行驶平稳后即可停车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "165",
+      "startMs": 705083,
+      "endMs": 707450,
+      "rawText": "因为靠边停车的指令一旦播出",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "166",
+      "startMs": 707450,
+      "endMs": 709650,
+      "rawText": "我们除了已经完成靠边操作外",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "167",
+      "startMs": 709650,
+      "endMs": 711250,
+      "rawText": "都不可以中途停车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "168",
+      "startMs": 711333,
+      "endMs": 712933,
+      "rawText": "所以我们要在指令播出",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "169",
+      "startMs": 712933,
+      "endMs": 714883,
+      "rawText": "之前选择合适位置停车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "170",
+      "startMs": 714933,
+      "endMs": 716533,
+      "rawText": "等待我们能流畅的完成",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "171",
+      "startMs": 716533,
+      "endMs": 718650,
+      "rawText": "靠边停车项目再继续前进",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "172",
+      "startMs": 752283,
+      "endMs": 753850,
+      "rawText": "请靠边停车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "173",
+      "startMs": 754450,
+      "endMs": 756366,
+      "rawText": "听到靠边停车语音出来后",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "174",
+      "startMs": 756366,
+      "endMs": 757083,
+      "rawText": "立刻减速",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "175",
+      "startMs": 757083,
+      "endMs": 758250,
+      "rawText": "打右转向灯",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "176",
+      "startMs": 758333,
+      "endMs": 759366,
+      "rawText": "微调方向盘",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "177",
+      "startMs": 759366,
+      "endMs": 760650,
+      "rawText": "驶入到地上裂缝处",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "178",
+      "startMs": 760650,
+      "endMs": 761566,
+      "rawText": "把车摆正",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "179",
+      "startMs": 761600,
+      "endMs": 763166,
+      "rawText": "做这一步的意义是为了让",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "180",
+      "startMs": 763166,
+      "endMs": 764933,
+      "rawText": "我们的车辆不要过度倾斜",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "181",
+      "startMs": 764933,
+      "endMs": 765800,
+      "rawText": "防止压线",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "182",
+      "startMs": 769733,
+      "endMs": 771000,
+      "rawText": "随后再微调一点",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "183",
+      "startMs": 771000,
+      "endMs": 773133,
+      "rawText": "方向盘到合适位置停车",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "184",
+      "startMs": 773683,
+      "endMs": 775050,
+      "rawText": "最后一步倒进去的",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "185",
+      "startMs": 775050,
+      "endMs": 776800,
+      "rawText": "方向角度越小越安全",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "186",
+      "startMs": 780933,
+      "endMs": 783133,
+      "rawText": "停车后挂上p档拉手刹",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "187",
+      "startMs": 783283,
+      "endMs": 785283,
+      "rawText": "车辆熄火后解开安全带",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    },
+    {
+      "id": "188",
+      "startMs": 785450,
+      "endMs": 787533,
+      "rawText": "车辆开关门后考试结束",
+      "correctedText": null,
+      "reviewStatus": "unreviewed"
+    }
+  ]
+}

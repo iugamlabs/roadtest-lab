@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "routeId": "7",
+  "corrections": [
+    { "cueId": "22", "expectedRawText": "这次考试要求每一条线", "text": "这是考试要求，每一条线", "reason": "OCR 为这是考试要求，后接每条线都必须完成这个操作；修正同音词并断句。", "evidence": [{ "routeId": "7", "source": "ocr", "cueId": "23" }, { "routeId": "7", "source": "ocr", "cueId": "24" }] },
+    { "cueId": "105", "expectedRawText": "为7号线超车的距离较短", "text": "因为7号线超车的距离较短", "reason": "OCR 保留了因为，与上下文因果关系一致。", "evidence": [{ "routeId": "7", "source": "ocr", "cueId": "96" }] },
+    { "cueId": "122", "expectedRawText": "调完头以后", "text": "掉完头以后", "reason": "此处承接第二次掉头项目，修正同音字。", "evidence": [] },
+    { "cueId": "184", "expectedRawText": "最后一步倒进去的", "text": "最后一步调进去的", "reason": "承接前文微调方向盘，将倒整理为调；六号线相同讲解为微调进去，不引导倒车，仍需听原声确认措辞。", "evidence": [{ "routeId": "6", "source": "asr", "cueId": "196" }] },
+    { "cueId": "186", "expectedRawText": "停车后挂上p档拉手刹", "text": "停车后挂上 P 挡，拉手刹", "reason": "统一挡位写法并增加停顿，不改变操作内容。", "evidence": [] },
+    { "cueId": "188", "expectedRawText": "车辆开关门后考试结束", "text": "开关车门后，考试结束", "reason": "整理开关车门的语序并增加停顿，保留原意；实际收尾步骤仍需视频核实。", "evidence": [{ "routeId": "7", "source": "ocr", "cueId": "180" }, { "routeId": "7", "source": "ocr", "cueId": "181" }] }
+  ],
+  "supplements": [],
+  "issues": [
+    { "cueIds": ["43", "44"], "reason": "虚线过后的实线可以压、不会扣分须回看道路标线并核实适用情境；保留讲解原意，不据此定义规则。" },
+    { "cueIds": ["71"], "reason": "方向盘一圈加四分之一是视频作者的具体车辆经验，需要结合画面确认，不能作为通用掉头操作。" },
+    { "cueIds": ["147", "148", "149", "150", "151", "152", "156"], "reason": "停车瞭望口令与实际停止线停车相隔较久；需看画面区分障碍后等待和停止线前停车，不能用语音位置替代动作窗口。" },
+    { "cueIds": ["184", "185"], "reason": "倒进去结合六号线及前文微调方向盘整理为调进去；确切措辞仍需听原声，不能据此增加倒车动作。" },
+    { "cueIds": ["188"], "reason": "仅整理开关车门的语序；实际收尾顺序和动作须听音、看画面确认。" }
+  ]
+}

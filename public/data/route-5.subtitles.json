@@ -1,0 +1,4318 @@
+{
+  "version": 1,
+  "routeId": "5",
+  "reviewScope": "text-only",
+  "primarySource": "asr",
+  "summary": {
+    "asrCueCount": 198,
+    "correctionCount": 5,
+    "supplementCount": 3,
+    "pendingCueCount": 110,
+    "unmatchedOcrCueIds": [
+      "24",
+      "25",
+      "26",
+      "108"
+    ]
+  },
+  "cues": [
+    {
+      "id": "asr-1",
+      "startMs": 333,
+      "endMs": 3366,
+      "rawText": "我们从出考场大门的右转弯开始录制",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "1",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "1"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-2",
+      "startMs": 4050,
+      "endMs": 6883,
+      "rawText": "转过来之后车辆中间靠右一点行驶",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "2",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "2"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-3",
+      "startMs": 6933,
+      "endMs": 8933,
+      "rawText": "以免被进来的车辆逼停",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "3",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "3"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-4",
+      "startMs": 9083,
+      "endMs": 10733,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "4",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "4"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-5",
+      "startMs": 11766,
+      "endMs": 13166,
+      "rawText": "请停车瞭望",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "5",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "5"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-6",
+      "startMs": 13800,
+      "endMs": 16000,
+      "rawText": "听到第二段语音停车瞭望后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "6",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "6"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-7",
+      "startMs": 16000,
+      "endMs": 17650,
+      "rawText": "立即停车3秒左右",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "7",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "7"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-8",
+      "startMs": 17766,
+      "endMs": 19133,
+      "rawText": "观察左右来车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "8",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "8"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-9",
+      "startMs": 19166,
+      "endMs": 20850,
+      "rawText": "确定安全后打转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "9",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "9"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-10",
+      "startMs": 20850,
+      "endMs": 22083,
+      "rawText": "即可继续行驶",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "10",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "10"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-11",
+      "startMs": 25566,
+      "endMs": 27366,
+      "rawText": "前轮掉下主路后缓慢",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "11",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "11"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-12",
+      "startMs": 27366,
+      "endMs": 29533,
+      "rawText": "打死方向盘进入大雪路",
+      "correctedText": "打死方向盘进入大学路",
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "12",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "12"
+        },
+        {
+          "routeId": "5",
+          "source": "ocr",
+          "cueId": "12"
+        }
+      ],
+      "editReason": "同路段 OCR 明确为大学路，六、七号线相同开场也使用大学路。",
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-13",
+      "startMs": 30200,
+      "endMs": 32283,
+      "rawText": "注意方向盘不可操作太快",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "13",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "13"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-14",
+      "startMs": 32283,
+      "endMs": 33566,
+      "rawText": "以免压到实线",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "14",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "14"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-15",
+      "startMs": 38850,
+      "endMs": 41000,
+      "rawText": "一定要记住大学路上每通过",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "15",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "15"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-16",
+      "startMs": 41000,
+      "endMs": 42933,
+      "rawText": "一个路口都会有公交车站",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "16",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "16"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-17",
+      "startMs": 42933,
+      "endMs": 44483,
+      "rawText": "都需要轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "17",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "17"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-18",
+      "startMs": 45533,
+      "endMs": 47533,
+      "rawText": "点完公交车站的刹车后",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "18",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "18"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-19",
+      "startMs": 47533,
+      "endMs": 49683,
+      "rawText": "将车速提高至30码以上",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "19",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "19"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-20",
+      "startMs": 49683,
+      "endMs": 51000,
+      "rawText": "保持3-5秒",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "20",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "20"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-21",
+      "startMs": 51600,
+      "endMs": 53333,
+      "rawText": "这里由于跟车过近",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "21",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "21"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-22",
+      "startMs": 53333,
+      "endMs": 55050,
+      "rawText": "所以选择停车拉开距离",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "22",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "22"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-23",
+      "startMs": 55050,
+      "endMs": 56683,
+      "rawText": "以便接下来的提速",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "23",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "23"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "ocr-24",
+      "startMs": 74000,
+      "endMs": 76500,
+      "rawText": "随后降回正常行驶的车73",
+      "correctedText": "随后降回正常行驶的车速",
+      "reviewStatus": "needs-review",
+      "source": "ocr",
+      "sourceCueId": "24",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "ocr",
+          "cueId": "24"
+        },
+        {
+          "routeId": "7",
+          "source": "asr",
+          "cueId": "21"
+        }
+      ],
+      "editReason": "ASR 在此处漏段；保留本路线 OCR 时间，末尾错字由上下文及七号线同段 ASR 辅助恢复，仍需听原声。",
+      "reviewNotes": [
+        "ASR 漏段，由 OCR 辅助补入；时间沿用 OCR 显示时间，仍需听原声核实。"
+      ],
+      "contentKind": "ocr-supplement"
+    },
+    {
+      "id": "ocr-25",
+      "startMs": 77000,
+      "endMs": 78480,
+      "rawText": "这是试要求",
+      "correctedText": "这是考试要求",
+      "reviewStatus": "needs-review",
+      "source": "ocr",
+      "sourceCueId": "25",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "ocr",
+          "cueId": "25"
+        },
+        {
+          "routeId": "7",
+          "source": "ocr",
+          "cueId": "23"
+        }
+      ],
+      "editReason": "ASR 在此处漏段；根据上下文及七号线同段文字补全，仍需听原声。",
+      "reviewNotes": [
+        "ASR 漏段，由 OCR 辅助补入；时间沿用 OCR 显示时间，仍需听原声核实。"
+      ],
+      "contentKind": "ocr-supplement"
+    },
+    {
+      "id": "ocr-26",
+      "startMs": 78500,
+      "endMs": 81000,
+      "rawText": "每条线都必须完成这个果作",
+      "correctedText": "每条线都必须完成这个操作",
+      "reviewStatus": "needs-review",
+      "source": "ocr",
+      "sourceCueId": "26",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "ocr",
+          "cueId": "26"
+        },
+        {
+          "routeId": "7",
+          "source": "asr",
+          "cueId": "23"
+        }
+      ],
+      "editReason": "ASR 在此处漏段；修正 OCR 的果作为操作，七号线同段 ASR 支持，仍需听原声。",
+      "reviewNotes": [
+        "ASR 漏段，由 OCR 辅助补入；时间沿用 OCR 显示时间，仍需听原声核实。"
+      ],
+      "contentKind": "ocr-supplement"
+    },
+    {
+      "id": "asr-24",
+      "startMs": 95083,
+      "endMs": 96766,
+      "rawText": "已驶离学校区域",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "24",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "24"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-25",
+      "startMs": 97283,
+      "endMs": 99166,
+      "rawText": "我们把已驶离学校区域",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "25",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "25"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-26",
+      "startMs": 99166,
+      "endMs": 101483,
+      "rawText": "理解成前方路口直行即可",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "26",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "26"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-27",
+      "startMs": 117166,
+      "endMs": 118850,
+      "rawText": "这里我们遇到了红灯",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "27",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "27"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-28",
+      "startMs": 118850,
+      "endMs": 120250,
+      "rawText": "并且我们车辆没有停",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "28",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "28"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-29",
+      "startMs": 120250,
+      "endMs": 121766,
+      "rawText": "在第一辆车的位置",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "29",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "29"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-30",
+      "startMs": 122366,
+      "endMs": 124200,
+      "rawText": "所以我们绿灯后行驶到",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "30",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "30"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-31",
+      "startMs": 124200,
+      "endMs": 126683,
+      "rawText": "停止线前还是需要轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "31",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "31"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-32",
+      "startMs": 148800,
+      "endMs": 149733,
+      "rawText": "过路口后",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "32",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "32"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-33",
+      "startMs": 149733,
+      "endMs": 151566,
+      "rawText": "需要留意公交车站的位置",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "33",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "33"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-34",
+      "startMs": 151566,
+      "endMs": 152766,
+      "rawText": "准备点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "34",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "34"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-35",
+      "startMs": 181883,
+      "endMs": 183566,
+      "rawText": "前方路口直行",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "35",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "35"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-36",
+      "startMs": 193166,
+      "endMs": 194450,
+      "rawText": "这里的路口直行",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "36",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "36"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-37",
+      "startMs": 194450,
+      "endMs": 195883,
+      "rawText": "我们又遇到了红灯",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "37",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "37"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-38",
+      "startMs": 196250,
+      "endMs": 199000,
+      "rawText": "但这时我们是停在第一辆车的位置",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "38",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "38"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-39",
+      "startMs": 199766,
+      "endMs": 202366,
+      "rawText": "所以绿灯的时候我们直接通过即可",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "39",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "39"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-40",
+      "startMs": 202366,
+      "endMs": 203733,
+      "rawText": "不需要点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "40",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "40"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-41",
+      "startMs": 210683,
+      "endMs": 212483,
+      "rawText": "过路口之后还是要留意",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "41",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "41"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-42",
+      "startMs": 212483,
+      "endMs": 214200,
+      "rawText": "公交车站点刹车的位置",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "42",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "42"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-43",
+      "startMs": 214200,
+      "endMs": 215166,
+      "rawText": "以防漏踩",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "43",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "43"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-44",
+      "startMs": 217400,
+      "endMs": 219333,
+      "rawText": "由于5号线变更车道之后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "44",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "44"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-45",
+      "startMs": 219333,
+      "endMs": 220883,
+      "rawText": "我们马上将要右转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "45",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "45"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-46",
+      "startMs": 220933,
+      "endMs": 222733,
+      "rawText": "所以5号线变更车道之后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "46",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "46"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-47",
+      "startMs": 222733,
+      "endMs": 223966,
+      "rawText": "我们还需要自行再",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "47",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "47"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-48",
+      "startMs": 223966,
+      "endMs": 225800,
+      "rawText": "变更一条车道回来右边",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "48",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "48"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-49",
+      "startMs": 225800,
+      "endMs": 228050,
+      "rawText": "这是5号线要记住的第一个点",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "49",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "49"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-50",
+      "startMs": 228050,
+      "endMs": 229400,
+      "rawText": "请变更车道",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "50",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "50"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-51",
+      "startMs": 230650,
+      "endMs": 231966,
+      "rawText": "这里我们运气不好",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "51",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "51"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-52",
+      "startMs": 231966,
+      "endMs": 233600,
+      "rawText": "刚好遇到后方车流",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "52",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "52"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-53",
+      "startMs": 233600,
+      "endMs": 235933,
+      "rawText": "我们打转向灯后发现无法变道",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "53",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "53"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-54",
+      "startMs": 235933,
+      "endMs": 237533,
+      "rawText": "可以选择停车等候",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "54",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "54"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-55",
+      "startMs": 237566,
+      "endMs": 238883,
+      "rawText": "记得有打灯的同时",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "55",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "55"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-56",
+      "startMs": 238883,
+      "endMs": 240600,
+      "rawText": "需把转向灯先关闭",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "56",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "56"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-57",
+      "startMs": 240683,
+      "endMs": 242200,
+      "rawText": "以免超过变道项目的",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "57",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "57"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-58",
+      "startMs": 242200,
+      "endMs": 244133,
+      "rawText": "规定距离以及灯光超时",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "58",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "58"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-59",
+      "startMs": 246000,
+      "endMs": 247683,
+      "rawText": "但是停车后还需重新",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "59",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "59"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-60",
+      "startMs": 247683,
+      "endMs": 249450,
+      "rawText": "打转向灯才可变道",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "60",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "60"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-61",
+      "startMs": 249566,
+      "endMs": 251450,
+      "rawText": "每一次变道转向灯都必须",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "61",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "61"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-62",
+      "startMs": 251450,
+      "endMs": 253650,
+      "rawText": "亮够3秒才可以压到虚线",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "62",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "62"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-63",
+      "startMs": 254133,
+      "endMs": 255800,
+      "rawText": "完成变更车道项目后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "63",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "63"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-64",
+      "startMs": 255800,
+      "endMs": 258600,
+      "rawText": "我们需自行变道回右边才可以右转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "64",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "64"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-65",
+      "startMs": 259533,
+      "endMs": 260933,
+      "rawText": "这里还有另一种方法",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "65",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "65"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-66",
+      "startMs": 260933,
+      "endMs": 263083,
+      "rawText": "就是在考试一开始就变道",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "66",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "66"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-67",
+      "startMs": 263166,
+      "endMs": 265200,
+      "rawText": "但是经过试验过后发现这种",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "67",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "67"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-68",
+      "startMs": 265200,
+      "endMs": 267566,
+      "rawText": "方法容易紧张和漏踩公交车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "68",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "68"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "漏踩公交车疑为漏踩公交车站的刹车，两源均不完整；不擅自补写整句，需听原声。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-69",
+      "startMs": 267650,
+      "endMs": 270050,
+      "rawText": "所以视频里的方式个人比较建议",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "69",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "69"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-70",
+      "startMs": 290533,
+      "endMs": 292250,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "70",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "70"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-71",
+      "startMs": 292933,
+      "endMs": 294400,
+      "rawText": "听到右转弯指令后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "71",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "71"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-72",
+      "startMs": 294400,
+      "endMs": 295733,
+      "rawText": "不着急做动作",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "72",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "72"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-73",
+      "startMs": 296600,
+      "endMs": 298883,
+      "rawText": "等到车辆完全行驶到虚线处",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "73",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "73"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-74",
+      "startMs": 298883,
+      "endMs": 299850,
+      "rawText": "再打转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "74",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "74"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-75",
+      "startMs": 299850,
+      "endMs": 300966,
+      "rawText": "轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "75",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "75"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-76",
+      "startMs": 302566,
+      "endMs": 304133,
+      "rawText": "观察右后方安全后",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "76",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "76"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-77",
+      "startMs": 304133,
+      "endMs": 306200,
+      "rawText": "再打方向盘进入工业区",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "77",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "77"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-78",
+      "startMs": 317566,
+      "endMs": 320000,
+      "rawText": "单向行驶的车道只要是虚线",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "78",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "78"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "两源均出现单向车道、变更到逆道等表述，可能为邻道的识别错误；需结合道路画面与原声核实，不能作为绕行规则。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-79",
+      "startMs": 320000,
+      "endMs": 321533,
+      "rawText": "遇到障碍物都可采取",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "79",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "79"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "两源均出现单向车道、变更到逆道等表述，可能为邻道的识别错误；需结合道路画面与原声核实，不能作为绕行规则。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-80",
+      "startMs": 321533,
+      "endMs": 323083,
+      "rawText": "变更车道方式操作",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "80",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "80"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "两源均出现单向车道、变更到逆道等表述，可能为邻道的识别错误；需结合道路画面与原声核实，不能作为绕行规则。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-81",
+      "startMs": 323133,
+      "endMs": 326000,
+      "rawText": "变更到逆道躲避障碍物后再返回即可",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "81",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "81"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "两源均出现单向车道、变更到逆道等表述，可能为邻道的识别错误；需结合道路画面与原声核实，不能作为绕行规则。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-82",
+      "startMs": 326083,
+      "endMs": 327166,
+      "rawText": "前方会车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "82",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "82"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-83",
+      "startMs": 327400,
+      "endMs": 329200,
+      "rawText": "听到前方会车口令后",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "83",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "83"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-84",
+      "startMs": 329200,
+      "endMs": 330250,
+      "rawText": "轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "84",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "84"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-85",
+      "startMs": 330933,
+      "endMs": 331600,
+      "rawText": "会车之后",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "85",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "85"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-86",
+      "startMs": 331600,
+      "endMs": 332850,
+      "rawText": "我们待会要右转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "86",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "86"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-87",
+      "startMs": 332850,
+      "endMs": 334650,
+      "rawText": "记得要转进左边车道",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "87",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "87"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-88",
+      "startMs": 334683,
+      "endMs": 336733,
+      "rawText": "这是5号线要记住的第二个点",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "88",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "88"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-89",
+      "startMs": 336733,
+      "endMs": 337650,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "89",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "89"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-90",
+      "startMs": 337766,
+      "endMs": 339000,
+      "rawText": "听到右转指令后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "90",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "90"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-91",
+      "startMs": 339000,
+      "endMs": 340883,
+      "rawText": "我们行驶到停止线前",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "91",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "91"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-92",
+      "startMs": 341483,
+      "endMs": 342800,
+      "rawText": "先打右转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "92",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "92"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-93",
+      "startMs": 342800,
+      "endMs": 344133,
+      "rawText": "再轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "93",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "93"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-94",
+      "startMs": 353200,
+      "endMs": 353800,
+      "rawText": "转完之后",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "94",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "94"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-95",
+      "startMs": 353800,
+      "endMs": 356083,
+      "rawText": "我们看到5号线唯一的两车道",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "95",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "95"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-96",
+      "startMs": 356133,
+      "endMs": 357883,
+      "rawText": "这里我们一定要选择左边",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "96",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "96"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-97",
+      "startMs": 357883,
+      "endMs": 359250,
+      "rawText": "待会才可以左转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "97",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "97"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-98",
+      "startMs": 359333,
+      "endMs": 361050,
+      "rawText": "右边车道不可以左转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "98",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "98"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-99",
+      "startMs": 361050,
+      "endMs": 362333,
+      "rawText": "转错了也不要紧",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "99",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "99"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-100",
+      "startMs": 362366,
+      "endMs": 364800,
+      "rawText": "我们在实线之前变更回来即可",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "100",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "100"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-101",
+      "startMs": 365083,
+      "endMs": 366650,
+      "rawText": "前方路口左转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "101",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "101"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-102",
+      "startMs": 367133,
+      "endMs": 368483,
+      "rawText": "听到左转指令后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "102",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "102"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-103",
+      "startMs": 368483,
+      "endMs": 370333,
+      "rawText": "我们行驶到停止线前",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "103",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "103"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-104",
+      "startMs": 370333,
+      "endMs": 371566,
+      "rawText": "先打左转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "104",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "104"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-105",
+      "startMs": 371566,
+      "endMs": 372800,
+      "rawText": "再轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "105",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "105"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-106",
+      "startMs": 375766,
+      "endMs": 377083,
+      "rawText": "如果对向有车来",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "106",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "106"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "路口停车及都不会扣分属于视频作者的现场讲解，不能仅据字幕作为评分规则。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-107",
+      "startMs": 377083,
+      "endMs": 379283,
+      "rawText": "也可以选择在路口中间停车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "107",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "107"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "路口停车及都不会扣分属于视频作者的现场讲解，不能仅据字幕作为评分规则。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-108",
+      "startMs": 379366,
+      "endMs": 380733,
+      "rawText": "只要不停在斑马线",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "108",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "108"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "路口停车及都不会扣分属于视频作者的现场讲解，不能仅据字幕作为评分规则。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-109",
+      "startMs": 380733,
+      "endMs": 381850,
+      "rawText": "都不会扣分",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "109",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "109"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "路口停车及都不会扣分属于视频作者的现场讲解，不能仅据字幕作为评分规则。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-110",
+      "startMs": 386483,
+      "endMs": 388483,
+      "rawText": "请保持直线行驶",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "110",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "110"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-111",
+      "startMs": 389083,
+      "endMs": 391000,
+      "rawText": "听到直线行驶指令后",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "111",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "111"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-112",
+      "startMs": 391000,
+      "endMs": 392083,
+      "rawText": "保持视野开阔",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "112",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "112"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-113",
+      "startMs": 392083,
+      "endMs": 392933,
+      "rawText": "眼睛放松",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "113",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "113"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-114",
+      "startMs": 392933,
+      "endMs": 393850,
+      "rawText": "目视前方",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "114",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "114"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-115",
+      "startMs": 393933,
+      "endMs": 395000,
+      "rawText": "微调方向盘",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "115",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "115"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-116",
+      "startMs": 395000,
+      "endMs": 396683,
+      "rawText": "也可以适当提升点车速",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "116",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "116"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-117",
+      "startMs": 396683,
+      "endMs": 398166,
+      "rawText": "有助于直线行驶",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "117",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "117"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-118",
+      "startMs": 398166,
+      "endMs": 398966,
+      "rawText": "完成",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "118",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "118"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-119",
+      "startMs": 403933,
+      "endMs": 405650,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "119",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "119"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-120",
+      "startMs": 406000,
+      "endMs": 407333,
+      "rawText": "听到右转指令后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "120",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "120"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-121",
+      "startMs": 407333,
+      "endMs": 408366,
+      "rawText": "到停止线前",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "121",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "121"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-122",
+      "startMs": 408366,
+      "endMs": 409333,
+      "rawText": "先打转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "122",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "122"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-123",
+      "startMs": 409333,
+      "endMs": 410650,
+      "rawText": "后轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "123",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "123"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-124",
+      "startMs": 426533,
+      "endMs": 428250,
+      "rawText": "前方路口右转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "124",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "124"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-125",
+      "startMs": 428733,
+      "endMs": 430050,
+      "rawText": "听到右转指令后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "125",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "125"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-126",
+      "startMs": 430050,
+      "endMs": 431283,
+      "rawText": "到停止线前",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "126",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "126"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-127",
+      "startMs": 431283,
+      "endMs": 432333,
+      "rawText": "先打转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "127",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "127"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-128",
+      "startMs": 432333,
+      "endMs": 433800,
+      "rawText": "后轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "128",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "128"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-129",
+      "startMs": 444283,
+      "endMs": 446050,
+      "rawText": "这个方向的三条车道",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "129",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "129"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-130",
+      "startMs": 446050,
+      "endMs": 447766,
+      "rawText": "选择中间车道行驶",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "130",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "130"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-131",
+      "startMs": 448000,
+      "endMs": 449400,
+      "rawText": "请完成超车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "131",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "131"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-132",
+      "startMs": 450166,
+      "endMs": 452000,
+      "rawText": "听到完成超车指令后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "132",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "132"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-133",
+      "startMs": 452000,
+      "endMs": 453566,
+      "rawText": "我们先打左转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "133",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "133"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-134",
+      "startMs": 453566,
+      "endMs": 454366,
+      "rawText": "等待3秒",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "134",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "134"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-135",
+      "startMs": 454366,
+      "endMs": 455850,
+      "rawText": "观察后方没有车辆",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "135",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "135"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-136",
+      "startMs": 455966,
+      "endMs": 457566,
+      "rawText": "即可向左边变道",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "136",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "136"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-137",
+      "startMs": 458133,
+      "endMs": 459883,
+      "rawText": "如后方有车辆阻碍",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "137",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "137"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-138",
+      "startMs": 459883,
+      "endMs": 461566,
+      "rawText": "可选择停车等候",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "138",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "138"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-139",
+      "startMs": 461883,
+      "endMs": 463566,
+      "rawText": "变完左边超车道后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "139",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "139"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-140",
+      "startMs": 463566,
+      "endMs": 464850,
+      "rawText": "车子行驶平稳",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "140",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "140"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-141",
+      "startMs": 464850,
+      "endMs": 467133,
+      "rawText": "记得第一时间变回到右边车道",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "141",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "141"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-142",
+      "startMs": 467133,
+      "endMs": 468650,
+      "rawText": "即超车项目完成",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "142",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "142"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-143",
+      "startMs": 470366,
+      "endMs": 472683,
+      "rawText": "但是这里我们前方需要掉头",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "143",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "143"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-144",
+      "startMs": 472733,
+      "endMs": 474483,
+      "rawText": "中间车道不可以掉头",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "144",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "144"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-145",
+      "startMs": 474483,
+      "endMs": 476166,
+      "rawText": "需要进入左边车道",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "145",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "145"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-146",
+      "startMs": 476450,
+      "endMs": 478133,
+      "rawText": "所以我们要记住5号线",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "146",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "146"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-147",
+      "startMs": 478133,
+      "endMs": 480166,
+      "rawText": "超车项目和变道项目一样",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "147",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "147"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-148",
+      "startMs": 480250,
+      "endMs": 482883,
+      "rawText": "完成后都需自己自行再变更一条",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "148",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "148"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-149",
+      "startMs": 482883,
+      "endMs": 484766,
+      "rawText": "才可以完成接下来的项目",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "149",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "149"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-150",
+      "startMs": 485050,
+      "endMs": 486200,
+      "rawText": "前方掉头",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "150",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "150"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-151",
+      "startMs": 487000,
+      "endMs": 488850,
+      "rawText": "前方掉头口令播出之后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "151",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "151"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-152",
+      "startMs": 488850,
+      "endMs": 490250,
+      "rawText": "在停止线前完成",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "152",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "152"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-153",
+      "startMs": 490250,
+      "endMs": 492283,
+      "rawText": "转向灯和点刹车的操作",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "153",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "153"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-154",
+      "startMs": 492366,
+      "endMs": 494333,
+      "rawText": "每个掉头都尽量开远一点",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "154",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "154"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-155",
+      "startMs": 494333,
+      "endMs": 495483,
+      "rawText": "再操作方向盘",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "155",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "155"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-156",
+      "startMs": 495483,
+      "endMs": 496566,
+      "rawText": "不容易压线",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "156",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "156"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-157",
+      "startMs": 513400,
+      "endMs": 514083,
+      "rawText": "调完头后",
+      "correctedText": "掉完头后",
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "157",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "157"
+        }
+      ],
+      "editReason": "此处承接掉头项目，修正同音字。",
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-158",
+      "startMs": 514083,
+      "endMs": 515650,
+      "rawText": "这三条车道不管几号",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "158",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "158"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-159",
+      "startMs": 515650,
+      "endMs": 517083,
+      "rawText": "线都可以随意行驶",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "159",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "159"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-160",
+      "startMs": 517200,
+      "endMs": 519650,
+      "rawText": "自行选择容易进入的车道行驶",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "160",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "160"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-161",
+      "startMs": 519850,
+      "endMs": 522283,
+      "rawText": "因为前方路口的箭头都是一样的",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "161",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "161"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-162",
+      "startMs": 522283,
+      "endMs": 524083,
+      "rawText": "都可以左转以及掉头",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "162",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "162"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-163",
+      "startMs": 537050,
+      "endMs": 538650,
+      "rawText": "前方路口左转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "163",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "163"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-164",
+      "startMs": 539283,
+      "endMs": 540650,
+      "rawText": "听到左转指令后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "164",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "164"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-165",
+      "startMs": 540650,
+      "endMs": 542533,
+      "rawText": "我们行驶到停止线前",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "165",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "165"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-166",
+      "startMs": 542566,
+      "endMs": 543966,
+      "rawText": "先打上左转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "166",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "166"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-167",
+      "startMs": 543966,
+      "endMs": 545250,
+      "rawText": "再轻点刹车",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "167",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "167"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-168",
+      "startMs": 577966,
+      "endMs": 579683,
+      "rawText": "前方路口左转",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "168",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "168"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-169",
+      "startMs": 580850,
+      "endMs": 583083,
+      "rawText": "这里的左转弯指令播出之后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "169",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "169"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-170",
+      "startMs": 583083,
+      "endMs": 585800,
+      "rawText": "我们发现前方的教练车距离太近",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "170",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "170"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-171",
+      "startMs": 585850,
+      "endMs": 587600,
+      "rawText": "为防止我们被堵停在",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "171",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "171"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-172",
+      "startMs": 587600,
+      "endMs": 589250,
+      "rawText": "停止线和斑马线上",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "172",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "172"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-173",
+      "startMs": 589250,
+      "endMs": 591283,
+      "rawText": "这里我选择先关闭转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "173",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "173"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-174",
+      "startMs": 591283,
+      "endMs": 593400,
+      "rawText": "停车等候前车辆拉开距离后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "174",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "174"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-175",
+      "startMs": 593400,
+      "endMs": 594933,
+      "rawText": "再重新打左转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "175",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "175"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-176",
+      "startMs": 594933,
+      "endMs": 596133,
+      "rawText": "完成转弯项目",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "176",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "176"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-177",
+      "startMs": 608766,
+      "endMs": 611283,
+      "rawText": "前方就是我们靠边停车的位置了",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "177",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "177"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-178",
+      "startMs": 611333,
+      "endMs": 613083,
+      "rawText": "视频这里我们看到前面有",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "178",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "178"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-179",
+      "startMs": 613083,
+      "endMs": 615250,
+      "rawText": "学员在完成靠边停车操作",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "179",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "179"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-180",
+      "startMs": 615333,
+      "endMs": 618133,
+      "rawText": "我们在工厂大门之前就先停车等候",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "180",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "180"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-181",
+      "startMs": 618766,
+      "endMs": 621083,
+      "rawText": "因为靠边停车的指令一旦播出",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "181",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "181"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-182",
+      "startMs": 621083,
+      "endMs": 623283,
+      "rawText": "我们除了已经完成靠边操作外",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "182",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "182"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-183",
+      "startMs": 623283,
+      "endMs": 624883,
+      "rawText": "都不可以中途停车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "183",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "183"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-184",
+      "startMs": 624966,
+      "endMs": 626533,
+      "rawText": "所以我们要在指令播出",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "184",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "184"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-185",
+      "startMs": 626533,
+      "endMs": 628483,
+      "rawText": "之前选择合适位置停车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "185",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "185"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-186",
+      "startMs": 628533,
+      "endMs": 631166,
+      "rawText": "等待我们能流畅的完成靠边停车项目",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "186",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "186"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-187",
+      "startMs": 631166,
+      "endMs": 632283,
+      "rawText": "再继续前进",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "187",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "187"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-188",
+      "startMs": 652650,
+      "endMs": 655200,
+      "rawText": "听到靠边停车语音指令出来后",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "188",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "188"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "前段为靠边停车预讲解，后段才有独立口令。路线名依据本片补为五号线，原 ASR 缺失、OCR 为三号线的冲突仍需听音确认。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-189",
+      "startMs": 655200,
+      "endMs": 657133,
+      "rawText": "立刻减速打右转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "189",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "189"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "前段为靠边停车预讲解，后段才有独立口令。路线名依据本片补为五号线，原 ASR 缺失、OCR 为三号线的冲突仍需听音确认。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-190",
+      "startMs": 657400,
+      "endMs": 660166,
+      "rawText": "号线的靠边停车和六七号线不一样",
+      "correctedText": "五号线的靠边停车和六七号线不一样",
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "190",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "190"
+        },
+        {
+          "routeId": "5",
+          "source": "ocr",
+          "cueId": "166"
+        }
+      ],
+      "editReason": "ASR 漏掉路线名，依据本片五号线及与六、七号线对比的语境补为五号线；OCR 为三号线，冲突仍需听音确认。",
+      "reviewNotes": [
+        "前段为靠边停车预讲解，后段才有独立口令。路线名依据本片补为五号线，原 ASR 缺失、OCR 为三号线的冲突仍需听音确认。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-191",
+      "startMs": 660283,
+      "endMs": 662800,
+      "rawText": "它是直接靠着边上的白线停车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "191",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "191"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "前段为靠边停车预讲解，后段才有独立口令。路线名依据本片补为五号线，原 ASR 缺失、OCR 为三号线的冲突仍需听音确认。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-192",
+      "startMs": 672533,
+      "endMs": 674083,
+      "rawText": "请靠边停车",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "192",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "192"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "前段为靠边停车预讲解，后段才有独立口令。路线名依据本片补为五号线，原 ASR 缺失、OCR 为三号线的冲突仍需听音确认。",
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。",
+        "仅为独立口令形式的候选字幕；ASR 未区分说话人，尚未确认实际指令及动作窗口。"
+      ],
+      "contentKind": "instruction-candidate"
+    },
+    {
+      "id": "asr-193",
+      "startMs": 674883,
+      "endMs": 676766,
+      "rawText": "由于5号线距离过短",
+      "correctedText": null,
+      "reviewStatus": "text-reviewed",
+      "source": "asr",
+      "sourceCueId": "193",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "193"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-194",
+      "startMs": 676766,
+      "endMs": 678883,
+      "rawText": "为防止转向灯时间不够",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "194",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "194"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-195",
+      "startMs": 678883,
+      "endMs": 681683,
+      "rawText": "我们等完成动作后再关闭转向灯",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "195",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "195"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-196",
+      "startMs": 686850,
+      "endMs": 689050,
+      "rawText": "停车后挂上p档拉手刹",
+      "correctedText": "停车后挂上 P 挡，拉手刹",
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "196",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "196"
+        },
+        {
+          "routeId": "5",
+          "source": "ocr",
+          "cueId": "172"
+        }
+      ],
+      "editReason": "统一挡位写法并增加停顿，不改变操作内容。",
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-197",
+      "startMs": 689200,
+      "endMs": 691200,
+      "rawText": "车辆熄火后解开安全带",
+      "correctedText": null,
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "197",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "197"
+        }
+      ],
+      "editReason": null,
+      "reviewNotes": [
+        "涉及操作、方向、数值或规则；文字校对不代表原声、画面及考规已核实。"
+      ],
+      "contentKind": "commentary"
+    },
+    {
+      "id": "asr-198",
+      "startMs": 691366,
+      "endMs": 693450,
+      "rawText": "车辆开关门后考试结束",
+      "correctedText": "开关车门后，考试结束",
+      "reviewStatus": "needs-review",
+      "source": "asr",
+      "sourceCueId": "198",
+      "sourceRefs": [
+        {
+          "routeId": "5",
+          "source": "asr",
+          "cueId": "198"
+        },
+        {
+          "routeId": "5",
+          "source": "ocr",
+          "cueId": "174"
+        }
+      ],
+      "editReason": "整理开关车门的语序并增加停顿，保留原意；实际收尾步骤仍需视频核实。",
+      "reviewNotes": [
+        "仅整理开关车门的语序；实际收尾顺序和动作须听音、看画面确认。"
+      ],
+      "contentKind": "commentary"
+    }
+  ]
+}

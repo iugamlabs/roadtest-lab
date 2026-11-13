@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "routeId": "5",
+  "corrections": [
+    { "cueId": "12", "expectedRawText": "打死方向盘进入大雪路", "text": "打死方向盘进入大学路", "reason": "同路段 OCR 明确为大学路，六、七号线相同开场也使用大学路。", "evidence": [{ "routeId": "5", "source": "ocr", "cueId": "12" }] },
+    { "cueId": "157", "expectedRawText": "调完头后", "text": "掉完头后", "reason": "此处承接掉头项目，修正同音字。", "evidence": [] },
+    { "cueId": "190", "expectedRawText": "号线的靠边停车和六七号线不一样", "text": "五号线的靠边停车和六七号线不一样", "reason": "ASR 漏掉路线名，依据本片五号线及与六、七号线对比的语境补为五号线；OCR 为三号线，冲突仍需听音确认。", "evidence": [{ "routeId": "5", "source": "ocr", "cueId": "166" }] },
+    { "cueId": "196", "expectedRawText": "停车后挂上p档拉手刹", "text": "停车后挂上 P 挡，拉手刹", "reason": "统一挡位写法并增加停顿，不改变操作内容。", "evidence": [{ "routeId": "5", "source": "ocr", "cueId": "172" }] },
+    { "cueId": "198", "expectedRawText": "车辆开关门后考试结束", "text": "开关车门后，考试结束", "reason": "整理开关车门的语序并增加停顿，保留原意；实际收尾步骤仍需视频核实。", "evidence": [{ "routeId": "5", "source": "ocr", "cueId": "174" }] }
+  ],
+  "supplements": [
+    { "cueId": "24", "expectedRawText": "随后降回正常行驶的车73", "text": "随后降回正常行驶的车速", "reason": "ASR 在此处漏段；保留本路线 OCR 时间，末尾错字由上下文及七号线同段 ASR 辅助恢复，仍需听原声。", "evidence": [{ "routeId": "7", "source": "asr", "cueId": "21" }] },
+    { "cueId": "25", "expectedRawText": "这是试要求", "text": "这是考试要求", "reason": "ASR 在此处漏段；根据上下文及七号线同段文字补全，仍需听原声。", "evidence": [{ "routeId": "7", "source": "ocr", "cueId": "23" }] },
+    { "cueId": "26", "expectedRawText": "每条线都必须完成这个果作", "text": "每条线都必须完成这个操作", "reason": "ASR 在此处漏段；修正 OCR 的果作为操作，七号线同段 ASR 支持，仍需听原声。", "evidence": [{ "routeId": "7", "source": "asr", "cueId": "23" }] }
+  ],
+  "issues": [
+    { "cueIds": ["68"], "reason": "漏踩公交车疑为漏踩公交车站的刹车，两源均不完整；不擅自补写整句，需听原声。" },
+    { "cueIds": ["78", "79", "80", "81"], "reason": "两源均出现单向车道、变更到逆道等表述，可能为邻道的识别错误；需结合道路画面与原声核实，不能作为绕行规则。" },
+    { "cueIds": ["106", "107", "108", "109"], "reason": "路口停车及都不会扣分属于视频作者的现场讲解，不能仅据字幕作为评分规则。" },
+    { "cueIds": ["188", "189", "190", "191", "192"], "reason": "前段为靠边停车预讲解，后段才有独立口令。路线名依据本片补为五号线，原 ASR 缺失、OCR 为三号线的冲突仍需听音确认。" },
+    { "cueIds": ["198"], "reason": "仅整理开关车门的语序；实际收尾顺序和动作须听音、看画面确认。" }
+  ]
+}
