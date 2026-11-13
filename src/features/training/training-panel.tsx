@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { activeEvent, currentStep, isOperating, signalRemainingMs, stepsFor, type Operation, type TrainingState, type Suspension } from './engine'
 import type { TrainingController } from './controller'
 import { formatTime } from '../content/queries'
+import { pauseTimeMs } from './practice-events'
 
 const suspensionLabels: Record<Suspension, string> = { user: '已暂停，点击继续练习', buffering: '正在等待视频缓冲', hidden: '页面已在后台暂停', map: '查看路线图时暂停', 'media-error': '请先重新加载视频' }
 
@@ -53,5 +54,5 @@ export function TrainingPanel({ state, controller, mediaReady }: { state: Traini
 }
 
 export function TrainingEventList({ state, controller, mediaReady }: { state: TrainingState; controller: TrainingController | null; mediaReady: boolean }) {
-  return <Card className="mt-5 gap-0 min-w-0"><CardContent><details><summary className="cursor-pointer py-2 text-lg font-semibold">练习项目（{state.events.length} 项）</summary><p className="muted my-3 text-base">可选择单项练习。拖动视频跳过的项目不会记作完成，回到较早位置会重新开放后面的项目。</p><ol className="divide-y">{state.events.map(event => <li key={event.id} className="flex flex-wrap items-center justify-between gap-3 py-3"><div className="min-w-0"><p className="text-base font-medium break-words">{event.title}</p><p className="muted text-base">{formatTime(event.practicePauseMs / 1000)} · {state.progress[event.id] === 'completed' ? '已完成' : state.progress[event.id] === 'skipped' ? '已跳过' : state.activeId === event.id ? '练习中' : '待练习'}</p></div><Button variant="outline" disabled={!controller || !mediaReady || state.seeking || state.suspensions.some(reason => reason !== 'user')} aria-label={`练习${event.title}`} onClick={() => controller?.retry(event.id, false, true)}>练习本项</Button></li>)}</ol></details></CardContent></Card>
+  return <Card className="mt-5 gap-0 min-w-0"><CardContent><details><summary className="cursor-pointer py-2 text-lg font-semibold">练习项目（{state.events.length} 项）</summary><p className="muted my-3 text-base">可选择单项练习。拖动视频跳过的项目不会记作完成，回到较早位置会重新开放后面的项目。</p><ol className="divide-y">{state.events.map(event => <li key={event.id} className="flex flex-wrap items-center justify-between gap-3 py-3"><div className="min-w-0"><p className="text-base font-medium break-words">{event.title}</p><p className="muted text-base">{formatTime(pauseTimeMs(event) / 1000)}{event.manualPauseMs !== undefined ? ' · 人工校准' : ''} · {state.progress[event.id] === 'completed' ? '已完成' : state.progress[event.id] === 'skipped' ? '已跳过' : state.activeId === event.id ? '练习中' : '待练习'}</p></div><Button variant="outline" disabled={!controller || !mediaReady || state.seeking || state.suspensions.some(reason => reason !== 'user')} aria-label={`练习${event.title}`} onClick={() => controller?.retry(event.id, false, true)}>练习本项</Button></li>)}</ol></details></CardContent></Card>
 }

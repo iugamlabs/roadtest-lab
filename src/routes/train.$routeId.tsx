@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowLeft, Map, Pause, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react'
+import { ArrowLeft, Map, Pause, Play, RotateCcw, SlidersHorizontal, Volume2, VolumeX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -11,9 +11,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { routeIdSchema, subtitleText, type RouteId } from '@/features/content/schema'
 import { eventsQueryOptions, formatTime, mediaUrl, roadRoutes, subtitlesQueryOptions } from '@/features/content/queries'
-import { useSettings } from '@/features/settings/settings'
+import { playbackRates, playbackRateSchema, useSettings } from '@/features/settings/settings'
 import { useTraining } from '@/features/training/use-training'
 import { TrainingEventList, TrainingPanel } from '@/features/training/training-panel'
+import { useManualCalibration } from '@/features/training/use-manual-calibration'
+import { CalibrationPanel } from '@/features/training/calibration-panel'
+import { pauseTimeMs } from '@/features/training/practice-events'
 
 export const Route = createFileRoute('/train/$routeId')({
   beforeLoad: ({ params }) => { if (!routeIdSchema.safeParse(params.routeId).success) throw notFound() },
@@ -37,10 +40,13 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
   const { data: eventData } = useSuspenseQuery(eventsQueryOptions(routeId))
   const { settings, save } = useSettings()
   const video = useRef<HTMLVideoElement>(null)
-  const training = useTraining(eventData.events, video)
   const [playing, setPlaying] = useState(false)
   const [time, setTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const calibration = useManualCalibration(eventData, Math.round(duration * 1000))
+  const training = useTraining(calibration.events, video)
+  const [calibrating, setCalibrating] = useState(false)
+  const [calibrationEventId, setCalibrationEventId] = useState<string | null>(null)
   const [audio, setAudio] = useState(settings.originalAudio)
   const [speed, setSpeed] = useState(settings.playbackRate)
   const [blur, setBlur] = useState(settings.blurSubtitles)
@@ -73,7 +79,15 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
   return <>
     <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
       <div className="flex items-center gap-3"><Button asChild variant="ghost" size="icon" className="size-11"><Link to="/" aria-label="返回路线选择" title="返回路线选择"><ArrowLeft aria-hidden /></Link></Button><h1 className="page-title">{route.name}</h1></div>
-      <div className="flex items-center gap-3"><Badge variant="secondary">{training.state.enabled ? '操作练习' : '路线学习'} · C2</Badge>
+      <div className="flex max-w-full flex-wrap items-center gap-3"><Badge variant="secondary">{training.state.enabled ? '操作练习' : '路线学习'} · C2</Badge>
+        <Button variant="outline" disabled={!training.controller} aria-pressed={calibrating} onClick={() => {
+          if (!calibrating) {
+            const position = (video.current?.currentTime ?? time) * 1000
+            const closest = calibration.events.reduce<(typeof calibration.events)[number] | undefined>((best, event) => !best || Math.abs(pauseTimeMs(event) - position) < Math.abs(pauseTimeMs(best) - position) ? event : best, undefined)
+            setCalibrationEventId(training.state.activeId ?? closest?.id ?? null)
+          }
+          training.controller?.stop(); setCalibrating(value => !value)
+        }}><SlidersHorizontal aria-hidden />{calibrating ? '完成校准' : '人工校准'}</Button>
         <Dialog open={showMap} onOpenChange={open => { training.controller?.setMap(open); setShowMap(open) }}>
           <DialogTrigger asChild><Button variant="outline"><Map aria-hidden />路线图</Button></DialogTrigger>
           <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-[min(90vw,64rem)]">
@@ -97,11 +111,11 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
         <CardContent className="space-y-4 p-5">
           <div className="flex items-center gap-3"><span className="min-w-12 text-sm tabular-nums">{formatTime(time)}</span><input aria-label="视频播放进度" type="range" min={0} max={duration || 1} step={.1} value={time} disabled={!duration || mediaError} onChange={event => seek(Number(event.target.value))} /><span className="text-sm tabular-nums">{formatTime(duration)}</span></div>
           <div className="flex flex-wrap gap-3"><Button onClick={togglePlayback} disabled={playbackDisabled}>{pauseControl ? <Pause aria-hidden /> : <Play aria-hidden />}{playbackLabel}</Button><Button variant="outline" disabled={!mediaReady || !training.controller} onClick={() => seek(time - 10)}><RotateCcw aria-hidden />后退 10 秒</Button><Button variant="outline" aria-pressed={audio} onClick={() => setAudio(value => !value)}>{audio ? <Volume2 aria-hidden /> : <VolumeX aria-hidden />}{audio ? '原声开启' : '原声关闭'}</Button></div>
-          <div className="flex flex-wrap items-center gap-3"><Label htmlFor="playback-speed">播放速度</Label><Select value={speed} onValueChange={value => { if (value === '0.75' || value === '1' || value === '1.25') setSpeed(value) }}><SelectTrigger id="playback-speed" className="min-h-[56px] w-[7rem] text-base"><SelectValue /></SelectTrigger><SelectContent>{['0.75', '1', '1.25'].map(value => <SelectItem key={value} value={value} className="min-h-11 text-base">{value} 倍</SelectItem>)}</SelectContent></Select></div>
+          <div className="flex flex-wrap items-center gap-3"><Label htmlFor="playback-speed">播放速度</Label><Select value={speed} onValueChange={value => { const parsed = playbackRateSchema.safeParse(value); if (parsed.success) setSpeed(parsed.data) }}><SelectTrigger id="playback-speed" className="min-h-[56px] w-[7rem] text-base"><SelectValue /></SelectTrigger><SelectContent>{playbackRates.map(value => <SelectItem key={value} value={value} className="min-h-11 text-base">{value} 倍</SelectItem>)}</SelectContent></Select></div>
         </CardContent>
       </Card>
       <aside className="min-w-0 space-y-4">
-        <TrainingPanel {...training} mediaReady={mediaReady} />
+        {calibrating ? <CalibrationPanel source={eventData} initialEventId={calibrationEventId} calibration={calibration} durationMs={Math.round(duration * 1000)} positionMs={Math.round(time * 1000)} ready={mediaReady && Boolean(training.controller) && !training.state.seeking} getPositionMs={() => Math.round((video.current?.currentTime ?? time) * 1000)} onSeek={seek} onPause={() => training.controller?.pause()} onClose={() => { training.controller?.stop(); setCalibrating(false) }} /> : <><TrainingPanel {...training} mediaReady={mediaReady} />{calibration.message && <p role="status" className="rounded-md border p-3 text-base">{calibration.message}</p>}</>}
         <Card className="gap-0"><CardContent><div className="flex items-center justify-between gap-3"><Label htmlFor="player-blur" className="min-h-11 flex-1">模糊画面字幕</Label><Switch id="player-blur" checked={blur} onCheckedChange={setBlur} /></div><p className="muted mt-2 text-base">遮罩为手动设置，开启后请确认没有挡住道路标志。视频原声可单独关闭。</p>
           <details className="mt-3"><summary className="cursor-pointer py-3 text-base">调整遮罩范围</summary><div className="space-y-4 pt-3">
             <label className="block text-base">顶部位置：{maskTop}%<input type="range" min={0} max={100 - maskHeight} value={maskTop} onChange={event => setMaskTop(Number(event.target.value))} /></label>
@@ -111,7 +125,7 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
         </CardContent></Card>
       </aside>
     </div>
-    <TrainingEventList {...training} mediaReady={mediaReady} />
+    {!calibrating && <TrainingEventList {...training} mediaReady={mediaReady} />}
     <Card className="mt-5 gap-0"><CardContent><div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-lg font-semibold">教学字幕</h2><Button variant="outline" aria-expanded={showSubtitles} onClick={() => setShowSubtitles(value => !value)}>{showSubtitles ? '收起字幕' : '显示当前字幕'}</Button></div><p className="muted mt-2 text-base">跟随视频查看讲解。完整字幕可在路线资料中查看。</p>{showSubtitles && <p className="mt-4 whitespace-pre-line rounded-md bg-secondary p-4 text-lg">{currentCue ? subtitleText(currentCue) : '当前时段没有字幕。'}</p>}</CardContent></Card>
   </>
 }
