@@ -1,0 +1,91 @@
+import { useEffect, useRef, useState } from 'react'
+import { Check, RotateCcw, Volume2, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { BrowserSpeech } from '@/features/exam/speech'
+import { answerLightingQuiz, createLightingQuiz, lightingActions, lightingQuizScore, type LightingQuiz } from './quiz'
+
+export function LightingExam() {
+  const [quiz, setQuiz] = useState<LightingQuiz | null>(null)
+  const [index, setIndex] = useState(0)
+  const [finished, setFinished] = useState(false)
+  const [voice, setVoice] = useState(true)
+  const [voiceError, setVoiceError] = useState(false)
+  const [replay, setReplay] = useState(0)
+  const heading = useRef<HTMLHeadingElement>(null)
+  const question = !finished ? quiz?.questions[index] : undefined
+  const answered = quiz ? quiz.answers.length > index : false
+  const selected = quiz?.answers[index]
+  const correct = selected === question?.[1]
+
+  useEffect(() => {
+    if (quiz) heading.current?.focus()
+  }, [quiz, index, finished])
+
+  useEffect(() => {
+    if (!question || answered || !voice || document.hidden) return
+    const cancel = new BrowserSpeech().speak(question[0], {
+      end: () => {},
+      error: () => setVoiceError(true),
+    })
+    const onVisibility = () => { if (document.hidden) cancel() }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      cancel()
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
+  }, [question, answered, voice, replay])
+
+  const start = () => {
+    setQuiz(createLightingQuiz())
+    setIndex(0)
+    setFinished(false)
+    setVoiceError(false)
+  }
+
+  return <>
+    <Card><CardContent className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-muted-foreground">随机 5 题 · 每题 20 分 · 不限时</p>
+        <div className="flex items-center gap-3"><Label htmlFor="lighting-voice">语音播报</Label><Switch id="lighting-voice" checked={voice} onCheckedChange={value => { setVoice(value); setVoiceError(false) }} /></div>
+      </div>
+      {!quiz && <>
+        <p className="leading-relaxed">听口令或看文字，选择对应的灯光操作。答题后查看反馈，再进入下一题。全部答完后查看成绩和错题。</p>
+        <p className="text-base text-muted-foreground">这是灯光口令学习考核，不代表官方考试评分。</p>
+        <Button onClick={start}>开始灯光考试</Button>
+      </>}
+      {question && quiz && <>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="font-semibold">第 {index + 1} / {quiz.questions.length} 题</p>
+          <Button variant="outline" disabled={!voice || answered} onClick={() => { setVoiceError(false); setReplay(value => value + 1) }}><Volume2 aria-hidden />重听口令</Button>
+        </div>
+        <h3 ref={heading} tabIndex={-1} className="rounded-md bg-muted px-4 py-5 text-2xl font-semibold leading-relaxed focus-visible:outline-2 focus-visible:outline-ring">{question[0]}</h3>
+        {voiceError && <p role="status" className="text-base text-muted-foreground">语音暂时无法播放，请按文字口令答题，也可点击“重听口令”。</p>}
+        <div role="group" aria-label="选择灯光操作" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {lightingActions.map(action => <Button key={action} variant={selected === action ? 'default' : 'outline'} disabled={answered} className="h-auto min-h-14 whitespace-normal py-3" onClick={() => setQuiz(current => current ? answerLightingQuiz(current, index, action) : current)}>{action}</Button>)}
+        </div>
+        {answered && <div role="status" className="flex items-start gap-2 border-t pt-4">
+          {correct ? <Check className="mt-1 size-6 shrink-0" aria-hidden /> : <X className="mt-1 size-6 shrink-0" aria-hidden />}
+          <p className="leading-relaxed">{correct ? '回答正确，得 20 分。' : `回答错误。你选择了“${selected}”，正确操作是“${question[1]}”。`}</p>
+        </div>}
+        <div className="flex flex-wrap gap-3">
+          {answered && <Button onClick={() => { setVoiceError(false); if (index + 1 === quiz.questions.length) setFinished(true); else setIndex(value => value + 1) }}>{index + 1 === quiz.questions.length ? '查看成绩' : '下一题'}</Button>}
+          <Button variant="outline" onClick={() => { setQuiz(null); setVoiceError(false) }}>结束本次考试</Button>
+        </div>
+      </>}
+      {finished && quiz && <>
+        <h3 ref={heading} tabIndex={-1} className="text-2xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">考试完成：{lightingQuizScore(quiz)} 分</h3>
+        <p>答对 {lightingQuizScore(quiz) / 20} / {quiz.questions.length} 题。{lightingQuizScore(quiz) === 100 ? '全部正确！' : '对照下面的正确操作，再练一次。'}</p>
+        <ol aria-label="本次答题回顾" className="divide-y">
+          {quiz.questions.map(([command, action], i) => <li key={command} className="space-y-1 py-3">
+            <p className="font-semibold">{i + 1}. {command}</p>
+            <p className="flex items-start gap-2">{quiz.answers[i] === action ? <Check className="mt-1 size-5 shrink-0" aria-hidden /> : <X className="mt-1 size-5 shrink-0" aria-hidden />}<span>{quiz.answers[i] === action ? `正确：${action}` : `答错：${quiz.answers[i]}；正确操作：${action}`}</span></p>
+          </li>)}
+        </ol>
+        <Button onClick={start}><RotateCcw aria-hidden />再考一次</Button>
+      </>}
+    </CardContent></Card>
+  </>
+}

@@ -14,6 +14,7 @@ import { Route as MaterialsRouteImport } from './routes/materials'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ExamIndexRouteImport } from './routes/exam.index'
 import { Route as ExamRouteIdRouteImport } from './routes/exam.$routeId'
+import { Route as ExamLightingRouteImport } from './routes/exam.lighting'
 import { Route as ExamPrototypeRouteImport } from './routes/exam.prototype'
 import { Route as TrainIndexRouteImport } from './routes/train.index'
 import { Route as TrainRouteIdRouteImport } from './routes/train.$routeId'
@@ -44,6 +45,11 @@ const ExamRouteIdRoute = ExamRouteIdRouteImport.update({
   path: '/exam/$routeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExamLightingRoute = ExamLightingRouteImport.update({
+  id: '/exam/lighting',
+  path: '/exam/lighting',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExamPrototypeRoute = ExamPrototypeRouteImport.update({
   id: '/exam/prototype',
   path: '/exam/prototype',
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
   '/exam/$routeId': typeof ExamRouteIdRoute
+  '/exam/lighting': typeof ExamLightingRoute
   '/exam/prototype': typeof ExamPrototypeRoute
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam/': typeof ExamIndexRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
   '/exam/$routeId': typeof ExamRouteIdRoute
+  '/exam/lighting': typeof ExamLightingRoute
   '/exam/prototype': typeof ExamPrototypeRoute
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam': typeof ExamIndexRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
   '/exam/$routeId': typeof ExamRouteIdRoute
+  '/exam/lighting': typeof ExamLightingRoute
   '/exam/prototype': typeof ExamPrototypeRoute
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam/': typeof ExamIndexRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/materials'
     | '/settings'
     | '/exam/$routeId'
+    | '/exam/lighting'
     | '/exam/prototype'
     | '/train/$routeId'
     | '/exam/'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/materials'
     | '/settings'
     | '/exam/$routeId'
+    | '/exam/lighting'
     | '/exam/prototype'
     | '/train/$routeId'
     | '/exam'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/materials'
     | '/settings'
     | '/exam/$routeId'
+    | '/exam/lighting'
     | '/exam/prototype'
     | '/train/$routeId'
     | '/exam/'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   MaterialsRoute: typeof MaterialsRoute
   SettingsRoute: typeof SettingsRoute
   ExamRouteIdRoute: typeof ExamRouteIdRoute
+  ExamLightingRoute: typeof ExamLightingRoute
   ExamPrototypeRoute: typeof ExamPrototypeRoute
   TrainRouteIdRoute: typeof TrainRouteIdRoute
   ExamIndexRoute: typeof ExamIndexRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExamRouteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/exam/lighting': {
+      id: '/exam/lighting'
+      path: '/exam/lighting'
+      fullPath: '/exam/lighting'
+      preLoaderRoute: typeof ExamLightingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/exam/prototype': {
       id: '/exam/prototype'
       path: '/exam/prototype'
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   MaterialsRoute: MaterialsRoute,
   SettingsRoute: SettingsRoute,
   ExamRouteIdRoute: ExamRouteIdRoute,
+  ExamLightingRoute: ExamLightingRoute,
   ExamPrototypeRoute: ExamPrototypeRoute,
   TrainRouteIdRoute: TrainRouteIdRoute,
   ExamIndexRoute: ExamIndexRoute,

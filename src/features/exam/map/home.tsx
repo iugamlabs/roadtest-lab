@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { BookOpen, ClipboardCheck, History } from 'lucide-react'
+import { BookOpen, ClipboardCheck, History, Lightbulb } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -20,6 +20,7 @@ export function MapExamHome() {
   const [oldReview, setOldReview] = useState<ExamResult | null>(null)
   return <div className="space-y-5">
     <div className="flex flex-wrap items-start justify-between gap-3"><div><h1 className="page-title">2D路线练习与考核</h1><p className="muted mt-2">六个固定操作，到位置等你准备。先慢慢练，再试操作考核。</p></div><Badge variant="outline">C2 自动挡</Badge></div>
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border p-4"><div className="flex items-start gap-3"><Lightbulb className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">模拟灯光考试</h2><p className="muted mt-1 text-base">随机 5 题，不限时，听口令选择灯光，答完查看成绩。</p></div></div><Button asChild variant="outline"><Link to="/exam/lighting">进入灯光考试</Link></Button></div>
     <div className="grid gap-4 xl:grid-cols-3">{scenarioRoutes.map(route => {
       const world = mapRoute(route.id)
       return <Card key={route.id} className="gap-3"><CardHeader className="pb-0"><div className="flex items-center justify-between"><CardTitle><h2>{route.name}</h2></CardTitle><Badge variant="outline">{route.scenes.length}项</Badge></div><CardDescription className="text-base leading-relaxed">{route.description}</CardDescription></CardHeader><CardContent className="prototype-workspace flex-1"><div className="map-route-thumbnail overflow-hidden rounded-md border bg-muted/20"><svg viewBox="0 0 1070 1900" className="h-44 w-full" role="img" aria-label={`${route.name}行驶轨迹示意`}>{roadRects.map((road, i) => <rect key={i} x={road.x} y={road.y} width={road.width} height={road.height} fill="var(--border)" />)}<path d={pathData(world.trace)} fill="none" stroke="var(--prototype-car)" strokeWidth="15" /><circle cx={world.trace[0].x} cy={world.trace[0].y} r="26" fill="var(--prototype-stop)" /><circle cx={world.trace.at(-1)!.x} cy={world.trace.at(-1)!.y} r="26" fill="var(--prototype-go)" /></svg></div><div className="mt-3 flex flex-wrap gap-2">{route.highlights.map(item => <Badge key={item} variant="secondary">{item}</Badge>)}</div></CardContent><CardFooter className="grid grid-cols-2 gap-2"><Button asChild><Link to="/exam/$routeId" params={{ routeId: route.id }} search={{ mode: 'assessment' }}><ClipboardCheck aria-hidden />进入考试</Link></Button><Button asChild variant="outline"><Link to="/exam/$routeId" params={{ routeId: route.id }} search={{ mode: 'practice' }}><BookOpen aria-hidden />进入练习</Link></Button></CardFooter></Card>

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight, BookOpen, CarFront, Check, ClipboardCheck, Map, MousePointer2, Play } from 'lucide-react'
+import { ArrowRight, BookOpen, CarFront, Check, ClipboardCheck, Lightbulb, Map, MousePointer2, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -16,8 +16,9 @@ function HomePage() {
         { icon: Check, title: '多练几次，按自己的节奏来', text: '不计分、不限时，没记住的项目可以单独重练。' },
       ].map(item => <div key={item.title} className="flex gap-3 py-5"><item.icon className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">{item.title}</h2><p className="muted mt-1 text-base">{item.text}</p></div></div>)}</CardContent></Card>
     </section>
-    <div className="flex flex-wrap items-center justify-between gap-4"><div className="flex items-start gap-3"><BookOpen className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">想回顾某个位置？</h2><p className="muted mt-1 text-base">路线资料里有路线图和可搜索的教学字幕。</p></div></div><Button asChild variant="outline"><Link to="/materials">查看路线资料<ArrowRight aria-hidden /></Link></Button></div>
+    <div className="flex flex-wrap items-center justify-between gap-4"><div className="flex items-start gap-3"><BookOpen className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">想回顾某个位置？</h2><p className="muted mt-1 text-base">学习资料里有路线图、教学字幕、考试流程和灯光操作对照。</p></div></div><Button asChild variant="outline"><Link to="/materials">查看学习资料<ArrowRight aria-hidden /></Link></Button></div>
     <div className="flex flex-wrap items-center justify-between gap-4 border-t pt-5"><div className="flex items-start gap-3"><ClipboardCheck className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">路线熟悉了，试试场景考试</h2><p className="muted mt-1 text-base">跟随五、六、七号线的项目顺序，观察随机交通，自己决定操作时机。</p></div></div><Button asChild variant="outline"><Link to="/exam">进入场景考试<ArrowRight aria-hidden /></Link></Button></div>
+    <div className="flex flex-wrap items-center justify-between gap-4 border-t pt-5"><div className="flex items-start gap-3"><Lightbulb className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">记住灯光口令，试试灯光考试</h2><p className="muted mt-1 text-base">随机 5 题，不限时，听口令选择灯光，答完查看成绩。</p></div></div><Button asChild variant="outline"><Link to="/exam/lighting">进入灯光考试<ArrowRight aria-hidden /></Link></Button></div>
     <p className="border-t pt-4 text-base text-muted-foreground">本工具帮助记忆路线和操作步骤，实际驾驶请结合道路情况亲自观察、判断。</p>
   </div>
 }
