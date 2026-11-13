@@ -20,5 +20,6 @@ describe('content boundaries', () => {
     expect(settingsSchema.safeParse(defaultSettings).success).toBe(true)
     expect(settingsSchema.safeParse({ ...defaultSettings, maskTop: 90, maskHeight: 30 }).success).toBe(false)
     expect(settingsSchema.safeParse({ ...defaultSettings, playbackRate: '10' }).success).toBe(false)
+    for (const playbackRate of ['0.75', '1', '1.25', '1.5', '1.75', '2']) expect(settingsSchema.safeParse({ ...defaultSettings, playbackRate }).success).toBe(true)
   })
 })

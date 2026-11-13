@@ -1,8 +1,10 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import { z } from 'zod'
 
+export const playbackRates = ['0.75', '1', '1.25', '1.5', '1.75', '2'] as const
+export const playbackRateSchema = z.enum(playbackRates)
 export const settingsSchema = z.object({
-  playbackRate: z.enum(['0.75', '1', '1.25']),
+  playbackRate: playbackRateSchema,
   originalAudio: z.boolean(),
   blurSubtitles: z.boolean(),
   maskTop: z.number().min(0).max(90),

@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { defaultSettings, settingsSchema, useSettings, type Settings } from '@/features/settings/settings'
+import { defaultSettings, playbackRates, settingsSchema, useSettings, type Settings } from '@/features/settings/settings'
 
 export const Route = createFileRoute('/settings')({ component: SettingsPage })
 function SettingsPage() {
@@ -25,9 +25,7 @@ function SettingsPage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0.75" className="min-h-11 text-base">慢一点 · 0.75 倍</SelectItem>
-              <SelectItem value="1" className="min-h-11 text-base">正常速度 · 1 倍</SelectItem>
-              <SelectItem value="1.25" className="min-h-11 text-base">快一点 · 1.25 倍</SelectItem>
+              {playbackRates.map(value => <SelectItem key={value} value={value} className="min-h-11 text-base">{value === '1' ? '正常速度 · ' : ''}{value} 倍</SelectItem>)}
             </SelectContent>
           </Select>
         )} />
