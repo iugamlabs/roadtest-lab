@@ -1,0 +1,988 @@
+{
+  "version": 1,
+  "routeId": "6",
+  "reviewScope": "sampled-video-timing",
+  "videoSha256": "2b1cf86c7ee45c8422f1d8f7cb1a4c457038d11d44073a6516238ab7175c235b",
+  "subtitleSha256": "e490e3e6c0f30cc99c38eb94431145a2667058093883109d05d43f4300938dbe",
+  "events": [
+    {
+      "id": "6-exit-look",
+      "title": "出场路口停车瞭望",
+      "kind": "stop-and-observe",
+      "direction": null,
+      "category": "command",
+      "instructionCueIds": [
+        "asr-4"
+      ],
+      "instructionMs": 11733,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-4",
+        "asr-5",
+        "asr-6",
+        "asr-7",
+        "asr-8"
+      ],
+      "windowStartMs": 13000,
+      "windowEndMs": 19000,
+      "practicePauseMs": 13000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 13000,
+          "observation": "车辆位于出口停止线前，横向道路交通可见。"
+        },
+        {
+          "atMs": 19000,
+          "observation": "观察后准备右转进入大学路。"
+        }
+      ],
+      "guidance": "在停止线前停车，观察左右交通，确认安全后再继续。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-exit-turn",
+      "title": "出场右转进入大学路",
+      "kind": "turn",
+      "direction": "right",
+      "category": "command",
+      "instructionCueIds": [
+        "asr-3"
+      ],
+      "instructionMs": 9000,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-3",
+        "asr-7",
+        "asr-8",
+        "asr-9",
+        "asr-10"
+      ],
+      "windowStartMs": 19000,
+      "windowEndMs": 28000,
+      "practicePauseMs": 19000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 19000,
+          "observation": "出口处确认左右交通后准备右转。"
+        },
+        {
+          "atMs": 28000,
+          "observation": "车辆沿大学路行驶，出口右转结束。"
+        }
+      ],
+      "guidance": "观察路口交通，按本路段方向打灯、减速，确认安全后转弯。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-bus-1",
+      "title": "大学路第一处公交站",
+      "kind": "brake",
+      "direction": null,
+      "category": "silent",
+      "instructionCueIds": [],
+      "instructionMs": null,
+      "instructionStatus": "not-applicable",
+      "sourceCueIds": [
+        "asr-11",
+        "asr-12",
+        "asr-13",
+        "asr-14",
+        "asr-15"
+      ],
+      "windowStartMs": 28000,
+      "windowEndMs": 35000,
+      "practicePauseMs": 28000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 28000,
+          "observation": "右侧公交站候车亭接近。"
+        },
+        {
+          "atMs": 35000,
+          "observation": "公交站通过，讲解转入提速。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-straight",
+      "title": "保持直线行驶",
+      "kind": "straight",
+      "direction": null,
+      "category": "command",
+      "instructionCueIds": [
+        "asr-24"
+      ],
+      "instructionMs": 49166,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-24",
+        "asr-25",
+        "asr-26",
+        "asr-27",
+        "asr-28",
+        "asr-29",
+        "asr-30",
+        "asr-31"
+      ],
+      "windowStartMs": 49000,
+      "windowEndMs": 62000,
+      "practicePauseMs": 49000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 49000,
+          "observation": "车辆沿大学路直线路段行驶。"
+        },
+        {
+          "atMs": 62000,
+          "observation": "画面及字幕提示直线行驶完成。"
+        }
+      ],
+      "guidance": "保持视野开阔、观察前方；当前工具不模拟方向盘稳定性。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-cross-1",
+      "title": "学校区域之后的路口",
+      "kind": "brake",
+      "direction": null,
+      "category": "silent",
+      "instructionCueIds": [],
+      "instructionMs": null,
+      "instructionStatus": "not-applicable",
+      "sourceCueIds": [
+        "asr-35",
+        "asr-36",
+        "asr-37",
+        "asr-38",
+        "asr-39"
+      ],
+      "windowStartMs": 79000,
+      "windowEndMs": 88000,
+      "practicePauseMs": 79000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 79000,
+          "observation": "前方停止线可见，画面专门框出横向停止线。"
+        },
+        {
+          "atMs": 88000,
+          "observation": "车辆驶过路口，接近公交站。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-bus-2",
+      "title": "工业区入口前的公交站",
+      "kind": "brake",
+      "direction": null,
+      "category": "silent",
+      "instructionCueIds": [],
+      "instructionMs": null,
+      "instructionStatus": "not-applicable",
+      "sourceCueIds": [
+        "asr-40",
+        "asr-41"
+      ],
+      "windowStartMs": 89000,
+      "windowEndMs": 99000,
+      "practicePauseMs": 89000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 89000,
+          "observation": "右侧候车亭接近，讲解提醒公交站位置。"
+        },
+        {
+          "atMs": 99000,
+          "observation": "车辆经过候车亭，驶向工业区入口。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-industrial-turn",
+      "title": "右转进入工业区",
+      "kind": "turn",
+      "direction": "right",
+      "category": "command",
+      "instructionCueIds": [
+        "asr-42"
+      ],
+      "instructionMs": 110566,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-42",
+        "asr-43",
+        "asr-44",
+        "asr-45",
+        "asr-46",
+        "asr-47",
+        "asr-48",
+        "asr-49",
+        "asr-50",
+        "asr-51",
+        "asr-52",
+        "asr-53",
+        "asr-54",
+        "asr-55",
+        "asr-56",
+        "asr-57"
+      ],
+      "windowStartMs": 118000,
+      "windowEndMs": 137000,
+      "practicePauseMs": 118000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 118000,
+          "observation": "主路右侧虚线开口和人行横道接近。"
+        },
+        {
+          "atMs": 137000,
+          "observation": "右转结束，车辆进入工业区中间车道。"
+        }
+      ],
+      "guidance": "观察路口交通，按本路段方向打灯、减速，确认安全后转弯。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-cross-2",
+      "title": "工业区第一个路口直行",
+      "kind": "brake",
+      "direction": null,
+      "category": "command",
+      "instructionCueIds": [
+        "asr-58"
+      ],
+      "instructionMs": 146083,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-58",
+        "asr-59",
+        "asr-60",
+        "asr-61"
+      ],
+      "windowStartMs": 150000,
+      "windowEndMs": 159000,
+      "practicePauseMs": 150000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 150000,
+          "observation": "前方路口及停止线接近。"
+        },
+        {
+          "atMs": 159000,
+          "observation": "车辆通过路口，继续驶向掉头位置。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-uturn",
+      "title": "工业区尽头掉头",
+      "kind": "uturn",
+      "direction": "left",
+      "category": "command",
+      "instructionCueIds": [
+        "asr-67"
+      ],
+      "instructionMs": 182450,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-67",
+        "asr-68",
+        "asr-69",
+        "asr-70",
+        "asr-71",
+        "asr-72",
+        "asr-73",
+        "asr-74",
+        "asr-75",
+        "asr-76",
+        "asr-77",
+        "asr-78",
+        "asr-79",
+        "asr-80",
+        "asr-81"
+      ],
+      "windowStartMs": 197000,
+      "windowEndMs": 224000,
+      "practicePauseMs": 197000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 197000,
+          "observation": "车辆在前车后方等待后开始准备掉头。"
+        },
+        {
+          "atMs": 224000,
+          "observation": "车辆已完成掉头，沿反向道路行驶。"
+        }
+      ],
+      "guidance": "观察标线、对向车辆与行人，打左转向灯并减速，确认安全后掉头。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-lane-command",
+      "title": "按口令变更车道",
+      "kind": "lane-change",
+      "direction": "left",
+      "category": "command",
+      "instructionCueIds": [
+        "asr-82"
+      ],
+      "instructionMs": 230450,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-82",
+        "asr-83",
+        "asr-84",
+        "asr-85",
+        "asr-86",
+        "asr-87",
+        "asr-88",
+        "asr-89"
+      ],
+      "windowStartMs": 233000,
+      "windowEndMs": 247000,
+      "practicePauseMs": 233000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 3000,
+      "evidence": [
+        {
+          "atMs": 233000,
+          "observation": "变道口令之后车辆开始准备向左调整，前车仍在同向道路上。"
+        },
+        {
+          "atMs": 247000,
+          "observation": "车道调整已完成，车辆沿工业区道路继续前进。"
+        }
+      ],
+      "guidance": "观察对应方向后方交通，提前打灯，确认安全及标线允许后变道。",
+      "notes": [
+        "左向是本段示范方向；讲解允许左右选择，不能把示范方向作为唯一考试答案。"
+      ],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-cross-3",
+      "title": "饭店之前的路口直行",
+      "kind": "brake",
+      "direction": null,
+      "category": "command",
+      "instructionCueIds": [
+        "asr-90"
+      ],
+      "instructionMs": 250083,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-90",
+        "asr-91",
+        "asr-92",
+        "asr-93",
+        "asr-94",
+        "asr-95",
+        "asr-96"
+      ],
+      "windowStartMs": 253000,
+      "windowEndMs": 264000,
+      "practicePauseMs": 253000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 253000,
+          "observation": "前方路口停止线及横向通道接近。"
+        },
+        {
+          "atMs": 264000,
+          "observation": "车辆通过路口，右侧饭店进入视野。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-return-turn",
+      "title": "右转返回大学路",
+      "kind": "turn",
+      "direction": "right",
+      "category": "command",
+      "instructionCueIds": [],
+      "instructionMs": null,
+      "instructionStatus": "commentary-only",
+      "sourceCueIds": [
+        "asr-110",
+        "asr-111",
+        "asr-112",
+        "asr-113",
+        "asr-114",
+        "asr-115",
+        "asr-116",
+        "asr-117",
+        "asr-118",
+        "asr-119",
+        "asr-120",
+        "asr-121",
+        "asr-122",
+        "asr-123"
+      ],
+      "windowStartMs": 309000,
+      "windowEndMs": 330000,
+      "practicePauseMs": 309000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 309000,
+          "observation": "前方等待车辆起步，接近右转路口停止线。"
+        },
+        {
+          "atMs": 330000,
+          "observation": "车辆右转后沿大学路行驶。"
+        }
+      ],
+      "guidance": "观察路口交通，按本路段方向打灯、减速，确认安全后转弯。",
+      "notes": [
+        "动作画面可以定位；不将04:50.050讲解起点填作口令时间。"
+      ],
+      "blockers": [
+        "ASR只转写了听到右转指令后的讲解，真实口令起点仍缺直接原声核实。"
+      ],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-bus-3",
+      "title": "返回大学路后的公交站",
+      "kind": "brake",
+      "direction": null,
+      "category": "silent",
+      "instructionCueIds": [],
+      "instructionMs": null,
+      "instructionStatus": "not-applicable",
+      "sourceCueIds": [
+        "asr-124",
+        "asr-125",
+        "asr-126"
+      ],
+      "windowStartMs": 332000,
+      "windowEndMs": 346000,
+      "practicePauseMs": 332000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 332000,
+          "observation": "右侧公交站候车亭被画面框出。"
+        },
+        {
+          "atMs": 346000,
+          "observation": "车辆沿候车亭旁通过，随后进入超车项目。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-overtake",
+      "title": "完成超车并返回原车道",
+      "kind": "overtake",
+      "direction": null,
+      "category": "command",
+      "instructionCueIds": [
+        "asr-127"
+      ],
+      "instructionMs": 356966,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-127",
+        "asr-128",
+        "asr-129",
+        "asr-130",
+        "asr-131",
+        "asr-132",
+        "asr-133",
+        "asr-134",
+        "asr-135",
+        "asr-136",
+        "asr-137",
+        "asr-138",
+        "asr-139",
+        "asr-140",
+        "asr-141",
+        "asr-142",
+        "asr-143",
+        "asr-144",
+        "asr-145",
+        "asr-146",
+        "asr-147",
+        "asr-148",
+        "asr-149",
+        "asr-150",
+        "asr-151",
+        "asr-152"
+      ],
+      "windowStartMs": 393000,
+      "windowEndMs": 415000,
+      "practicePauseMs": 393000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 393000,
+          "observation": "后方车流等待结束，重新准备打灯向左变道。"
+        },
+        {
+          "atMs": 415000,
+          "observation": "驶出并回到原车道，超车讲解结束。"
+        }
+      ],
+      "guidance": "观察并打左灯，安全驶出；车辆平稳后观察并打右灯，安全返回原车道。",
+      "notes": [
+        "口令约05:56.966，素材中后续有较长等候，不能把等候时间作为超车超时。"
+      ],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-cross-4",
+      "title": "返回大学路后的路口直行",
+      "kind": "brake",
+      "direction": null,
+      "category": "command",
+      "instructionCueIds": [
+        "asr-153"
+      ],
+      "instructionMs": 462533,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-153",
+        "asr-154",
+        "asr-155",
+        "asr-156",
+        "asr-157"
+      ],
+      "windowStartMs": 535000,
+      "windowEndMs": 547000,
+      "practicePauseMs": 535000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 535000,
+          "observation": "排队红灯结束，车辆重新接近停止线。"
+        },
+        {
+          "atMs": 547000,
+          "observation": "车辆跟随前车通过路口，接下来留意公交站。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [
+        "07:42.533口令之后经历较长红灯排队；动作位置约09:00附近。"
+      ],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-bus-4",
+      "title": "终点前的公交站",
+      "kind": "brake",
+      "direction": null,
+      "category": "silent",
+      "instructionCueIds": [],
+      "instructionMs": null,
+      "instructionStatus": "not-applicable",
+      "sourceCueIds": [
+        "asr-158",
+        "asr-159"
+      ],
+      "windowStartMs": 558000,
+      "windowEndMs": 574000,
+      "practicePauseMs": 558000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 558000,
+          "observation": "经过路口后右侧公交站接近。"
+        },
+        {
+          "atMs": 574000,
+          "observation": "候车亭位于车辆右侧后方，继续沿大学路行驶。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-meeting",
+      "title": "终点前会车减速",
+      "kind": "brake",
+      "direction": null,
+      "category": "command",
+      "instructionCueIds": [
+        "asr-160"
+      ],
+      "instructionMs": 590050,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-160",
+        "asr-161",
+        "asr-162"
+      ],
+      "windowStartMs": 590000,
+      "windowEndMs": 597000,
+      "practicePauseMs": 590000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 590000,
+          "observation": "车辆经过前方交通后进入会车口令路段。"
+        },
+        {
+          "atMs": 597000,
+          "observation": "会车路段结束，前方检查区接近。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-inspection",
+      "title": "检查区无口令减速",
+      "kind": "brake",
+      "direction": null,
+      "category": "silent",
+      "instructionCueIds": [],
+      "instructionMs": null,
+      "instructionStatus": "not-applicable",
+      "sourceCueIds": [
+        "asr-163",
+        "asr-164",
+        "asr-165",
+        "asr-166",
+        "asr-167",
+        "asr-168"
+      ],
+      "windowStartMs": 601000,
+      "windowEndMs": 611000,
+      "practicePauseMs": 601000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 601000,
+          "observation": "前方右侧检查区黄色标线接近，画面框出黄色区域。"
+        },
+        {
+          "atMs": 611000,
+          "observation": "车辆经过黄色区域，检查区讲解结束。"
+        }
+      ],
+      "guidance": "识别道路位置，提前观察并平顺减速。",
+      "notes": [
+        "黄色检查区位置已看图核对；是否为当前考场必考扣分点仍需规则依据。"
+      ],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    },
+    {
+      "id": "6-parking",
+      "title": "靠边停车",
+      "kind": "parking",
+      "direction": "right",
+      "category": "command",
+      "instructionCueIds": [
+        "asr-184"
+      ],
+      "instructionMs": 670000,
+      "instructionStatus": "asr-caption-supported",
+      "sourceCueIds": [
+        "asr-184",
+        "asr-185",
+        "asr-186",
+        "asr-187",
+        "asr-188",
+        "asr-189",
+        "asr-190",
+        "asr-191",
+        "asr-192",
+        "asr-193",
+        "asr-194",
+        "asr-195",
+        "asr-196",
+        "asr-197",
+        "asr-198"
+      ],
+      "windowStartMs": 672000,
+      "windowEndMs": 703000,
+      "practicePauseMs": 672000,
+      "timingStatus": "visual-reviewed",
+      "uncertaintyMs": 5000,
+      "evidence": [
+        {
+          "atMs": 672000,
+          "observation": "长时间等候与预讲解结束，车辆驶向路面裂缝停车参照。"
+        },
+        {
+          "atMs": 703000,
+          "observation": "车辆靠边位置稳定，随后讲解P挡和驻车制动。"
+        }
+      ],
+      "guidance": "观察右后方，打右灯、减速靠边；停车位置及收尾另行核对，不把按钮当作驾驶物理。",
+      "notes": [],
+      "blockers": [],
+      "ruleStatus": "unverified",
+      "audioStatus": "asr-only"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "6-speed",
+      "startMs": 34000,
+      "endMs": 49000,
+      "kind": "speed-explanation",
+      "sourceCueIds": [
+        "asr-16",
+        "asr-17",
+        "asr-18",
+        "asr-19",
+        "asr-20",
+        "asr-21",
+        "asr-22",
+        "asr-23"
+      ],
+      "note": "提速及松油门自然减速为讲解内容，不把直线行驶前机械设置为踩刹车。"
+    },
+    {
+      "id": "6-school-exit",
+      "startMs": 70000,
+      "endMs": 79000,
+      "kind": "school-exit",
+      "sourceCueIds": [
+        "asr-35",
+        "asr-36",
+        "asr-37",
+        "asr-38"
+      ],
+      "note": "已驶离学校区域是提示信息，不作为进入学校的制动口令。"
+    },
+    {
+      "id": "6-wait-uturn",
+      "startMs": 185000,
+      "endMs": 197000,
+      "kind": "traffic-wait",
+      "sourceCueIds": [
+        "asr-68",
+        "asr-69",
+        "asr-70",
+        "asr-71",
+        "asr-72",
+        "asr-73",
+        "asr-74"
+      ],
+      "note": "掉头前因前车距离近等候。"
+    },
+    {
+      "id": "6-restaurant",
+      "startMs": 263000,
+      "endMs": 290000,
+      "kind": "conditional-choice",
+      "sourceCueIds": [
+        "asr-97",
+        "asr-98",
+        "asr-99",
+        "asr-100",
+        "asr-101",
+        "asr-102",
+        "asr-103",
+        "asr-104",
+        "asr-105",
+        "asr-106",
+        "asr-107",
+        "asr-108",
+        "asr-109"
+      ],
+      "note": "饭店路口选道与绕过停放车辆的条件讲解；不自动定义无需打灯或压线许可。"
+    },
+    {
+      "id": "6-wait-turn",
+      "startMs": 290000,
+      "endMs": 309000,
+      "kind": "traffic-wait",
+      "sourceCueIds": [
+        "asr-110",
+        "asr-111",
+        "asr-112",
+        "asr-113",
+        "asr-114",
+        "asr-115",
+        "asr-116",
+        "asr-117",
+        "asr-118",
+        "asr-119",
+        "asr-120"
+      ],
+      "note": "返回大学路右转前等待信号及前车起步。"
+    },
+    {
+      "id": "6-wait-overtake",
+      "startMs": 370000,
+      "endMs": 393000,
+      "kind": "traffic-wait",
+      "sourceCueIds": [
+        "asr-134",
+        "asr-135",
+        "asr-136",
+        "asr-137",
+        "asr-138",
+        "asr-139",
+        "asr-140",
+        "asr-141",
+        "asr-142",
+        "asr-143",
+        "asr-144",
+        "asr-145",
+        "asr-146"
+      ],
+      "note": "超车前等待后方交通，关闭后重新开启转向灯。"
+    },
+    {
+      "id": "6-wait-cross",
+      "startMs": 492000,
+      "endMs": 535000,
+      "kind": "traffic-wait",
+      "sourceCueIds": [
+        "asr-154",
+        "asr-155",
+        "asr-156",
+        "asr-157"
+      ],
+      "note": "红灯排队；停车位置不是第一辆车，之后随车流接近停止线。"
+    },
+    {
+      "id": "6-negative",
+      "startMs": 583000,
+      "endMs": 592000,
+      "kind": "negative-example",
+      "sourceCueIds": [],
+      "note": "画面明确提醒这个操作不要学，并要求考试时跟随前车；作者本次绕过慢车的示范不归为路线要求或超车评分。"
+    },
+    {
+      "id": "6-wait-parking",
+      "startMs": 625000,
+      "endMs": 671000,
+      "kind": "traffic-wait",
+      "sourceCueIds": [
+        "asr-173",
+        "asr-174",
+        "asr-175",
+        "asr-176",
+        "asr-177",
+        "asr-178",
+        "asr-179",
+        "asr-180",
+        "asr-181",
+        "asr-182",
+        "asr-183"
+      ],
+      "note": "靠边停车前等候、讲解及定格。"
+    },
+    {
+      "id": "6-finish",
+      "startMs": 703000,
+      "endMs": 711000,
+      "kind": "finish",
+      "sourceCueIds": [
+        "asr-198",
+        "asr-199",
+        "asr-200"
+      ],
+      "note": "收尾只记录讲解，摄像头未覆盖挡位及驻车制动等全部动作，不作评分。"
+    }
+  ],
+  "issues": [
+    {
+      "id": "6-turn-audio",
+      "startMs": 273000,
+      "endMs": 313000,
+      "question": "返回大学路的独立右转口令准确在何时？",
+      "impact": "动作区间已有画面依据；片段同时包含选道讲解和右转预告，供定位漏识别口令，不把讲解起点冒充口令。"
+    },
+    {
+      "id": "6-restaurant-rule",
+      "startMs": 263000,
+      "endMs": 290000,
+      "question": "饭店路口选道及不需要打灯的说法适用什么标线情境？",
+      "impact": "保留条件讲解，不建立该段强制选道或豁免规则。"
+    }
+  ]
+}

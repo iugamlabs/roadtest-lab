@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "media": [
+    {
+      "routeId": "5",
+      "file": "raw/汕头大学路科目三五号线超详细教学.mp4",
+      "sha256": "83e0f5a8352c3731b0b80bc2003e6cc13ed14dc6ee1cfb8cf2ce37d999fed610",
+      "durationMs": 693967,
+      "width": 1280,
+      "height": 720,
+      "frameRate": "30/1",
+      "hasAudio": true
+    },
+    {
+      "routeId": "6",
+      "file": "raw/汕头大学路科目三六号线超详细教学.mp4",
+      "sha256": "2b1cf86c7ee45c8422f1d8f7cb1a4c457038d11d44073a6516238ab7175c235b",
+      "durationMs": 711200,
+      "width": 1920,
+      "height": 1080,
+      "frameRate": "30/1",
+      "hasAudio": true
+    },
+    {
+      "routeId": "7",
+      "file": "raw/汕头大学路科目三七号线超详细教学.mp4",
+      "sha256": "a5029ba37cb417e91fe27f31352a17001f6ea9bd8f3827eabbe14ec35d01b7b3",
+      "durationMs": 787833,
+      "width": 1920,
+      "height": 1080,
+      "frameRate": "30/1",
+      "hasAudio": true
+    }
+  ]
+}

@@ -7,3 +7,4 @@ public/media/
 coverage/
 *.local
 .sites-runtime/
+artifacts/calibration/

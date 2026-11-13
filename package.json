@@ -9,14 +9,16 @@
   },
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "node scripts/prepare-subtitles.mjs && vite build && tsc --noEmit",
+    "build": "node scripts/prepare-subtitles.mjs && node --experimental-strip-types scripts/prepare-events.mjs && vite build && tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "prepare:media": "node scripts/prepare-media.mjs",
     "import:ocr": "node scripts/import-ocr.mjs",
     "import:asr": "node scripts/import-asr.mjs",
-    "prepare:subtitles": "node scripts/prepare-subtitles.mjs"
+    "prepare:subtitles": "node scripts/prepare-subtitles.mjs",
+    "prepare:events": "node --experimental-strip-types scripts/prepare-events.mjs",
+    "calibrate:media": "node --experimental-strip-types scripts/calibrate-media.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.6",
