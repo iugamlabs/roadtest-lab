@@ -8,7 +8,7 @@
 - `src/features/training/engine.ts`：纯状态转换，接收媒体位置、操作和单调时钟时间，不依赖 DOM 或 React。
 - `controller.ts`：衔接视频播放、暂停、定位及媒体事件，区分引擎定位与学员拖动。可使用替代媒体对象进行测试。
 - `use-training.ts`：订阅引擎快照，绑定媒体、页面可见性事件和计时刷新；切换路线或卸载时取消监听、定时器及播放请求。
-- `training-panel.tsx`：复用 shadcn Card、Button、Badge，展示当前步骤、文字反馈、车辆状态和项目列表。
+- `training-panel.tsx`：复用 shadcn Button、Badge，展示当前步骤、文字反馈、车辆状态和项目列表；完整步骤在播放器侧展示，项目列表放入 Sheet。
 - `practice-events.ts`：保留来源事件，单独携带本机 `manualPauseMs`，通过 `pauseTimeMs()` 读取实际暂停点。
 - `manual-calibration.ts` / `use-manual-calibration.ts`：校验、读取和保存本机人工时间；`calibration-panel.tsx` 提供视频对照编辑、备份与恢复。
 
