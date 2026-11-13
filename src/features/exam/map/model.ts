@@ -25,6 +25,7 @@ export interface MapState extends MapFrame {
   route: MapRoute; seed: number; mode: 'practice' | 'assessment'; single: number | null; outcome: 'passed' | 'failed' | 'aborted' | null
   score: number; completed: string[]; faults: MapFault[]; corrections: number; feedback: string; pauses: MapPause[]
   voice: boolean; announcement: { id: number; text: string } | null; sequence: number
+  interaction: { id: number; operation: MapOperation; blocked: boolean; deducted: boolean } | null
   operations: { sceneId: string; atMs: number; operation: MapOperation }[]
 }
 export type MapAction =
@@ -43,9 +44,14 @@ export function createMapSession(routeId: RouteId, seed = 0, mode: MapState['mod
   return { route, seed: seed >>> 0, mode, voice, single: singleSceneId ? index : null,
     index, leg: 0, phase: 'ready', progress: 0, maneuver: 0, elapsedMs: 0, stageMs: 0, trafficAtMs: null,
     indicator: null, signalAtMs: null, observed: false, slow: false, stopped: false, stoppedForLook: false, gearP: false, handbrake: false,
-    outcome: null, score: 100, completed: [], faults: [], corrections: 0, feedback: '准备好后开始，车辆到操作位置会等你。', pauses: [], announcement: null, sequence: 0, operations: [] }
+    outcome: null, score: 100, completed: [], faults: [], corrections: 0, feedback: '准备好后开始，车辆到操作位置会等你。', pauses: [], announcement: null, sequence: 0, interaction: null, operations: [] }
 }
 export const currentMapScene = (state: MapState) => state.route.scenes[state.index]
+// Every node has a teaching announcement; observational nodes are not presented as official commands.
+export function mapNodePrompt(state: Pick<MapState, 'route' | 'index'>) {
+  const scene = state.route.scenes[state.index]
+  return scene.command || `前方${scene.title}。请自主观察道路与交通情况。`
+}
 export const canMapOperate = (state: MapState) => state.phase !== 'ready' && state.phase !== 'finished' && state.pauses.length === 0
 export function mapFrame(state: MapFrame): MapFrame {
   const { index, leg, phase, progress, maneuver, elapsedMs, stageMs, trafficAtMs, indicator, signalAtMs, observed, slow, stopped, stoppedForLook, gearP, handbrake } = state
@@ -82,34 +88,39 @@ function announce(state: MapState, text: string): MapState {
   return { ...state, sequence: id, announcement: state.voice ? { id, text } : null,
     pauses: state.voice ? [...new Set([...state.pauses, 'speech' as const])] : state.pauses }
 }
-function finish(state: MapState, outcome: MapState['outcome']): MapState {
+function finish(state: MapState, outcome: MapState['outcome'], spokenReason = ''): MapState {
   return announce({ ...state, phase: 'finished', outcome, stopped: true, pauses: [],
     feedback: outcome === 'passed' ? state.mode === 'practice' ? '本次路线练习完成。可以重练项目，或换一条路线。' : '本次操作考核合格。' : outcome === 'failed' ? '成绩低于90分，本次操作考核结束。' : '本次体验已结束。' },
-    outcome === 'passed' ? state.mode === 'practice' ? '本次路线练习完成。' : `本次操作考核合格，${state.score}分。` : outcome === 'failed' ? `本次成绩${state.score}分，考核结束。` : '本次体验已结束。')
+    spokenReason + (outcome === 'passed' ? state.mode === 'practice' ? '本次路线练习完成。' : `本次操作考核合格，${state.score}分。` : outcome === 'failed' ? `当前${state.score}分，低于90分，考试结束。` : '本次体验已结束。'))
 }
 function issue(state: MapState, rule: string, reason: string, advice: string, operation: MapOperation): MapState {
+  state = { ...state, interaction: state.interaction ? { ...state.interaction, blocked: true } : null }
   if (state.mode === 'practice') return { ...state, corrections: state.corrections + 1, feedback: `${reason}。${advice}` }
   const scene = currentMapScene(state)
   const id = `${scene.id}:${state.leg}:${rule}`
   if (state.faults.some(fault => fault.id === id)) return { ...state, feedback: `${reason}。${advice}` }
-  const next = { ...state, score: state.score - 10, feedback: `${reason}，扣10分。${advice}`, faults: [...state.faults,
+  const next = { ...state, interaction: state.interaction ? { ...state.interaction, deducted: true } : null, score: state.score - 10, feedback: `${reason}，扣10分。${advice}`, faults: [...state.faults,
     { id, sceneId: scene.id, title: scene.title, rule, reason, advice, operation, cost: 10 as const, snapshot: mapFrame(state) }] }
-  return next.score < 90 ? finish(next, 'failed') : next
+  return next.score < 90 ? finish(next, 'failed', `${reason}，扣10分。`) : announce(next, `${reason}，扣10分，当前${next.score}分。${advice}`)
 }
 function enter(state: MapState, index: number): MapState {
   const alreadyThere = pathLength(state.route.scenes[index].approach) < .001
   return announce({ ...state, index, leg: 0, phase: alreadyThere ? 'decision' : 'approach', progress: alreadyThere ? 1 : 0, maneuver: 0, stageMs: 0, trafficAtMs: alreadyThere ? 0 : null,
     observed: false, slow: false, stopped: false, stoppedForLook: false,
-    feedback: alreadyThere ? '已到下一项操作位置，准备好后点通行。' : '车辆缓慢驶向下一处操作位置，请留意道路和交通。' }, state.route.scenes[index].command)
+    feedback: alreadyThere ? '已到下一项操作位置，准备好后点通行。' : '车辆缓慢驶向下一处操作位置，请留意道路和交通。' }, mapNodePrompt({ ...state, index }))
 }
 function complete(state: MapState): MapState {
   return { ...state, phase: 'review', stopped: true, completed: [...new Set([...state.completed, currentMapScene(state).id])],
     feedback: state.indicator ? '本项已完成。点同一盏灯关闭，再点通行继续。' : state.index === state.route.scenes.length - 1 || state.single !== null ? '本项已完成，点通行查看结果。' : '本项已完成，准备好后点通行继续路线。' }
 }
 export function mapReducer(state: MapState, action: MapAction): MapState {
-  if (action.type === 'start') return state.phase === 'ready' ? enter({ ...state, pauses: [] }, state.index) : state
-  if (action.type === 'set-voice') return action.value ? { ...state, voice: true } : { ...state, voice: false, announcement: null, pauses: state.pauses.filter(reason => reason !== 'speech' && reason !== 'voice-error') }
-  if (action.type === 'repeat-command') return state.voice && currentMapScene(state).command ? announce(state, currentMapScene(state).command) : state
+  if (action.type === 'start') {
+    if (state.phase !== 'ready') return state
+    const next = enter({ ...state, pauses: [] }, state.index)
+    return announce(next, `${state.single !== null ? '单项练习开始。' : state.mode === 'assessment' ? '模拟考试开始。请立即起步，注意观察，确保安全。' : '路线练习开始。请做好起步准备，确认安全后起步。'}${mapNodePrompt(next)}`)
+  }
+  if (action.type === 'set-voice') return action.value ? announce({ ...state, voice: true }, state.phase === 'ready' ? '语音播报已开启。准备好后，请点击开始。' : mapNodePrompt(state)) : { ...state, voice: false, announcement: null, pauses: state.pauses.filter(reason => reason !== 'speech' && reason !== 'voice-error') }
+  if (action.type === 'repeat-command') return state.voice ? announce(state, state.announcement?.text ?? (state.phase === 'ready' ? '语音播报已开启。准备好后，请点击开始。' : mapNodePrompt(state))) : state
   if (action.type === 'pause') return { ...state, pauses: action.value ? [...new Set([...state.pauses, action.reason, ...(action.reason === 'hidden' ? ['user' as const] : [])])] : state.pauses.filter(reason => reason !== action.reason) }
   if (action.type === 'speech-end' || action.type === 'speech-error') {
     if (state.announcement?.id !== action.id) return state
@@ -133,9 +144,9 @@ export function mapReducer(state: MapState, action: MapAction): MapState {
       next.maneuver = Math.min(1, state.maneuver + delta / (state.slow ? 4800 : 3200))
       if (next.maneuver >= 1 - 1e-8) {
         next.maneuver = 1
-        if (currentMapScene(state).kind === 'overtake' && state.leg === 0) return { ...next, leg: 1, maneuver: 0, phase: 'decision', observed: false, stageMs: 0, trafficAtMs: 0,
-          feedback: '已驶入超车道。关闭左灯，观察并打右灯，确认安全后返回。' }
-        if (currentMapScene(state).kind === 'parking') return { ...next, phase: 'secure', stopped: true, feedback: '已靠边停稳。关闭右灯，挂P挡并拉驻车制动，再点通行。' }
+        if (currentMapScene(state).kind === 'overtake' && state.leg === 0) return announce({ ...next, leg: 1, maneuver: 0, phase: 'decision', observed: false, stageMs: 0, trafficAtMs: 0,
+          feedback: '已驶入超车道。关闭左灯，观察并打右灯，确认安全后返回。' }, '已完成超车，请在确认安全后返回原车道。')
+        if (currentMapScene(state).kind === 'parking') return announce({ ...next, phase: 'secure', stopped: true, feedback: '已靠边停稳。关闭右灯，挂P挡并拉驻车制动，再点通行。' }, '车辆已停稳，请完成停车收尾。')
         return complete(next)
       }
     }
@@ -143,7 +154,7 @@ export function mapReducer(state: MapState, action: MapAction): MapState {
   }
   if (action.type !== 'operate' || !canMapOperate(state)) return state
   const operation = action.operation
-  state = { ...state, operations: [...state.operations, { sceneId: currentMapScene(state).id, atMs: state.elapsedMs, operation }].slice(-2000) }
+  state = { ...state, interaction: { id: (state.interaction?.id ?? 0) + 1, operation, blocked: false, deducted: false }, operations: [...state.operations, { sceneId: currentMapScene(state).id, atMs: state.elapsedMs, operation }].slice(-2000) }
   if (operation === 'left' || operation === 'right') {
     const indicator = state.indicator === operation ? null : operation
     return { ...state, indicator, signalAtMs: indicator ? state.elapsedMs : null, feedback: indicator ? `${indicator === 'left' ? '左' : '右'}灯已开启，再点一次可关闭。` : state.phase === 'review' ? '转向灯已关闭，点通行继续。' : '转向灯已关闭。' }

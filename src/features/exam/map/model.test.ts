@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { createMapSession, currentMapScene, mapCarPose, mapReducer, mapTraffic, type MapOperation, type MapState } from './model'
+import { createMapSession, currentMapScene, mapCarPose, mapNodePrompt, mapReducer, mapTraffic, type MapOperation, type MapState } from './model'
 import { mapRoute } from './routes'
 import { distance, onRoad, pathLength, poseAt } from './geometry'
-import { mapResult, mapResultSchema, readMapHistory, saveMapResult, MAP_HISTORY_KEY } from './history'
+import { mapResult, mapResultSchema, readMapHistory, readMapSettings, saveMapResult, MAP_HISTORY_KEY, MAP_SETTINGS_KEY } from './history'
 
 const operate = (state: MapState, operation: MapOperation) => mapReducer(state, { type: 'operate', operation })
 function wait(state: MapState, ms: number) { let next = state; for (let time = 0; time < ms; time += 100) next = mapReducer(next, { type: 'tick', deltaMs: 100 }); return next }
@@ -153,6 +153,52 @@ describe('three continuous 2D routes', () => {
     expect(state.announcement).not.toBeNull()
     state = mapReducer(state, { type: 'text-only' })
     expect(state.pauses).toEqual(['user'])
+  })
+  it('announces startup and every node, including observational teaching reminders', () => {
+    for (const id of ['5', '6', '7'] as const) {
+      const ready = createMapSession(id, 42, 'assessment', true)
+      const preview = mapReducer(ready, { type: 'repeat-command' })
+      expect(preview.phase).toBe('ready')
+      expect(preview.announcement?.text).toContain('语音播报已开启')
+      let state = mapReducer(ready, { type: 'start' })
+      expect(state.announcement?.text).toContain('模拟考试开始。请立即起步')
+      for (const scene of state.route.scenes) {
+        const index = state.route.scenes.indexOf(scene)
+        const before = { ...state, index, phase: 'review' as const, pauses: [], indicator: null, announcement: null }
+        if (index === state.route.scenes.length - 1) continue
+        state = operate(before, 'go')
+        expect(state.announcement?.text).toBe(mapNodePrompt(state))
+        expect(state.announcement?.text.length).toBeGreaterThan(0)
+        expect(wait(state, 10000).progress).toBe(state.progress)
+        const announcement = state.announcement!
+        state = mapReducer(state, { type: 'speech-end', id: announcement.id })
+      }
+    }
+  })
+  it('defaults new audio settings on and preserves explicit mute choices', () => {
+    expect(readMapSettings({ getItem: () => null, setItem: () => {} })).toEqual({ voice: true, sound: true })
+    expect(readMapSettings({ getItem: key => key === MAP_SETTINGS_KEY ? '{"voice":false,"sound":false}' : null, setItem: () => {} })).toEqual({ voice: false, sound: false })
+  })
+  it('speaks each new deduction, preserves 90 points, and includes the reason when ending below 90', () => {
+    let state = wait(start('5', 'assessment'), 25000)
+    state = { ...state, voice: true }
+    state = operate(state, 'go')
+    expect(state.announcement?.text).toContain('扣10分，当前90分')
+    expect(state.announcement?.text).toContain('尚未在操作位置停稳')
+    expect(state.interaction).toMatchObject({ blocked: true, deducted: true })
+    expect(wait(state, 10000).elapsedMs).toBe(state.elapsedMs)
+    state = mapReducer(state, { type: 'speech-end', id: state.announcement!.id })
+    const sequence = state.sequence
+    state = operate(state, 'go')
+    expect(state.score).toBe(90)
+    expect(state.sequence).toBe(sequence)
+    expect(state.interaction).toMatchObject({ blocked: true, deducted: false })
+    state = operate(state, 'stop')
+    state = operate(state, 'go')
+    expect(state.score).toBe(80)
+    expect(state.phase).toBe('finished')
+    expect(state.announcement?.text).toContain('尚未观察')
+    expect(state.announcement?.text).toContain('扣10分。当前80分，低于90分，考试结束')
   })
   it('treats replay as an independent single project and does not continue the full route', () => {
     const state = finishScene(start('7', 'practice', 0, 'scene-7-uturn-2'))

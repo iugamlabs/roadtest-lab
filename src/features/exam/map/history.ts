@@ -4,8 +4,10 @@ import { MAP_RULE_VERSION, faultSchema, mapOperationSchema, type MapState } from
 import { mapRoute } from './routes'
 
 export const MAP_HISTORY_KEY = 'roadtest.map-assessments.v1'
-export const MAP_SETTINGS_KEY = 'roadtest.map-settings.v1'
-export const mapSettingsSchema = z.object({ voice: z.boolean() })
+// v1 saved the old default-off preference even without a user action.
+// Start the new audio experience enabled once, then preserve every explicit choice.
+export const MAP_SETTINGS_KEY = 'roadtest.map-settings.v2'
+export const mapSettingsSchema = z.object({ voice: z.boolean(), sound: z.boolean().default(true) })
 export const mapResultSchema = z.object({
   version: z.literal(MAP_RULE_VERSION), id: z.string().min(1), routeId: routeIdSchema,
   seed: z.number().int().min(0).max(0xffffffff), finishedAt: z.string().datetime(),
@@ -40,6 +42,6 @@ export function saveMapResult(storage: StoragePort, result: MapResult) {
   const checked = mapResultSchema.parse(result)
   try { storage.setItem(MAP_HISTORY_KEY, JSON.stringify([checked, ...readMapHistory(storage).filter(record => record.id !== checked.id)].slice(0, 12))); return true } catch { return false }
 }
-export function readMapVoice(storage: StoragePort) {
-  try { return mapSettingsSchema.parse(JSON.parse(storage.getItem(MAP_SETTINGS_KEY) ?? '{"voice":false}')).voice } catch { return false }
+export function readMapSettings(storage: StoragePort) {
+  try { return mapSettingsSchema.parse(JSON.parse(storage.getItem(MAP_SETTINGS_KEY) ?? '{"voice":true,"sound":true}')) } catch { return { voice: true, sound: true } }
 }

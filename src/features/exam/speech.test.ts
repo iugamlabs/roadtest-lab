@@ -42,11 +42,16 @@ describe('browser speech boundary', () => {
     env.voicesChanged(); env.voicesChanged()
     expect(env.synth.speak).toHaveBeenCalledOnce()
   })
-  it('fails explicitly when Chinese voices or completion callbacks are unavailable', () => {
+  it('asks the system to resolve Mandarin when the voice list stays empty', () => {
     const missing = setup([])
     new BrowserSpeech().speak('请停车。', missing.callbacks)
-    vi.advanceTimersByTime(2500)
+    vi.advanceTimersByTime(1500)
+    expect(missing.utterance().lang).toBe('zh-CN')
+    expect(missing.utterance().voice).toBeUndefined()
+    missing.utterance().onerror?.()
     expect(missing.callbacks.error).toHaveBeenCalledOnce()
+  })
+  it('fails explicitly if the speech engine never completes', () => {
     const hanging = setup()
     new BrowserSpeech().speak('请停车。', hanging.callbacks)
     vi.advanceTimersByTime(30000)
