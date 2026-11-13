@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { routeIdSchema, type RouteId } from '@/features/content/schema'
+import { routeIdSchema, subtitleText, type RouteId } from '@/features/content/schema'
 import { formatTime, mediaUrl, roadRoutes, subtitlesQueryOptions } from '@/features/content/queries'
 import { useSettings } from '@/features/settings/settings'
 
@@ -46,7 +46,7 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
   const [indicator, setIndicator] = useState<'left' | 'right' | 'off'>('off')
   const [showMap, setShowMap] = useState(false)
   const [mapError, setMapError] = useState(false)
-  const [showOcr, setShowOcr] = useState(false)
+  const [showSubtitles, setShowSubtitles] = useState(false)
   const currentCue = data.cues.find(cue => cue.startMs <= time * 1000 && cue.endMs > time * 1000)
 
   useEffect(() => { if (video.current) video.current.playbackRate = Number(speed) }, [speed])
@@ -119,6 +119,6 @@ function RoutePlayer({ routeId }: { routeId: RouteId }) {
         </CardContent></Card>
       </aside>
     </div>
-    <Card className="mt-5 gap-0"><CardContent><div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-lg font-semibold">原始 OCR 字幕</h2><Button variant="outline" aria-expanded={showOcr} onClick={() => setShowOcr(value => !value)}>{showOcr ? '收起字幕' : '显示当前字幕'}</Button></div><p className="muted mt-2 text-base">文字尚未校对，不能直接作为考试指令。完整字幕可在路线资料中查看。</p>{showOcr && <p className="mt-4 whitespace-pre-line rounded-md bg-secondary p-4 text-lg">{currentCue?.rawText ?? '当前时段没有 OCR 字幕。'}</p>}</CardContent></Card>
+    <Card className="mt-5 gap-0"><CardContent><div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-lg font-semibold">教学字幕</h2><Button variant="outline" aria-expanded={showSubtitles} onClick={() => setShowSubtitles(value => !value)}>{showSubtitles ? '收起字幕' : '显示当前字幕'}</Button></div><p className="muted mt-2 text-base">跟随视频查看讲解。完整字幕可在路线资料中查看。</p>{showSubtitles && <p className="mt-4 whitespace-pre-line rounded-md bg-secondary p-4 text-lg">{currentCue ? subtitleText(currentCue) : '当前时段没有字幕。'}</p>}</CardContent></Card>
   </>
 }
