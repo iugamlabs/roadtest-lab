@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MaterialsRouteImport } from './routes/materials'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ExamIndexRouteImport } from './routes/exam.index'
+import { Route as ExamRouteIdRouteImport } from './routes/exam.$routeId'
 import { Route as TrainIndexRouteImport } from './routes/train.index'
 import { Route as TrainRouteIdRouteImport } from './routes/train.$routeId'
 
@@ -30,6 +32,16 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExamIndexRoute = ExamIndexRouteImport.update({
+  id: '/exam/',
+  path: '/exam/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamRouteIdRoute = ExamRouteIdRouteImport.update({
+  id: '/exam/$routeId',
+  path: '/exam/$routeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrainIndexRoute = TrainIndexRouteImport.update({
   id: '/train/',
   path: '/train/',
@@ -45,14 +57,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
+  '/exam/$routeId': typeof ExamRouteIdRoute
   '/train/$routeId': typeof TrainRouteIdRoute
+  '/exam/': typeof ExamIndexRoute
   '/train/': typeof TrainIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
+  '/exam/$routeId': typeof ExamRouteIdRoute
   '/train/$routeId': typeof TrainRouteIdRoute
+  '/exam': typeof ExamIndexRoute
   '/train': typeof TrainIndexRoute
 }
 export interface FileRoutesById {
@@ -60,20 +76,38 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/materials': typeof MaterialsRoute
   '/settings': typeof SettingsRoute
+  '/exam/$routeId': typeof ExamRouteIdRoute
   '/train/$routeId': typeof TrainRouteIdRoute
+  '/exam/': typeof ExamIndexRoute
   '/train/': typeof TrainIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/materials' | '/settings' | '/train/$routeId' | '/train/'
+  fullPaths:
+    | '/'
+    | '/materials'
+    | '/settings'
+    | '/exam/$routeId'
+    | '/train/$routeId'
+    | '/exam/'
+    | '/train/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/materials' | '/settings' | '/train/$routeId' | '/train'
+  to:
+    | '/'
+    | '/materials'
+    | '/settings'
+    | '/exam/$routeId'
+    | '/train/$routeId'
+    | '/exam'
+    | '/train'
   id:
     | '__root__'
     | '/'
     | '/materials'
     | '/settings'
+    | '/exam/$routeId'
     | '/train/$routeId'
+    | '/exam/'
     | '/train/'
   fileRoutesById: FileRoutesById
 }
@@ -81,7 +115,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MaterialsRoute: typeof MaterialsRoute
   SettingsRoute: typeof SettingsRoute
+  ExamRouteIdRoute: typeof ExamRouteIdRoute
   TrainRouteIdRoute: typeof TrainRouteIdRoute
+  ExamIndexRoute: typeof ExamIndexRoute
   TrainIndexRoute: typeof TrainIndexRoute
 }
 
@@ -108,6 +144,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/exam/': {
+      id: '/exam/'
+      path: '/exam'
+      fullPath: '/exam/'
+      preLoaderRoute: typeof ExamIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exam/$routeId': {
+      id: '/exam/$routeId'
+      path: '/exam/$routeId'
+      fullPath: '/exam/$routeId'
+      preLoaderRoute: typeof ExamRouteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/train/': {
       id: '/train/'
       path: '/train'
@@ -129,7 +179,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MaterialsRoute: MaterialsRoute,
   SettingsRoute: SettingsRoute,
+  ExamRouteIdRoute: ExamRouteIdRoute,
   TrainRouteIdRoute: TrainRouteIdRoute,
+  ExamIndexRoute: ExamIndexRoute,
   TrainIndexRoute: TrainIndexRoute,
 }
 export const routeTree = rootRouteImport

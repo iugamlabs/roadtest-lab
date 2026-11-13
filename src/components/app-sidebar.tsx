@@ -1,5 +1,5 @@
 import { Link, useRouterState } from '@tanstack/react-router'
-import { BookOpen, CarFront, House, PanelLeftClose, PanelLeftOpen, Route as RouteIcon } from 'lucide-react'
+import { BookOpen, CarFront, ClipboardCheck, House, PanelLeftClose, PanelLeftOpen, Route as RouteIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 
@@ -12,6 +12,7 @@ export function AppSidebar() {
   const items = [
     { to: '/' as const, title: '首页', icon: House, active: pathname === '/' },
     { to: '/train' as const, title: '路线练习', icon: RouteIcon, active: pathname.startsWith('/train') },
+    { to: '/exam' as const, title: '场景考试', icon: ClipboardCheck, active: pathname.startsWith('/exam') },
     { to: '/materials' as const, title: '路线资料', icon: BookOpen, active: pathname === '/materials' },
   ]
   return <Sidebar collapsible="icon">

@@ -132,6 +132,20 @@
 .practice-feedback { border-radius: var(--radius-md); background: var(--secondary); color: var(--secondary-foreground); padding: .5rem .75rem; min-height: 3rem; font-size: 1rem; line-height: 1.5; }
 .player-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 input[type=range] { width: 100%; accent-color: var(--primary); }
+/* Media-only palette, independent from the application theme. */
+.exam-scene, .exam-mirror {
+  --scene-sky: #e2e9ec; --scene-buildings: #b3bdc1; --scene-ground: #b7bcae;
+  --scene-road: #5f686b; --scene-line: #f6f4e9; --scene-ink: #273137;
+  --scene-car: #c8d7db; --scene-glass: #91adb4; --scene-person: #283d4a;
+  --scene-stop: #c6312d; --scene-go: #239456; --scene-warning: #e3be4e;
+  --scene-sign: #35658b; --scene-dashboard: #394348;
+}
+.exam-grid { grid-template-columns: minmax(0, 1.1fr) minmax(460px, 1fr); }
+.exam-scene { aspect-ratio: 1000 / 580; background: var(--scene-sky); }
+.exam-mirror { position: absolute; left: .5rem; top: .5rem; width: min(49%, 18rem); overflow: hidden; border: 2px solid var(--foreground); border-radius: var(--radius); background: var(--background); color: var(--foreground); }
+.exam-mirror-right { left: auto; right: .5rem; }
+@media (max-width: 1199px) { .exam-grid { grid-template-columns: 1fr; } }
+@media (max-width: 639px) { .exam-mirror { width: 72%; } .exam-mirror p { font-size: .8rem; line-height: 1.4; } }
 @media (max-width: 1023px) {
   .training-grid { grid-template-columns: 1fr; }
   .training-video-column { position: static; }
