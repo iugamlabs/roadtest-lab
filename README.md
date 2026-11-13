@@ -40,6 +40,12 @@ docs/content-workflow.md 字幕与事件校对约定
 
 React + TypeScript + Vite；Tailwind CSS；shadcn/ui；TanStack Router + Query；React Hook Form + Zod；Motion 使用 LazyMotion 异步加载，尊重减少动态效果设置。无后端、无账号、无远程转写服务。
 
+## UI 与主题
+
+应用布局基于官方 shadcn `sidebar-07` block，导航已适配 TanStack Router。桌面使用可折叠左侧栏，顶部提供收起/展开按钮，手机使用 Sheet 抽屉；页面使用 Card、Badge、Alert、Input、Label、Select、NativeSelect、Switch 等标准组件。路线页返回按钮位于标题左侧，播放速度使用 Select，路线图使用 Dialog 弹窗；打开路线图时暂停视频，关闭后手动继续。
+
+`src/styles.css` 的 `:root` / `.dark` 使用 shadcn 标准语义变量，包含 `sidebar-*` 和 `--radius`。后续可将 shadcn Themes 生成的变量替换到这两个作用域；页面配色、边框、圆角和焦点样式都会跟随主题。当前采用无卡片阴影的中性扁平样式，保留 20px 基础字号和至少 56px 的主要按钮。
+
 ## 当前边界
 
 - 播放以视频时间为准；操作区仅用于熟悉按钮，不影响影片车速，也不计分。
