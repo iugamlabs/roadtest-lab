@@ -1,11 +1,11 @@
 import { useEffect, useState, useSyncExternalStore, type RefObject } from 'react'
-import type { CalibratedEvent } from '../content/schema'
+import type { PracticeEvent } from './practice-events'
 import { createTrainingState } from './engine'
 import { TrainingController } from './controller'
 
 const emptySubscribe = () => () => {}
 
-export function useTraining(events: CalibratedEvent[], video: RefObject<HTMLVideoElement | null>) {
+export function useTraining(events: PracticeEvent[], video: RefObject<HTMLVideoElement | null>) {
   const [controller, setController] = useState<TrainingController | null>(null)
   const [initial] = useState(() => createTrainingState(events))
   useEffect(() => {

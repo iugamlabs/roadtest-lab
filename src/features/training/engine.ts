@@ -1,4 +1,5 @@
-import { calibratedEventSchema, isPracticeReady, type CalibratedEvent } from '../content/schema'
+import { isPracticeReady, type CalibratedEvent } from '../content/schema'
+import { pauseTimeMs, practiceEventSchema, type PracticeEvent } from './practice-events'
 
 export type Operation = 'signal-left' | 'signal-right' | 'signal-off' | 'observe-left' | 'observe-right' | 'observe-front' | 'brake' | 'stop' | 'execute' | 'gear-p' | 'handbrake-on'
 export type Suspension = 'user' | 'buffering' | 'hidden' | 'map' | 'media-error'
@@ -27,7 +28,7 @@ export interface Attempt {
 export interface TrainingState {
   enabled: boolean
   phase: 'road' | 'practice' | 'review' | 'finished'
-  events: CalibratedEvent[]
+  events: PracticeEvent[]
   scope: string | null
   positionMs: number
   activeId: string | null
@@ -89,10 +90,10 @@ function requiredDirection(event: CalibratedEvent) {
   return event.direction
 }
 
-export function createTrainingState(events: CalibratedEvent[], now = 0, signalWaitMs = DEFAULT_SIGNAL_WAIT_MS): TrainingState {
+export function createTrainingState(events: PracticeEvent[], now = 0, signalWaitMs = DEFAULT_SIGNAL_WAIT_MS): TrainingState {
   // The same publication boundary is enforced even when a caller bypasses Query.
-  events = calibratedEventSchema.array().parse(events)
-  if (events.some((event, index) => !isPracticeReady(event) || event.id[0] !== events[0].id[0] || index > 0 && event.practicePauseMs < events[index - 1].practicePauseMs) || new Set(events.map(event => event.id)).size !== events.length) throw new Error('练习事件未通过发布检查')
+  events = practiceEventSchema.array().parse(events)
+  if (events.some((event, index) => !isPracticeReady(event) || event.id[0] !== events[0].id[0] || index > 0 && pauseTimeMs(event) <= pauseTimeMs(events[index - 1])) || new Set(events.map(event => event.id)).size !== events.length) throw new Error('练习事件未通过发布检查')
   if (!Number.isFinite(signalWaitMs) || signalWaitMs < 0) throw new Error('练习等待时长无效')
   events.forEach(stepsFor)
   return { enabled: false, phase: 'road', events, scope: null, positionMs: 0, activeId: null, stepIndex: 0, elapsedMs: 0, lastNowMs: now, signalWaitMs, suspensions: [], seeking: false, vehicle: freshVehicle(), progress: {}, attempts: [], corrections: 0, feedback: '点击开始全程练习，或选择一个项目单独练习。' }
@@ -106,8 +107,8 @@ export function signalRemainingMs(state: TrainingState) { return state.vehicle.s
 function record(state: TrainingState, outcome: Attempt['outcome']): Attempt[] {
   return state.activeId && state.phase === 'practice' ? [...state.attempts, { eventId: state.activeId, outcome, elapsedMs: state.elapsedMs, corrections: state.corrections }] : state.attempts
 }
-function enter(state: TrainingState, event: CalibratedEvent): TrainingState {
-  return { ...state, phase: 'practice', positionMs: event.practicePauseMs, activeId: event.id, stepIndex: 0, elapsedMs: 0, corrections: 0, vehicle: freshVehicle(), feedback: `开始「${event.title}」。${stepsFor(event)[0].label}。` }
+function enter(state: TrainingState, event: PracticeEvent): TrainingState {
+  return { ...state, phase: 'practice', positionMs: pauseTimeMs(event), activeId: event.id, stepIndex: 0, elapsedMs: 0, corrections: 0, vehicle: freshVehicle(), feedback: `开始「${event.title}」。${stepsFor(event)[0].label}。` }
 }
 function settle(state: TrainingState): TrainingState {
   const event = activeEvent(state)
@@ -126,7 +127,7 @@ function advance(state: TrainingState, now: number) {
 }
 function reposition(state: TrainingState, positionMs: number): TrainingState {
   // Crossing a node by seeking is never counted as a successful operation.
-  const progress = Object.fromEntries(state.events.filter(event => event.practicePauseMs < positionMs).map(event => [event.id, state.progress[event.id] === 'completed' ? 'completed' as const : 'skipped' as const]))
+  const progress = Object.fromEntries(state.events.filter(event => pauseTimeMs(event) < positionMs).map(event => [event.id, state.progress[event.id] === 'completed' ? 'completed' as const : 'skipped' as const]))
   return { ...state, phase: 'road', scope: null, positionMs, activeId: null, stepIndex: 0, elapsedMs: 0, corrections: 0, vehicle: freshVehicle(), progress, attempts: record(state, 'abandoned'), feedback: '位置已调整。之前未完成的项目已标为跳过；点击播放继续练习。' }
 }
 
@@ -152,7 +153,7 @@ export function trainingReducer(previous: TrainingState, action: TrainingAction)
       const scope = !action.single && state.enabled && state.scope === null && state.activeId === event.id ? null : event.id
       const base = { ...state, enabled: true, scope, progress, attempts: record(state, 'abandoned'), seeking: true }
       return action.preview
-        ? { ...base, phase: 'road', activeId: null, vehicle: freshVehicle(), elapsedMs: 0, positionMs: Math.max(0, event.practicePauseMs - 5000), feedback: '点击播放回看，视频到本项位置时会暂停。' }
+        ? { ...base, phase: 'road', activeId: null, vehicle: freshVehicle(), elapsedMs: 0, positionMs: Math.max(0, pauseTimeMs(event) - 5000), feedback: '点击播放回看，视频到本项位置时会暂停。' }
         : enter(base, event)
     }
     case 'position': {
@@ -160,7 +161,7 @@ export function trainingReducer(previous: TrainingState, action: TrainingAction)
       const positionMs = Math.max(0, action.positionMs)
       // Only forward playback may trigger. Explicit seeking uses its own actions.
       if (positionMs < state.positionMs) return state
-      const event = state.events.find(event => (!state.scope || event.id === state.scope) && !state.progress[event.id] && event.practicePauseMs >= state.positionMs && event.practicePauseMs <= positionMs)
+      const event = state.events.find(event => (!state.scope || event.id === state.scope) && !state.progress[event.id] && pauseTimeMs(event) >= state.positionMs && pauseTimeMs(event) <= positionMs)
       return event ? enter(state, event) : { ...state, positionMs }
     }
     case 'continue': {

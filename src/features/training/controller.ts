@@ -1,4 +1,4 @@
-import type { CalibratedEvent } from '../content/schema'
+import type { PracticeEvent } from './practice-events'
 import { createTrainingState, trainingReducer, type Operation, type Suspension, type TrainingAction } from './engine'
 
 export type VideoPort = Pick<HTMLVideoElement, 'currentTime' | 'paused' | 'seeking' | 'readyState' | 'play' | 'pause'>
@@ -11,7 +11,7 @@ export class TrainingController {
   private disposed = false
   private playRequest = 0
 
-  constructor(events: CalibratedEvent[], private video: VideoPort, private now = () => performance.now()) {
+  constructor(events: PracticeEvent[], private video: VideoPort, private now = () => performance.now()) {
     this.state = createTrainingState(events, now())
   }
   getSnapshot = () => this.state
