@@ -1,24 +1,50 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight, BookOpen, CarFront, Check, ClipboardCheck, Lightbulb, Map, MousePointer2, Play } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { ArrowRight, BookOpen, ClipboardCheck, Lightbulb } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { MapRouteCards } from '@/features/exam/map/route-cards'
 
 export const Route = createFileRoute('/')({ component: HomePage })
+
+const shortcuts = [
+  { to: '/exam', icon: ClipboardCheck, title: '场景考试', description: '在路线图上练操作，检验学习成果。' },
+  { to: '/exam/lighting', icon: Lightbulb, title: '灯光考试', description: '听口令选灯光，随机 5 题。' },
+  { to: '/materials', icon: BookOpen, title: '学习资料', description: '查路线图、字幕和考试流程。' },
+] as const
+
 function HomePage() {
-  return <div className="mx-auto max-w-6xl space-y-8 py-3 md:py-6">
-    <div className="flex items-center gap-3"><CarFront className="size-8" aria-hidden /><span className="text-xl font-semibold">路考练习室</span><Badge variant="secondary">C2 自动挡</Badge></div>
-    <section className="grid items-center gap-6 border-y py-8 lg:grid-cols-[1.2fr_1fr] lg:gap-12" aria-labelledby="welcome-title">
-      <div><p className="mb-3 text-base text-muted-foreground">汕头大学路 · 五、六、七号线</p><h1 id="welcome-title" className="text-3xl font-semibold leading-snug md:text-4xl">看熟路线，<br />一步一步练操作。</h1><p className="muted mt-4 max-w-xl">跟着真实行车视频，练习打灯、观察和刹车。可以随时暂停，也可以反复练习同一项。</p><div className="mt-6 flex flex-wrap gap-3"><Button asChild><Link to="/train">开始路线练习<ArrowRight aria-hidden /></Link></Button><Button asChild variant="outline"><Link to="/materials"><Map aria-hidden />先看路线图</Link></Button></div></div>
-      <Card className="gap-0 py-0"><CardContent className="divide-y px-5">{[
-        { icon: Play, title: '先看一遍，熟悉沿途位置', text: '播放教学视频，听教练讲解；看不清时可以慢放。' },
-        { icon: MousePointer2, title: '再动手，记住关键步骤', text: '视频到关键位置自动暂停，按提示点击操作。' },
-        { icon: Check, title: '多练几次，按自己的节奏来', text: '不计分、不限时，没记住的项目可以单独重练。' },
-      ].map(item => <div key={item.title} className="flex gap-3 py-5"><item.icon className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">{item.title}</h2><p className="muted mt-1 text-base">{item.text}</p></div></div>)}</CardContent></Card>
-    </section>
-    <div className="flex flex-wrap items-center justify-between gap-4"><div className="flex items-start gap-3"><BookOpen className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">想回顾某个位置？</h2><p className="muted mt-1 text-base">学习资料里有路线图、教学字幕、考试流程和灯光操作对照。</p></div></div><Button asChild variant="outline"><Link to="/materials">查看学习资料<ArrowRight aria-hidden /></Link></Button></div>
-    <div className="flex flex-wrap items-center justify-between gap-4 border-t pt-5"><div className="flex items-start gap-3"><ClipboardCheck className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">路线熟悉了，试试场景考试</h2><p className="muted mt-1 text-base">跟随五、六、七号线的项目顺序，观察随机交通，自己决定操作时机。</p></div></div><Button asChild variant="outline"><Link to="/exam">进入场景考试<ArrowRight aria-hidden /></Link></Button></div>
-    <div className="flex flex-wrap items-center justify-between gap-4 border-t pt-5"><div className="flex items-start gap-3"><Lightbulb className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">记住灯光口令，试试灯光考试</h2><p className="muted mt-1 text-base">随机 5 题，不限时，听口令选择灯光，答完查看成绩。</p></div></div><Button asChild variant="outline"><Link to="/exam/lighting">进入灯光考试<ArrowRight aria-hidden /></Link></Button></div>
-    <p className="border-t pt-4 text-base text-muted-foreground">本工具帮助记忆路线和操作步骤，实际驾驶请结合道路情况亲自观察、判断。</p>
-  </div>
+  return (
+    <div className="mx-auto max-w-6xl space-y-6 py-2 md:py-4">
+      <header className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="page-title">开始练习</h1>
+          <p className="mt-1 text-base text-muted-foreground">汕头大学路</p>
+        </div>
+        <Badge variant="secondary">C2 自动挡</Badge>
+      </header>
+
+      <section aria-label="路线视频练习">
+        <MapRouteCards destination="video" />
+      </section>
+
+      <nav aria-label="其他学习入口" className="grid gap-3 lg:grid-cols-3">
+        {shortcuts.map(item => (
+          <Button key={item.to} asChild variant="outline" className="h-auto min-w-0 justify-start whitespace-normal p-5 text-left">
+            <Link to={item.to}>
+              <div className="w-full min-w-0">
+                <div className="flex items-center gap-3">
+                  <item.icon className="size-6 shrink-0" aria-hidden />
+                  <h2 className="flex-1 text-lg font-semibold">{item.title}</h2>
+                  <ArrowRight className="size-5 text-muted-foreground" aria-hidden />
+                </div>
+                <p className="mt-3 text-base font-normal leading-relaxed text-muted-foreground">{item.description}</p>
+              </div>
+            </Link>
+          </Button>
+        ))}
+      </nav>
+
+      <p className="text-base text-muted-foreground">路线考核为教学自测，不代表正式考试。</p>
+    </div>
+  )
 }

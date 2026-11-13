@@ -1,17 +1,15 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { BookOpen, ClipboardCheck, History, Lightbulb } from 'lucide-react'
+import { History, Lightbulb } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { scenarioRoutes } from '../routes'
 import { readHistory, type ExamResult } from '../storage'
 import { ExamReport } from '../report'
 import { readMapHistory, type MapResult } from './history'
 import { MapReport, mapOutcomeLabels } from './report'
-import { mapRoute } from './routes'
-import { pathData, roadRects } from './geometry'
+import { MapRouteCards } from './route-cards'
 
 export function MapExamHome() {
   const [history] = useState(() => { try { return readMapHistory(localStorage) } catch { return [] } })
@@ -21,10 +19,7 @@ export function MapExamHome() {
   return <div className="space-y-5">
     <div className="flex flex-wrap items-start justify-between gap-3"><div><h1 className="page-title">2D路线练习与考核</h1><p className="muted mt-2">六个固定操作，到位置等你准备。先慢慢练，再试操作考核。</p></div><Badge variant="outline">C2 自动挡</Badge></div>
     <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border p-4"><div className="flex items-start gap-3"><Lightbulb className="mt-1 size-6 shrink-0" aria-hidden /><div><h2 className="font-semibold">模拟灯光考试</h2><p className="muted mt-1 text-base">随机 5 题，不限时，听口令选择灯光，答完查看成绩。</p></div></div><Button asChild variant="outline"><Link to="/exam/lighting">进入灯光考试</Link></Button></div>
-    <div className="grid gap-4 xl:grid-cols-3">{scenarioRoutes.map(route => {
-      const world = mapRoute(route.id)
-      return <Card key={route.id} className="gap-3"><CardHeader className="pb-0"><div className="flex items-center justify-between"><CardTitle><h2>{route.name}</h2></CardTitle><Badge variant="outline">{route.scenes.length}项</Badge></div><CardDescription className="text-base leading-relaxed">{route.description}</CardDescription></CardHeader><CardContent className="prototype-workspace flex-1"><div className="map-route-thumbnail overflow-hidden rounded-md border bg-muted/20"><svg viewBox="0 0 1070 1900" className="h-44 w-full" role="img" aria-label={`${route.name}行驶轨迹示意`}>{roadRects.map((road, i) => <rect key={i} x={road.x} y={road.y} width={road.width} height={road.height} fill="var(--border)" />)}<path d={pathData(world.trace)} fill="none" stroke="var(--prototype-car)" strokeWidth="15" /><circle cx={world.trace[0].x} cy={world.trace[0].y} r="26" fill="var(--prototype-stop)" /><circle cx={world.trace.at(-1)!.x} cy={world.trace.at(-1)!.y} r="26" fill="var(--prototype-go)" /></svg></div><div className="mt-3 flex flex-wrap gap-2">{route.highlights.map(item => <Badge key={item} variant="secondary">{item}</Badge>)}</div></CardContent><CardFooter className="grid grid-cols-2 gap-2"><Button asChild><Link to="/exam/$routeId" params={{ routeId: route.id }} search={{ mode: 'assessment' }}><ClipboardCheck aria-hidden />进入考试</Link></Button><Button asChild variant="outline"><Link to="/exam/$routeId" params={{ routeId: route.id }} search={{ mode: 'practice' }}><BookOpen aria-hidden />进入练习</Link></Button></CardFooter></Card>
-    })}</div>
+    <MapRouteCards showDescription />
     <div className="flex flex-wrap items-center justify-between gap-3 border-y py-4"><p className="text-base text-muted-foreground">想先对照真实道路？实景视频练习继续保留。</p><Button asChild variant="outline"><Link to="/train">进入视频练习</Link></Button></div>
     <section aria-label="最近2D考核"><h2 className="mb-3 flex items-center gap-2 font-semibold"><History className="size-5" aria-hidden />最近操作考核</h2>{history.length ? <ol className="divide-y rounded-lg border px-4">{history.map(result => <li key={result.id} className="flex flex-wrap items-center justify-between gap-3 py-4"><div><p className="font-medium">{scenarioRoutes.find(route => route.id === result.routeId)?.name} · {result.score}分 · {mapOutcomeLabels[result.outcome]}</p><p className="mt-1 text-base text-muted-foreground">{new Date(result.finishedAt).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })} · 路况 {result.seed}</p></div><div className="flex flex-wrap gap-2"><Button variant="outline" onClick={() => setReview(result)}>查看回顾</Button><Button asChild variant="outline"><Link to="/exam/$routeId" params={{ routeId: result.routeId }} search={{ seed: result.seed, mode: 'assessment' }}>相同路况重考</Link></Button></div></li>)}</ol> : <p className="rounded-lg border p-4 text-base text-muted-foreground">操作考核结束后，最近12次结果保存在本机。舒缓练习不计分。</p>}</section>
     <div className="flex flex-wrap items-center justify-between gap-3 text-base text-muted-foreground"><p>道路、距离和交通为示意，采用教学规则。</p><Button asChild variant="link"><Link to="/exam/prototype">回到两个片段原型</Link></Button></div>
