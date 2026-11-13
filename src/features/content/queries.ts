@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
-import { reviewedSubtitleDocumentSchema, type RouteId } from './schema'
+import { calibratedEventDocumentSchema, reviewedSubtitleDocumentSchema, type RouteId } from './schema'
 
 export const roadRoutes = [
   { id: '5', name: '五号线', description: '学习变道后的选道，以及连续转弯。' },
@@ -24,6 +24,21 @@ export function subtitlesQueryOptions(routeId: RouteId) {
 
 export function mediaUrl(routeId: RouteId, extension: 'mp4' | 'jpg') {
   return `${import.meta.env.BASE_URL}media/route-${routeId}.${extension}`
+}
+
+export function eventsQueryOptions(routeId: RouteId) {
+  return queryOptions({
+    queryKey: ['practice-events', routeId, 1],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.BASE_URL}data/route-${routeId}.events.json`)
+      if (!response.ok) throw new Error('练习项目暂时无法读取，请重新加载。')
+      const document = calibratedEventDocumentSchema.parse(await response.json())
+      if (document.routeId !== routeId) throw new Error('练习项目与当前路线不一致。')
+      return document
+    },
+    staleTime: Infinity,
+    retry: 1,
+  })
 }
 
 export function formatTime(seconds: number) {
