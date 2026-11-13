@@ -195,7 +195,7 @@ function Sidebar({
         >
           <SheetHeader className="sr-only">
             <SheetTitle>学习导航</SheetTitle>
-            <SheetDescription>选择路线、查看资料或调整学习设置。</SheetDescription>
+            <SheetDescription>返回首页、选择路线或查看路线资料。</SheetDescription>
           </SheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>
