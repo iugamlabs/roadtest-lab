@@ -60,6 +60,12 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.85 0 0);
   --ring: oklch(0.556 0 0);
+  --lighting-main: #805300;
+  --lighting-dipped: #176e4e;
+  --lighting-full: #185ca4;
+  --lighting-flash: #7540a0;
+  --lighting-position: #096d79;
+  --lighting-exit: #a52a2a;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -77,6 +83,12 @@
   font-size: 20px;
 }
 .dark {
+  --lighting-main: #f5cc66;
+  --lighting-dipped: #8bd3ad;
+  --lighting-full: #86bffd;
+  --lighting-flash: #d5afff;
+  --lighting-position: #79d4df;
+  --lighting-exit: #ffaaa4;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -118,6 +130,28 @@
 }
 .page-title { font-size: 1.5rem; font-weight: 600; line-height: 1.4; }
 .muted { color: var(--muted-foreground); line-height: 1.75; }
+.lighting-button[data-kind=main] { --lighting-action: var(--lighting-main); }
+.lighting-button[data-kind=dipped] { --lighting-action: var(--lighting-dipped); }
+.lighting-button[data-kind=full] { --lighting-action: var(--lighting-full); }
+.lighting-button[data-kind=flash] { --lighting-action: var(--lighting-flash); }
+.lighting-button[data-kind=position] { --lighting-action: var(--lighting-position); }
+.lighting-button[data-kind=exit] { --lighting-action: var(--lighting-exit); }
+.lighting-button {
+  color: var(--lighting-action);
+  background: color-mix(in srgb, var(--lighting-action) 9%, var(--card));
+  border: 2px solid color-mix(in srgb, var(--lighting-action) 55%, var(--card));
+}
+.lighting-button:hover:not(:disabled) {
+  color: var(--lighting-action);
+  background: color-mix(in srgb, var(--lighting-action) 18%, var(--card));
+  border-color: var(--lighting-action);
+}
+.lighting-answer:disabled { opacity: 1; }
+.lighting-answer[aria-pressed=true] {
+  color: var(--background);
+  background: var(--lighting-action);
+  border-color: var(--lighting-action);
+}
 .form-field { display: grid; gap: .6rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
 .training-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(400px, 1fr); gap: 1rem; align-items: start; }
 .training-video-column { position: sticky; top: 1rem; }
