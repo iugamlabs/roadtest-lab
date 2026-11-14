@@ -73,6 +73,7 @@
 - `content/event-calibrations/`：原片指纹、画面时间校准、证据时间、误差、情景标注与集中疑点；详见 `docs/event-calibration.md`。`public/data/route-*.events.json` 为生成的暂停练习数据，不直接编辑。
 - `artifacts/calibration/`：FFmpeg 生成的本地证据工作台、逐秒帧、节点拼图和疑点原声片段，不提交 Git，不上传外部服务。
 - `public/media/`：从原始素材准备的视频及路线图；与 `raw/`、`dist/` 一样不提交 Git。
+- `pnpm prepare:media` 依赖 FFmpeg/FFprobe，发布视频统一为 H.264 / yuv420p + AAC；兼容原片直接复制，其他原片转码并前置 MP4 索引。保留原尺寸、帧率、帧数及音视频起点和时长，禁止裁剪、变速或改写原片校准指纹。SHA-256 与转码版本缓存记录存于 `public/media/*.prepare.json`，来源、发布文件或转码版本变化时重新生成。构建后从 `dist/` 同步部署，不直接修补部署视频。
 - 不编辑 `dist/` 修复页面，必须修改源码后重新构建。
 
 ## 字幕校对与训练事件

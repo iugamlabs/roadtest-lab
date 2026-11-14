@@ -28,7 +28,7 @@ pnpm prepare:media
 pnpm dev
 ```
 
-`prepare:media` 从 `raw/` 复制三段视频和三张路线图到 `public/media/`，原始素材不会被修改。素材缺失时会报告对应文件。媒体文件与 `raw/` 均不提交 Git；另一台设备需要自行准备素材。Vite 构建会将已准备的媒体复制到 `dist/media/`。
+`prepare:media` 需要本机安装 FFmpeg（含 `ffprobe`），从 `raw/` 准备三段视频和三张路线图到 `public/media/`。视频统一使用 H.264 / yuv420p + AAC，避免 Linux Chrome 无法解码 H.265 时只有声音没有画面；已有兼容原片直接复制，其余转码并将 MP4 索引前置，保留尺寸、帧率和时间轴，校验各轨起点、时长及视频帧数。原始素材和校准来源指纹不会被修改。首次转码需等待，后续通过原片、发布文件 SHA-256 与转码版本复用结果，记录位于被 Git 忽略的 `public/media/*.prepare.json`。素材缺失时会报告对应文件。媒体文件与 `raw/` 均不提交 Git；另一台设备可以准备素材或同步已准备的视频。Vite 构建会将已准备的媒体复制到 `dist/media/`，部署应从这里同步，不直接修改部署文件。
 
 ```sh
 pnpm import:ocr  # 原始 SRT 有变化时，重新生成可追溯的 OCR JSON
