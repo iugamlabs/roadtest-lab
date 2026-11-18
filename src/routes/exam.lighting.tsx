@@ -8,7 +8,7 @@ export const Route = createFileRoute('/exam/lighting')({ component: LightingExam
 function LightingExamPage() {
   return <div className="space-y-4">
     <header className="flex items-center gap-3">
-      <Button asChild variant="outline" size="icon"><Link to="/exam" aria-label="返回考试选择"><ArrowLeft aria-hidden /></Link></Button>
+      <Button asChild variant="outline" size="icon"><Link to="/" aria-label="返回首页"><ArrowLeft aria-hidden /></Link></Button>
       <h1 className="page-title">模拟灯光考试</h1>
     </header>
     <LightingExam />

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight, BookOpen, ClipboardCheck, Lightbulb } from 'lucide-react'
+import { ArrowRight, BookOpen, Play, Lightbulb } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MapRouteCards } from '@/features/exam/map/route-cards'
@@ -7,7 +7,7 @@ import { MapRouteCards } from '@/features/exam/map/route-cards'
 export const Route = createFileRoute('/')({ component: HomePage })
 
 const shortcuts = [
-  { to: '/exam', icon: ClipboardCheck, title: '场景考试', description: '在路线图上练操作，检验学习成果。' },
+  { to: '/train', icon: Play, title: '视频操作练习', description: '观看完整教学，按步骤练关键动作。' },
   { to: '/exam/lighting', icon: Lightbulb, title: '灯光考试', description: '听口令选灯光，随机 5 题。' },
   { to: '/materials', icon: BookOpen, title: '学习资料', description: '查路线图、字幕和考试流程。' },
 ] as const
@@ -17,14 +17,14 @@ function HomePage() {
     <div className="mx-auto max-w-6xl space-y-6 py-2 md:py-4">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="page-title">开始练习</h1>
-          <p className="mt-1 text-base text-muted-foreground">汕头大学路</p>
+          <h1 className="page-title">把路线记熟</h1>
+          <p className="mt-1 text-base text-muted-foreground">看实景认路，试着自己说出下一步。</p>
         </div>
         <Badge variant="secondary">C2 自动挡</Badge>
       </header>
 
-      <section aria-label="路线视频练习">
-        <MapRouteCards destination="video" />
+      <section aria-label="选择路线开始记忆">
+        <MapRouteCards destination="memory" />
       </section>
 
       <nav aria-label="其他学习入口" className="grid gap-3 lg:grid-cols-3">
@@ -44,7 +44,7 @@ function HomePage() {
         ))}
       </nav>
 
-      <p className="text-base text-muted-foreground">路线考核为教学自测，不代表正式考试。</p>
+      <p className="text-base text-muted-foreground">先跟着学，再自己回忆；一次练一小段，逐渐把整条路线连起来。</p>
     </div>
   )
 }

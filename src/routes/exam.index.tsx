@@ -1,4 +1,3 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { MapExamHome } from '@/features/exam/map/home'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/exam/')({ component: MapExamHome })
+export const Route = createFileRoute('/exam/')({ beforeLoad: () => { throw redirect({ to: '/memory' }) } })

@@ -1,5 +1,5 @@
 import { Link, useRouterState } from '@tanstack/react-router'
-import { BookOpen, CarFront, ClipboardCheck, House, PanelLeftClose, PanelLeftOpen, Route as RouteIcon } from 'lucide-react'
+import { BookOpen, CarFront, Lightbulb, House, PanelLeftClose, PanelLeftOpen, Route as RouteIcon, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 
@@ -11,8 +11,9 @@ export function AppSidebar() {
   const closeMobile = () => { if (isMobile) setOpenMobile(false) }
   const items = [
     { to: '/' as const, title: '首页', icon: House, active: pathname === '/' },
-    { to: '/train' as const, title: '路线练习', icon: RouteIcon, active: pathname.startsWith('/train') },
-    { to: '/exam' as const, title: '场景考试', icon: ClipboardCheck, active: pathname.startsWith('/exam') },
+    { to: '/memory' as const, title: '路线记忆', icon: RouteIcon, active: pathname.startsWith('/memory') },
+    { to: '/train' as const, title: '视频练习', icon: Play, active: pathname.startsWith('/train') },
+    { to: '/exam/lighting' as const, title: '灯光考核', icon: Lightbulb, active: pathname === '/exam/lighting' },
     { to: '/materials' as const, title: '学习资料', icon: BookOpen, active: pathname === '/materials' },
   ]
   return <Sidebar collapsible="icon">

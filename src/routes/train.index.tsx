@@ -17,6 +17,6 @@ function HomePage() {
         <CardFooter><Button asChild className="w-full justify-between"><Link to="/train/$routeId" params={{ routeId: route.id }}>进入路线<ArrowRight aria-hidden /></Link></Button></CardFooter>
       </Card>)}
     </div>
-    <Alert><Info aria-hidden /><AlertTitle>先看熟路线，再练关键操作</AlertTitle><AlertDescription>不用控制油门和方向盘。进入路线后，可以观看教学，也可以开始全程或单项练习。视频会在关键位置暂停，帮助记住操作步骤。</AlertDescription></Alert>
+    <Alert><Info aria-hidden /><AlertTitle>想先把路线记熟？</AlertTitle><AlertDescription>进入路线记忆，看实景、自己说出下一步，再对照讲解。<Button asChild variant="outline" className="mt-3"><Link to="/memory">进入路线记忆<ArrowRight aria-hidden /></Link></Button></AlertDescription></Alert>
   </div>
 }

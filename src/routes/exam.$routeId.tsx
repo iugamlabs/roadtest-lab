@@ -1,15 +1,12 @@
-import { createFileRoute, notFound } from '@tanstack/react-router'
+import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
 import { z } from 'zod'
 import { routeIdSchema } from '@/features/content/schema'
-import { MapWorkspace } from '@/features/exam/map/workspace'
 
 export const Route = createFileRoute('/exam/$routeId')({
   validateSearch: z.object({ seed: z.coerce.number().int().min(0).max(0xffffffff).optional(), mode: z.enum(['practice', 'assessment']).optional() }),
-  beforeLoad: ({ params }) => { if (!routeIdSchema.safeParse(params.routeId).success) throw notFound() },
-  component: ExamRoute,
+  beforeLoad: ({ params }) => {
+    const routeId = routeIdSchema.safeParse(params.routeId)
+    if (!routeId.success) throw notFound()
+    throw redirect({ to: '/memory/$routeId', params: { routeId: routeId.data } })
+  },
 })
-function ExamRoute() {
-  const { routeId } = Route.useParams()
-  const { seed, mode } = Route.useSearch()
-  return <MapWorkspace key={`${routeId}-${seed ?? 'random'}-${mode ?? 'practice'}`} routeId={routeIdSchema.parse(routeId)} initialSeed={seed} initialMode={mode} />
-}
