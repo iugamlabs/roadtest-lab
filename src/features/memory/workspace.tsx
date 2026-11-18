@@ -21,23 +21,20 @@ import { loadQuizBank, scopedQuizQuestions, type QuizBank } from './quiz/bank'
 import { RouteQuiz } from './quiz/workspace'
 
 type WorkspaceProps = { source: MemorySource; subtitles: { cues: ReviewedSubtitleCue[] } }
-type WorkspaceView = { kind: 'study'; reviewEventIds?: string[] } | { kind: 'quiz'; scopeEventIds?: string[] }
-
-export function MemoryWorkspace({ source, subtitles }: WorkspaceProps) {
-  const [view, setView] = useState<WorkspaceView>({ kind: 'study' })
+export function MemoryWorkspace({ source, subtitles, closeDirectQuiz }: WorkspaceProps & { closeDirectQuiz?: () => void }) {
+  const [quiz, setQuiz] = useState<{ scopeEventIds?: string[] } | null>(null)
   const bank = useMemo(() => loadQuizBank(source), [source])
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [view])
-  if (view.kind === 'quiz') return <RouteQuiz source={source} bank={bank} scopeEventIds={view.scopeEventIds}
-    onClose={() => setView({ kind: 'study' })} onStudy={reviewEventIds => setView({ kind: 'study', reviewEventIds })} />
-  return <MemoryStudy source={source} subtitles={subtitles} bank={bank} reviewEventIds={view.reviewEventIds}
-    onQuiz={scopeEventIds => setView({ kind: 'quiz', scopeEventIds })} />
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [quiz])
+  if (quiz || closeDirectQuiz) return <RouteQuiz source={source} bank={bank} scopeEventIds={quiz?.scopeEventIds}
+    onClose={closeDirectQuiz ?? (() => setQuiz(null))} />
+  return <MemoryStudy source={source} subtitles={subtitles} bank={bank} onQuiz={scopeEventIds => setQuiz({ scopeEventIds })} />
 }
 
-function MemoryStudy({ source, subtitles, bank, reviewEventIds, onQuiz }: WorkspaceProps & { bank: QuizBank; reviewEventIds?: string[]; onQuiz: (eventIds?: string[]) => void }) {
+function MemoryStudy({ source, subtitles, bank, onQuiz }: WorkspaceProps & { bank: QuizBank; onQuiz: (eventIds?: string[]) => void }) {
   const route = roadRoutes.find(item => item.id === source.routeId)!
   const [state, dispatch] = useReducer(memoryReducer, initialMemoryState)
   const [mode, setMode] = useState<MemoryMode>('learn')
-  const [scope, setScope] = useState(reviewEventIds ? 'review' : 'short')
+  const [scope, setScope] = useState('short')
   const [startIndex, setStartIndex] = useState(0)
   const [stored, setStored] = useState(() => {
     try { return readMemoryProgress(localStorage, source) }
@@ -47,7 +44,6 @@ function MemoryStudy({ source, subtitles, bank, reviewEventIds, onQuiz }: Worksp
   const savedAnswer = useRef<MemoryAnswer | undefined>(undefined)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [ending, setEnding] = useState(false)
-  const startedReview = useRef(false)
   const heading = useRef<HTMLHeadingElement>(null)
   const { settings } = useSettings()
   const { openMobile } = useSidebar()
@@ -60,8 +56,7 @@ function MemoryStudy({ source, subtitles, bank, reviewEventIds, onQuiz }: Worksp
   const concealed = state.mode === 'recall' && live && state.phase !== 'revealed'
   const ready = duration > 0 && !mediaError
   const weak = source.events.filter(event => stored.entries.some(entry => entry.eventId === event.id && entry.rating !== 'independent'))
-  const reviewTargets = source.events.filter(event => reviewEventIds?.includes(event.id))
-  const targets = scope === 'review' ? reviewTargets : scope === 'weak' ? weak : scope === 'all' ? source.events.slice(startIndex) : source.events.slice(startIndex, startIndex + 5)
+  const targets = scope === 'weak' ? weak : scope === 'all' ? source.events.slice(startIndex) : source.events.slice(startIndex, startIndex + 5)
   const completedIds = state.mode === 'learn' ? state.learned : state.answers.map(answer => answer.eventId)
   const segmentQuizAvailable = scopedQuizQuestions(bank, completedIds).length > 0
   const currentCue = subtitles.cues.find(cue => cue.startMs <= time * 1000 && cue.endMs > time * 1000)
@@ -90,12 +85,6 @@ function MemoryStudy({ source, subtitles, bank, reviewEventIds, onQuiz }: Worksp
   }, [state.phase, state.index])
 
   useEffect(() => { if (openMobile) playback.pause() }, [openMobile])
-  useEffect(() => {
-    if (!startedReview.current && reviewTargets.length && ready) {
-      startedReview.current = true
-      playback.start('learn', reviewTargets)
-    }
-  }, [ready, reviewTargets])
   function start(nextMode: MemoryMode, nextTargets: CalibratedEvent[]) {
     if (!ready || !nextTargets.length) return
     setMode(nextMode)
@@ -112,6 +101,7 @@ function MemoryStudy({ source, subtitles, bank, reviewEventIds, onQuiz }: Worksp
         <h1 className="page-title">{route.name} · 记路线</h1>
       </div>
       <div className="flex flex-wrap gap-2">
+        {!live && <Button disabled={!bank.questions.length} onClick={() => onQuiz()}><ClipboardCheck aria-hidden />路线小测</Button>}
         {live && <Button variant="ghost" onClick={() => { playback.pause(); setEnding(true) }}>结束本轮</Button>}
         <Sheet open={settingsOpen} onOpenChange={open => { if (open) playback.pause(); setSettingsOpen(open) }}>
           <SheetTrigger asChild><Button variant="outline"><Settings2 aria-hidden />学习设置</Button></SheetTrigger>
@@ -126,10 +116,10 @@ function MemoryStudy({ source, subtitles, bank, reviewEventIds, onQuiz }: Worksp
       <Tabs value={mode} onValueChange={value => setMode(value as MemoryMode)}><TabsList className="h-auto w-full sm:w-auto" aria-label="记忆方式"><TabsTrigger value="learn" className="min-h-14 px-5 text-base"><BookOpen aria-hidden />跟着学</TabsTrigger><TabsTrigger value="recall" className="min-h-14 px-5 text-base"><Lightbulb aria-hidden />自己回忆</TabsTrigger></TabsList></Tabs>
       <p className="text-base text-muted-foreground">{mode === 'learn' ? '沿真实视频走一段，到关键位置看讲解，串起前后的路线。' : '先看道路，口头说出位置、接下来的走向和动作，再查看讲解。回忆时静音并遮住字幕。'}</p>
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="space-y-2"><Label htmlFor="memory-scope">这次练多少</Label><Select value={scope} onValueChange={setScope}><SelectTrigger id="memory-scope" className="min-h-14 w-full text-base"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="short">先连练 5 处</SelectItem><SelectItem value="all">连练到终点</SelectItem><SelectItem value="weak" disabled={!weak.length}>重练需要提示的 {weak.length} 处</SelectItem>{reviewTargets.length > 0 && <SelectItem value="review">小测需要复习的 {reviewTargets.length} 处</SelectItem>}</SelectContent></Select></div>
-        {scope !== 'weak' && scope !== 'review' && <div className="space-y-2"><Label htmlFor="memory-start">从哪里开始</Label><Select value={String(startIndex)} onValueChange={value => setStartIndex(Number(value))}><SelectTrigger id="memory-start" className="min-h-14 w-full text-base"><SelectValue /></SelectTrigger><SelectContent>{source.events.map((event, index) => <SelectItem key={event.id} value={String(index)}>{index + 1}. {event.title}</SelectItem>)}</SelectContent></Select></div>}
+        <div className="space-y-2"><Label htmlFor="memory-scope">这次练多少</Label><Select value={scope} onValueChange={setScope}><SelectTrigger id="memory-scope" className="min-h-14 w-full text-base"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="short">先连练 5 处</SelectItem><SelectItem value="all">连练到终点</SelectItem><SelectItem value="weak" disabled={!weak.length}>重练需要提示的 {weak.length} 处</SelectItem></SelectContent></Select></div>
+        {scope !== 'weak' && <div className="space-y-2"><Label htmlFor="memory-start">从哪里开始</Label><Select value={String(startIndex)} onValueChange={value => setStartIndex(Number(value))}><SelectTrigger id="memory-start" className="min-h-14 w-full text-base"><SelectValue /></SelectTrigger><SelectContent>{source.events.map((event, index) => <SelectItem key={event.id} value={String(index)}>{index + 1}. {event.title}</SelectItem>)}</SelectContent></Select></div>}
       </div>
-      <div className="flex flex-wrap gap-2"><Button className="w-full sm:w-auto" disabled={!ready || !targets.length} onClick={() => start(mode, targets)}><Play aria-hidden />{mode === 'learn' ? '开始跟着学' : '开始自己回忆'} · {targets.length} 处</Button><Button variant="outline" className="w-full sm:w-auto" disabled={!bank.questions.length} onClick={() => onQuiz()}><ClipboardCheck aria-hidden />路线小测</Button></div>
+      <Button className="w-full sm:w-auto" disabled={!ready || !targets.length} onClick={() => start(mode, targets)}><Play aria-hidden />{mode === 'learn' ? '开始跟着学' : '开始自己回忆'} · {targets.length} 处</Button>
       {bank.notice && <p role="status" className="text-base text-muted-foreground">{bank.notice}</p>}
       <p className="text-sm text-muted-foreground">{!ready ? mediaError ? '请先重新加载下方视频。' : '正在准备实景视频…' : '可以直接说出来，不用操作虚拟车辆，也不需要录音。'}</p>
     </section>}
@@ -172,7 +162,7 @@ function MemoryStudy({ source, subtitles, bank, reviewEventIds, onQuiz }: Worksp
         {state.phase === 'finished' && <>
           <h2 ref={heading} tabIndex={-1} className="text-2xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">{(state.mode === 'learn' ? state.learned.length : state.answers.length) < state.targets.length ? '本轮已结束' : state.mode === 'learn' ? '这一段看完了' : '这一轮回忆完成'}</h2>
           {state.mode === 'learn' ? <p>跟着学了 {state.learned.length} 处，试试撤掉提示，自己回忆。</p> : <><p className="leading-relaxed">自己想起 {recalled} 处，提示后想起 {prompted} 处，再练 {again} 处。</p><p className="text-base text-muted-foreground">这是本次口头回忆的自评，不是考试成绩。</p></>}
-          {segmentQuizAvailable && <Button className="w-full" variant="outline" onClick={() => onQuiz(completedIds)}><ClipboardCheck aria-hidden />考考刚才这一段</Button>}
+          {segmentQuizAvailable && <Button className="w-full" onClick={() => onQuiz(completedIds)}><ClipboardCheck aria-hidden />考考刚才这一段</Button>}
           <Button className="w-full" disabled={!ready} onClick={() => start('recall', state.targets)}><Lightbulb aria-hidden />{state.mode === 'learn' ? '试着自己回忆这一段' : '再回忆这一段'}</Button>
           {state.mode === 'recall' && state.answers.some(answer => answer.rating !== 'independent') && <Button className="w-full" variant="outline" disabled={!ready} onClick={() => start('recall', state.targets.filter(event => state.answers.some(answer => answer.eventId === event.id && answer.rating !== 'independent')))}><RotateCcw aria-hidden />只重练需要提示的路段</Button>}
           {(state.mode === 'learn' ? state.learned.length : state.answers.length) === state.targets.length && source.events.indexOf(state.targets.at(-1)!) + 1 < source.events.length && <Button className="w-full" variant="outline" disabled={!ready} onClick={() => start(state.mode, source.events.slice(source.events.indexOf(state.targets.at(-1)!) + 1, source.events.indexOf(state.targets.at(-1)!) + 6))}>接着练后面 5 处<ArrowRight aria-hidden /></Button>}

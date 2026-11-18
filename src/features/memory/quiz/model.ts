@@ -3,11 +3,10 @@ import type { QuizQuestion } from './bank'
 export const UNKNOWN_ANSWER = 'unknown'
 export interface QuizAnswer { questionId: string; selected: string; usedHint: boolean }
 export interface RouteQuizState {
-  phase: 'ready' | 'answering' | 'submitted' | 'finished'
+  phase: 'ready' | 'answering' | 'finished'
   questions: QuizQuestion[]
   index: number
   selected: string | null
-  usedHint: boolean
   frameReady: boolean
   answers: QuizAnswer[]
 }
@@ -15,13 +14,11 @@ export type RouteQuizAction =
   | { type: 'start'; questions: QuizQuestion[] }
   | { type: 'frame-ready'; questionId: string; ready: boolean }
   | { type: 'select'; selected: string }
-  | { type: 'hint' }
   | { type: 'submit' }
-  | { type: 'next' }
   | { type: 'finish' }
   | { type: 'reset' }
 
-export const initialRouteQuizState: RouteQuizState = { phase: 'ready', questions: [], index: 0, selected: null, usedHint: false, frameReady: false, answers: [] }
+export const initialRouteQuizState: RouteQuizState = { phase: 'ready', questions: [], index: 0, selected: null, frameReady: false, answers: [] }
 
 export function routeQuizReducer(state: RouteQuizState, action: RouteQuizAction): RouteQuizState {
   const question = state.questions[state.index]
@@ -33,16 +30,12 @@ export function routeQuizReducer(state: RouteQuizState, action: RouteQuizAction)
     }
     case 'frame-ready': return question?.id === action.questionId && question.kind === 'direction' && state.phase === 'answering' ? { ...state, frameReady: action.ready } : state
     case 'select': return state.phase === 'answering' && state.frameReady && (action.selected === UNKNOWN_ANSWER || question?.options.some(option => option.id === action.selected)) ? { ...state, selected: action.selected } : state
-    case 'hint': return state.phase === 'answering' && state.frameReady ? { ...state, usedHint: true } : state
     case 'submit': {
       if (state.phase !== 'answering' || !question || !state.frameReady || state.selected === null) return state
-      return { ...state, phase: 'submitted', answers: [...state.answers, { questionId: question.id, selected: state.selected, usedHint: state.usedHint }] }
-    }
-    case 'next': {
-      if (state.phase !== 'submitted') return state
-      if (state.index + 1 >= state.questions.length) return { ...state, phase: 'finished' }
+      const answers = [...state.answers, { questionId: question.id, selected: state.selected, usedHint: false }]
       const index = state.index + 1
-      return { ...state, phase: 'answering', index, selected: null, usedHint: false, frameReady: state.questions[index].kind === 'sequence' }
+      if (index === state.questions.length) return { ...state, phase: 'finished', answers }
+      return { ...state, index, answers, selected: null, frameReady: state.questions[index].kind === 'sequence' }
     }
     case 'finish': return state.phase === 'ready' ? state : { ...state, phase: 'finished' }
   }
