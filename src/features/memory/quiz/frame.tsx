@@ -56,6 +56,5 @@ export function QuizFrame({ routeId, question, onReady }: { routeId: RouteId; qu
       <div aria-hidden className="absolute inset-x-0 bg-black" style={{ top: `${frame.maskTop}%`, height: `${frame.maskHeight}%` }} />
       {!ready && <div className="absolute inset-0 grid place-items-center bg-background p-5 text-center">{error ? <div role="alert" className="space-y-3"><p>这张实景画面暂时无法读取。</p><Button variant="outline" onClick={() => { setError(false); setLoadAttempt(value => value + 1); video.current?.load() }}><RotateCcw aria-hidden />重新加载画面</Button></div> : <p role="status">正在准备本题画面…</p>}</div>}
     </div>
-    <p className="text-base text-muted-foreground">先看道路，再选答案。原声和字幕已隐藏。</p>
   </div>
 }

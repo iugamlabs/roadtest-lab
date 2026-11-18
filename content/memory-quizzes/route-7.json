@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "routeId": "7",
   "videoSha256": "a5029ba37cb417e91fe27f31352a17001f6ea9bd8f3827eabbe14ec35d01b7b3",
   "subtitleSha256": "7fc0ac1c54979efd5e30e3d0bf2fa1a6206e86d9c233dbdb4d9a603e93466dc4",
@@ -10,7 +10,6 @@
       "kind": "direction",
       "anchorEventId": "7-exit-turn",
       "correct": "right",
-      "hint": "前一处是「出场路口停车瞭望」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 19000,
         "maskTop": 80,
@@ -24,7 +23,6 @@
       "kind": "direction",
       "anchorEventId": "7-industrial-turn",
       "correct": "right",
-      "hint": "前一处是「工业区入口前的公交站」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 175000,
         "maskTop": 80,
@@ -38,7 +36,6 @@
       "kind": "direction",
       "anchorEventId": "7-uturn-1",
       "correct": "uturn",
-      "hint": "前一处是「工业区会车减速」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 255000,
         "maskTop": 80,
@@ -52,7 +49,6 @@
       "kind": "direction",
       "anchorEventId": "7-turn-2",
       "correct": "right",
-      "hint": "前一处是「保持直线行驶」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 296000,
         "maskTop": 80,
@@ -62,76 +58,416 @@
       }
     },
     {
+      "id": "direction:7-cross-2",
+      "kind": "direction",
+      "anchorEventId": "7-cross-2",
+      "correct": "straight",
+      "frame": {
+        "atMs": 204000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头朝前方红色横幅，右侧绿色围挡，底部直行字幕需遮盖；214秒拍摄车沿原方向通过。"
+      },
+      "clue": "认横跨道路的红色横幅和右侧绿色围挡。"
+    },
+    {
+      "id": "direction:7-cross-3",
+      "kind": "direction",
+      "anchorEventId": "7-cross-3",
+      "correct": "straight",
+      "frame": {
+        "atMs": 324000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头仍对准原行驶方向，右边有绿白围挡；字幕落在遮罩内；336秒拍摄车穿过路口后仍沿原走向。"
+      },
+      "clue": "认右侧一段蓝白立柱分隔的绿色围挡。"
+    },
+    {
+      "id": "direction:7-cross-4",
+      "kind": "direction",
+      "anchorEventId": "7-cross-4",
+      "correct": "straight",
+      "frame": {
+        "atMs": 346000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "沿绿色围挡接近路口，直行字幕落在遮罩内；356秒画面在原方向通过，右侧围挡向前延伸。"
+      },
+      "clue": "这段路右侧有绿色围挡，过路口后接着才是超车项目。"
+    },
+    {
+      "id": "direction:7-cross-5",
+      "kind": "direction",
+      "anchorEventId": "7-cross-5",
+      "correct": "straight",
+      "frame": {
+        "atMs": 380000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头朝向远处架空管廊，右侧绿墙，底部讲解字幕需遮盖；394秒车沿原方向过路口。"
+      },
+      "clue": "认右侧长绿墙和远处横跨道路的管廊。"
+    },
+    {
+      "id": "direction:7-uturn-2",
+      "kind": "direction",
+      "anchorEventId": "7-uturn-2",
+      "correct": "uturn",
+      "frame": {
+        "atMs": 404000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "尚未掉头，可见右侧架空管线及前方宽路口；此时尚无上方掉头大字。432–434秒拍摄车已调头沿反向路段行驶。"
+      },
+      "clue": "认右侧架空管线和前方较宽的路口，这是第二次掉头。"
+    },
+    {
+      "id": "direction:7-cross-6",
+      "kind": "direction",
+      "anchorEventId": "7-cross-6",
+      "correct": "straight",
+      "frame": {
+        "atMs": 446000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头朝绿色跨路管廊行驶，答案字幕位于固定遮罩内；458秒拍摄车沿原方向驶过管廊。"
+      },
+      "clue": "第二次掉头后，可用跨在路上的绿色管廊找准这一处。"
+    },
+    {
+      "id": "direction:7-turn-3",
+      "kind": "direction",
+      "anchorEventId": "7-turn-3",
+      "correct": "right",
+      "frame": {
+        "atMs": 493000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头仍朝原车道，右侧连续栏杆；543–551秒拍摄车转入右侧斜入口。不考进转弯后示范中的临时选道。"
+      },
+      "clue": "认右侧一排栏杆，随后从斜入口右转。"
+    },
+    {
+      "id": "direction:7-return-turn",
+      "kind": "direction",
+      "anchorEventId": "7-return-turn",
+      "correct": "right",
+      "frame": {
+        "atMs": 685000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车在出口等待横向交通，未转入主路；697秒拍摄车已右转沿大学路行驶。"
+      },
+      "clue": "认墙边狭窄出口，横向宽路就是大学路。"
+    },
+    {
+      "id": "scene:7-bus-1",
+      "kind": "scene",
+      "anchorEventId": "7-bus-1",
+      "choiceEventIds": [
+        "7-bus-1",
+        "7-bus-2",
+        "7-cross-1"
+      ],
+      "frame": {
+        "atMs": 40000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "候车亭紧靠右侧绿化带，旁边有红色 G206 国道路牌。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "候车亭紧靠右侧绿化带，旁边有红色 G206 国道路牌。"
+    },
+    {
+      "id": "scene:7-bus-2",
+      "kind": "scene",
+      "anchorEventId": "7-bus-2",
+      "choiceEventIds": [
+        "7-bus-2",
+        "7-bus-1",
+        "7-cross-1"
+      ],
+      "frame": {
+        "atMs": 139000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "右侧候车亭背后是沿街楼房和停车区域。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "右侧候车亭背后是沿街楼房和停车区域。"
+    },
+    {
+      "id": "scene:7-cross-2",
+      "kind": "scene",
+      "anchorEventId": "7-cross-2",
+      "choiceEventIds": [
+        "7-cross-2",
+        "7-cross-5",
+        "7-cross-6"
+      ],
+      "frame": {
+        "atMs": 204000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "能看到跨过道路的红色横幅，右面是绿色围挡。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "能看到跨过道路的红色横幅，右面是绿色围挡。"
+    },
+    {
+      "id": "scene:7-cross-5",
+      "kind": "scene",
+      "anchorEventId": "7-cross-5",
+      "choiceEventIds": [
+        "7-cross-5",
+        "7-cross-2",
+        "7-cross-6"
+      ],
+      "frame": {
+        "atMs": 380000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "道路右边是长绿墙，远处管廊和左侧的高压塔可用来定位。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "道路右边是长绿墙，远处管廊和左侧的高压塔可用来定位。"
+    },
+    {
+      "id": "scene:7-cross-6",
+      "kind": "scene",
+      "anchorEventId": "7-cross-6",
+      "choiceEventIds": [
+        "7-cross-6",
+        "7-cross-2",
+        "7-cross-5"
+      ],
+      "frame": {
+        "atMs": 446000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "绿色管廊已经在前方不远处，路边两侧都有建筑。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "绿色管廊已经在前方不远处，路边两侧都有建筑。"
+    },
+    {
+      "id": "scene:7-stop-look-2",
+      "kind": "scene",
+      "anchorEventId": "7-stop-look-2",
+      "choiceEventIds": [
+        "7-stop-look-2",
+        "7-exit-look",
+        "7-turn-3"
+      ],
+      "frame": {
+        "atMs": 675000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头朝着横向的大路，右面紧贴出口处的高墙。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "车头朝着横向的大路，右面紧贴出口处的高墙。"
+    },
+    {
       "id": "sequence:7-exit-look",
       "kind": "sequence",
       "anchorEventId": "7-exit-look",
-      "nextEventId": "7-exit-turn",
+      "relation": "next",
+      "answerEventId": "7-exit-turn",
       "choiceEventIds": [
         "7-exit-turn",
         "7-bus-1",
         "7-cross-1"
-      ],
-      "hint": "想想离开考场后，要先进入哪一条主路。"
+      ]
     },
     {
       "id": "sequence:7-bus-1",
       "kind": "sequence",
       "anchorEventId": "7-bus-1",
-      "nextEventId": "7-cross-1",
+      "relation": "next",
+      "answerEventId": "7-cross-1",
       "choiceEventIds": [
         "7-cross-1",
         "7-bus-2",
         "7-cross-2"
-      ],
-      "hint": "沿大学路接着往前，留意学校区域之后的位置。"
+      ]
     },
     {
       "id": "sequence:7-cross-2",
       "kind": "sequence",
       "anchorEventId": "7-cross-2",
-      "nextEventId": "7-meeting",
+      "relation": "next",
+      "answerEventId": "7-meeting",
       "choiceEventIds": [
         "7-meeting",
         "7-uturn-1",
         "7-straight"
-      ],
-      "hint": "进入工业区后，第一次掉头之前还有一个交通观察项目。"
+      ]
     },
     {
       "id": "sequence:7-uturn-1",
       "kind": "sequence",
       "anchorEventId": "7-uturn-1",
-      "nextEventId": "7-straight",
+      "relation": "next",
+      "answerEventId": "7-straight",
       "choiceEventIds": [
         "7-straight",
         "7-turn-2",
         "7-cross-3"
-      ],
-      "hint": "掉头后先沿反向道路走一段，再接上下一个转弯。"
-    },
-    {
-      "id": "sequence:7-overtake",
-      "kind": "sequence",
-      "anchorEventId": "7-overtake",
-      "nextEventId": "7-cross-5",
-      "choiceEventIds": [
-        "7-cross-5",
-        "7-uturn-2",
-        "7-cross-6"
-      ],
-      "hint": "先回忆超车之后、第二次掉头之前经过的路口。"
+      ]
     },
     {
       "id": "sequence:7-stop-look-2",
       "kind": "sequence",
       "anchorEventId": "7-stop-look-2",
-      "nextEventId": "7-return-turn",
+      "relation": "next",
+      "answerEventId": "7-return-turn",
       "choiceEventIds": [
         "7-return-turn",
         "7-cross-6",
         "7-parking"
-      ],
-      "hint": "在出口观察以后，先回到大学路，再往终点方向走。"
+      ]
+    },
+    {
+      "id": "sequence:7-industrial-turn",
+      "kind": "sequence",
+      "anchorEventId": "7-industrial-turn",
+      "relation": "previous",
+      "answerEventId": "7-bus-2",
+      "choiceEventIds": [
+        "7-bus-2",
+        "7-bus-1",
+        "7-cross-1"
+      ]
+    },
+    {
+      "id": "sequence:7-cross-4",
+      "kind": "sequence",
+      "anchorEventId": "7-cross-4",
+      "relation": "previous",
+      "answerEventId": "7-cross-3",
+      "choiceEventIds": [
+        "7-cross-3",
+        "7-cross-2",
+        "7-cross-5"
+      ]
+    },
+    {
+      "id": "sequence:7-uturn-2",
+      "kind": "sequence",
+      "anchorEventId": "7-uturn-2",
+      "relation": "previous",
+      "answerEventId": "7-cross-5",
+      "choiceEventIds": [
+        "7-cross-5",
+        "7-cross-4",
+        "7-cross-6"
+      ]
+    },
+    {
+      "id": "sequence:7-cross-6",
+      "kind": "sequence",
+      "anchorEventId": "7-cross-6",
+      "relation": "next",
+      "answerEventId": "7-lane-command",
+      "choiceEventIds": [
+        "7-lane-command",
+        "7-turn-3",
+        "7-stop-look-2"
+      ]
+    },
+    {
+      "id": "sequence:7-parking",
+      "kind": "sequence",
+      "anchorEventId": "7-parking",
+      "relation": "previous",
+      "answerEventId": "7-return-turn",
+      "choiceEventIds": [
+        "7-return-turn",
+        "7-turn-3",
+        "7-stop-look-2"
+      ]
+    },
+    {
+      "id": "bridge:7-bus-1",
+      "kind": "bridge",
+      "anchorEventId": "7-bus-1",
+      "beforeEventId": "7-exit-turn",
+      "afterEventId": "7-cross-1",
+      "choiceEventIds": [
+        "7-bus-1",
+        "7-bus-2",
+        "7-cross-2"
+      ]
+    },
+    {
+      "id": "bridge:7-cross-2",
+      "kind": "bridge",
+      "anchorEventId": "7-cross-2",
+      "beforeEventId": "7-industrial-turn",
+      "afterEventId": "7-meeting",
+      "choiceEventIds": [
+        "7-cross-2",
+        "7-cross-3",
+        "7-cross-4"
+      ]
+    },
+    {
+      "id": "bridge:7-uturn-1",
+      "kind": "bridge",
+      "anchorEventId": "7-uturn-1",
+      "beforeEventId": "7-meeting",
+      "afterEventId": "7-straight",
+      "choiceEventIds": [
+        "7-uturn-1",
+        "7-uturn-2",
+        "7-overtake"
+      ]
+    },
+    {
+      "id": "bridge:7-cross-3",
+      "kind": "bridge",
+      "anchorEventId": "7-cross-3",
+      "beforeEventId": "7-turn-2",
+      "afterEventId": "7-cross-4",
+      "choiceEventIds": [
+        "7-cross-3",
+        "7-cross-2",
+        "7-cross-6"
+      ]
+    },
+    {
+      "id": "bridge:7-lane-command",
+      "kind": "bridge",
+      "anchorEventId": "7-lane-command",
+      "beforeEventId": "7-cross-6",
+      "afterEventId": "7-turn-3",
+      "choiceEventIds": [
+        "7-lane-command",
+        "7-overtake",
+        "7-straight"
+      ]
+    },
+    {
+      "id": "bridge:7-return-turn",
+      "kind": "bridge",
+      "anchorEventId": "7-return-turn",
+      "beforeEventId": "7-stop-look-2",
+      "afterEventId": "7-parking",
+      "choiceEventIds": [
+        "7-return-turn",
+        "7-turn-2",
+        "7-turn-3"
+      ]
     }
   ]
 }

@@ -1,7 +1,7 @@
 import { BookOpen, Check, CircleHelp, ClipboardCheck, Lightbulb, Minus, RotateCcw, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import type { QuizQuestion } from './bank'
+import { quizKindLabels, type QuizQuestion } from './bank'
 import { quizOutcome, quizOutcomeLabels, summarizeQuiz, UNKNOWN_ANSWER, type QuizAnswer } from './model'
 
 const outcomeIcons = { independent: Check, assisted: Lightbulb, wrong: X, unknown: CircleHelp, unanswered: CircleHelp }
@@ -44,10 +44,10 @@ export function QuizResults({ questions, answers, date, onRetry, onReplay }: {
         </div>)}
       </dl>
       {tally.assisted > 0 && <p className="text-base text-muted-foreground">答对的题目中，有 {tally.assisted} 题使用过提示。</p>}
-      <div className="flex flex-wrap gap-2 text-base">{(['direction', 'sequence'] as const).map(kind => {
+      <div className="flex flex-wrap gap-2 text-base">{Object.entries(quizKindLabels).map(([kind, label]) => {
         const ofKind = items.filter(item => item.question.kind === kind)
         if (!ofKind.length) return null
-        return <Badge key={kind} variant="outline" className="text-sm">{kind === 'direction' ? '走向判断' : '项目顺序'} · 答对 {correct.filter(item => item.question.kind === kind).length} / {ofKind.length}</Badge>
+        return <Badge key={kind} variant="outline" className="text-sm">{label} · 答对 {correct.filter(item => item.question.kind === kind).length} / {ofKind.length}</Badge>
       })}</div>
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => onRetry()}><RotateCcw aria-hidden />再抽一组小测</Button>
@@ -67,7 +67,7 @@ export function QuizResults({ questions, answers, date, onRetry, onReplay }: {
         const chosen = answer?.selected === UNKNOWN_ANSWER ? '想不起来' : question.options.find(option => option.id === answer?.selected)?.label ?? '未作答'
         return <article key={question.id} className="space-y-3 rounded-lg border p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-base font-semibold">第 {index + 1} 题 · {question.kind === 'direction' ? '记走向' : '接顺序'}</p>
+            <p className="text-base font-semibold">第 {index + 1} 题 · {quizKindLabels[question.kind]}</p>
             <Badge variant="outline" className={`text-sm ${outcomeStyles[outcome]}`}><Icon className="size-4" aria-hidden />{quizOutcomeLabels[outcome]}</Badge>
           </div>
           <p className="font-semibold leading-relaxed">{question.prompt}</p>

@@ -1,4 +1,4 @@
-import type { QuizQuestion } from './bank'
+import { QUIZ_ROUND_SIZE, type QuizQuestion } from './bank'
 
 export const UNKNOWN_ANSWER = 'unknown'
 export interface QuizAnswer { questionId: string; selected: string; usedHint: boolean }
@@ -8,34 +8,37 @@ export interface RouteQuizState {
   index: number
   selected: string | null
   frameReady: boolean
+  optionsVisible: boolean
   answers: QuizAnswer[]
 }
 export type RouteQuizAction =
   | { type: 'start'; questions: QuizQuestion[] }
   | { type: 'frame-ready'; questionId: string; ready: boolean }
+  | { type: 'reveal-options' }
   | { type: 'select'; selected: string }
   | { type: 'submit' }
   | { type: 'finish' }
   | { type: 'reset' }
 
-export const initialRouteQuizState: RouteQuizState = { phase: 'ready', questions: [], index: 0, selected: null, frameReady: false, answers: [] }
+export const initialRouteQuizState: RouteQuizState = { phase: 'ready', questions: [], index: 0, selected: null, frameReady: false, optionsVisible: false, answers: [] }
 
 export function routeQuizReducer(state: RouteQuizState, action: RouteQuizAction): RouteQuizState {
   const question = state.questions[state.index]
   switch (action.type) {
     case 'reset': return initialRouteQuizState
     case 'start': {
-      if (!action.questions.length || action.questions.length > 5 || new Set(action.questions.map(item => item.id)).size !== action.questions.length) return state
-      return { ...initialRouteQuizState, phase: 'answering', questions: action.questions, frameReady: action.questions[0].kind === 'sequence' }
+      if (!action.questions.length || action.questions.length > QUIZ_ROUND_SIZE || new Set(action.questions.map(item => item.id)).size !== action.questions.length) return state
+      return { ...initialRouteQuizState, phase: 'answering', questions: action.questions, frameReady: !action.questions[0].frame }
     }
-    case 'frame-ready': return question?.id === action.questionId && question.kind === 'direction' && state.phase === 'answering' ? { ...state, frameReady: action.ready } : state
-    case 'select': return state.phase === 'answering' && state.frameReady && (action.selected === UNKNOWN_ANSWER || question?.options.some(option => option.id === action.selected)) ? { ...state, selected: action.selected } : state
+    case 'frame-ready': return question?.id === action.questionId && question.frame && state.phase === 'answering' ? { ...state, frameReady: action.ready } : state
+    case 'reveal-options': return state.phase === 'answering' && state.frameReady ? { ...state, optionsVisible: true } : state
+    case 'select': return state.phase === 'answering' && state.frameReady && state.optionsVisible && (action.selected === UNKNOWN_ANSWER || question?.options.some(option => option.id === action.selected)) ? { ...state, selected: action.selected } : state
     case 'submit': {
       if (state.phase !== 'answering' || !question || !state.frameReady || state.selected === null) return state
       const answers = [...state.answers, { questionId: question.id, selected: state.selected, usedHint: false }]
       const index = state.index + 1
       if (index === state.questions.length) return { ...state, phase: 'finished', answers }
-      return { ...state, index, answers, selected: null, frameReady: state.questions[index].kind === 'sequence' }
+      return { ...state, index, answers, selected: null, frameReady: !state.questions[index].frame, optionsVisible: false }
     }
     case 'finish': return state.phase === 'ready' ? state : { ...state, phase: 'finished' }
   }

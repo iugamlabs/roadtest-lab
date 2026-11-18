@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import type { QuizBank } from './bank'
+import { QUIZ_ROUND_SIZE, type QuizBank } from './bank'
 import { UNKNOWN_ANSWER, type QuizAnswer } from './model'
 
 const answerSchema = z.object({ questionId: z.string().min(1), selected: z.string().min(1), usedHint: z.boolean() })
 const resultSchema = z.object({
   id: z.string().min(1), at: z.number().int().nonnegative(),
-  questionIds: z.array(z.string().min(1)).min(1).max(5), answers: z.array(answerSchema).min(1).max(5),
+  questionIds: z.array(z.string().min(1)).min(1).max(QUIZ_ROUND_SIZE), answers: z.array(answerSchema).min(1).max(QUIZ_ROUND_SIZE),
   complete: z.boolean(),
 })
 export type RouteQuizResult = z.infer<typeof resultSchema>
