@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "routeId": "6",
+  "videoSha256": "2b1cf86c7ee45c8422f1d8f7cb1a4c457038d11d44073a6516238ab7175c235b",
+  "subtitleSha256": "e490e3e6c0f30cc99c38eb94431145a2667058093883109d05d43f4300938dbe",
+  "eventSignature": "[[\"6-exit-look\",\"出场路口停车瞭望\",\"stop-and-observe\",null,13000,19000],[\"6-exit-turn\",\"出场右转进入大学路\",\"turn\",\"right\",19000,28000],[\"6-bus-1\",\"大学路第一处公交站\",\"brake\",null,28000,35000],[\"6-straight\",\"保持直线行驶\",\"straight\",null,49000,62000],[\"6-cross-1\",\"学校区域之后的路口\",\"brake\",null,79000,88000],[\"6-bus-2\",\"工业区入口前的公交站\",\"brake\",null,89000,99000],[\"6-industrial-turn\",\"右转进入工业区\",\"turn\",\"right\",118000,137000],[\"6-cross-2\",\"工业区第一个路口直行\",\"brake\",null,150000,159000],[\"6-uturn\",\"工业区尽头掉头\",\"uturn\",\"left\",197000,224000],[\"6-lane-command\",\"按口令变更车道\",\"lane-change\",\"left\",233000,247000],[\"6-cross-3\",\"饭店之前的路口直行\",\"brake\",null,253000,264000],[\"6-bus-3\",\"返回大学路后的公交站\",\"brake\",null,332000,346000],[\"6-overtake\",\"完成超车并返回原车道\",\"overtake\",null,393000,415000],[\"6-cross-4\",\"返回大学路后的路口直行\",\"brake\",null,535000,547000],[\"6-bus-4\",\"终点前的公交站\",\"brake\",null,558000,574000],[\"6-meeting\",\"终点前会车减速\",\"brake\",null,590000,597000],[\"6-inspection\",\"检查区无口令减速\",\"brake\",null,601000,611000],[\"6-parking\",\"靠边停车\",\"parking\",\"right\",672000,703000]]",
+  "questions": [
+    {
+      "id": "direction:6-exit-turn",
+      "kind": "direction",
+      "anchorEventId": "6-exit-turn",
+      "correct": "right",
+      "hint": "前一处是「出场路口停车瞭望」，回忆从那里接过来的这段道路。",
+      "frame": {
+        "atMs": 17000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "出口停止线前车头朝向横向道路，尚未转向；底部停车提示字幕遮住。"
+      }
+    },
+    {
+      "id": "direction:6-industrial-turn",
+      "kind": "direction",
+      "anchorEventId": "6-industrial-turn",
+      "correct": "right",
+      "hint": "前一处是「工业区入口前的公交站」，回忆从那里接过来的这段道路。",
+      "frame": {
+        "atMs": 118000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车辆仍沿大学路，右前方路口接近；车头尚未右转，底部区域遮住。"
+      }
+    },
+    {
+      "id": "direction:6-uturn",
+      "kind": "direction",
+      "anchorEventId": "6-uturn",
+      "correct": "uturn",
+      "hint": "前一处是「工业区第一个路口直行」，回忆从那里接过来的这段道路。",
+      "frame": {
+        "atMs": 197000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "前车在前方，拍摄车辆仍朝向路口，尚未开始掉头；底部左灯讲解遮住。"
+      }
+    },
+    {
+      "id": "sequence:6-exit-look",
+      "kind": "sequence",
+      "anchorEventId": "6-exit-look",
+      "nextEventId": "6-exit-turn",
+      "choiceEventIds": [
+        "6-exit-turn",
+        "6-bus-1",
+        "6-straight"
+      ],
+      "hint": "想想离开考场后，要先进入哪一条主路。"
+    },
+    {
+      "id": "sequence:6-bus-1",
+      "kind": "sequence",
+      "anchorEventId": "6-bus-1",
+      "nextEventId": "6-straight",
+      "choiceEventIds": [
+        "6-straight",
+        "6-cross-1",
+        "6-bus-2"
+      ],
+      "hint": "第一处公交站之后，回忆沿大学路的直线路段。"
+    },
+    {
+      "id": "sequence:6-cross-1",
+      "kind": "sequence",
+      "anchorEventId": "6-cross-1",
+      "nextEventId": "6-bus-2",
+      "choiceEventIds": [
+        "6-bus-2",
+        "6-cross-2",
+        "6-bus-3"
+      ],
+      "hint": "路口通过以后，还没进入工业区，先留意主路右侧。"
+    },
+    {
+      "id": "sequence:6-industrial-turn",
+      "kind": "sequence",
+      "anchorEventId": "6-industrial-turn",
+      "nextEventId": "6-cross-2",
+      "choiceEventIds": [
+        "6-cross-2",
+        "6-uturn",
+        "6-lane-command"
+      ],
+      "hint": "进入工业区后，先接上第一个路口。"
+    },
+    {
+      "id": "sequence:6-cross-4",
+      "kind": "sequence",
+      "anchorEventId": "6-cross-4",
+      "nextEventId": "6-bus-4",
+      "choiceEventIds": [
+        "6-bus-4",
+        "6-meeting",
+        "6-inspection"
+      ],
+      "hint": "回到大学路并通过这个路口后，继续留意右侧候车亭。"
+    },
+    {
+      "id": "sequence:6-meeting",
+      "kind": "sequence",
+      "anchorEventId": "6-meeting",
+      "nextEventId": "6-inspection",
+      "choiceEventIds": [
+        "6-inspection",
+        "6-bus-4",
+        "6-parking"
+      ],
+      "hint": "在停车收尾之前，还有一个需要自主留意的区域。"
+    }
+  ]
+}

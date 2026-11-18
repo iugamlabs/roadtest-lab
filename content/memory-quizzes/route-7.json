@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "routeId": "7",
+  "videoSha256": "a5029ba37cb417e91fe27f31352a17001f6ea9bd8f3827eabbe14ec35d01b7b3",
+  "subtitleSha256": "7fc0ac1c54979efd5e30e3d0bf2fa1a6206e86d9c233dbdb4d9a603e93466dc4",
+  "eventSignature": "[[\"7-exit-look\",\"出场路口停车瞭望\",\"stop-and-observe\",null,11000,21000],[\"7-exit-turn\",\"出场右转进入大学路\",\"turn\",\"right\",21000,30000],[\"7-bus-1\",\"大学路第一处公交站\",\"brake\",null,32000,55000],[\"7-cross-1\",\"学校区域之后的路口\",\"brake\",null,119000,130000],[\"7-bus-2\",\"工业区入口前的公交站\",\"brake\",null,132000,143000],[\"7-industrial-turn\",\"右转进入工业区\",\"turn\",\"right\",175000,195000],[\"7-cross-2\",\"工业区第一个路口直行\",\"brake\",null,204000,214000],[\"7-meeting\",\"工业区会车减速\",\"brake\",null,234000,240000],[\"7-uturn-1\",\"第一次掉头\",\"uturn\",\"left\",255000,275000],[\"7-straight\",\"保持直线行驶\",\"straight\",null,276000,289000],[\"7-turn-2\",\"第一次掉头后右转\",\"turn\",\"right\",296000,316000],[\"7-cross-3\",\"右转后第一个路口直行\",\"brake\",null,324000,336000],[\"7-cross-4\",\"超车前的路口直行\",\"brake\",null,346000,356000],[\"7-overtake\",\"完成超车并返回原车道\",\"overtake\",null,362000,377000],[\"7-cross-5\",\"超车后的路口直行\",\"brake\",null,380000,394000],[\"7-uturn-2\",\"第二次掉头\",\"uturn\",\"left\",409000,434000],[\"7-cross-6\",\"第二次掉头后的路口直行\",\"brake\",null,446000,458000],[\"7-lane-command\",\"按口令向右变更车道\",\"lane-change\",\"right\",467000,479000],[\"7-turn-3\",\"斜入口路口右转\",\"turn\",\"right\",493000,551000],[\"7-stop-look-2\",\"返回大学路前停车瞭望\",\"stop-and-observe\",null,675000,682000],[\"7-return-turn\",\"右转返回大学路\",\"turn\",\"right\",687000,697000],[\"7-parking\",\"靠边停车\",\"parking\",\"right\",754000,781000]]",
+  "questions": [
+    {
+      "id": "direction:7-exit-turn",
+      "kind": "direction",
+      "anchorEventId": "7-exit-turn",
+      "correct": "right",
+      "hint": "前一处是「出场路口停车瞭望」，回忆从那里接过来的这段道路。",
+      "frame": {
+        "atMs": 19000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车辆仍在出口前，未驶入大学路；比原动作区间起点提前2秒，底部讲解遮住。"
+      }
+    },
+    {
+      "id": "direction:7-industrial-turn",
+      "kind": "direction",
+      "anchorEventId": "7-industrial-turn",
+      "correct": "right",
+      "hint": "前一处是「工业区入口前的公交站」，回忆从那里接过来的这段道路。",
+      "frame": {
+        "atMs": 175000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车辆仍在大学路，右前方路口接近；画面框线只标开口，不显示行驶方向，底部遮住。"
+      }
+    },
+    {
+      "id": "direction:7-uturn-1",
+      "kind": "direction",
+      "anchorEventId": "7-uturn-1",
+      "correct": "uturn",
+      "hint": "前一处是「工业区会车减速」，回忆从那里接过来的这段道路。",
+      "frame": {
+        "atMs": 255000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头仍朝向前方丁字路口，尚未掉头；底部掉头口令字幕遮住。"
+      }
+    },
+    {
+      "id": "direction:7-turn-2",
+      "kind": "direction",
+      "anchorEventId": "7-turn-2",
+      "correct": "right",
+      "hint": "前一处是「保持直线行驶」，回忆从那里接过来的这段道路。",
+      "frame": {
+        "atMs": 296000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "第一次掉头后的路口在前，车头尚未转向；底部讲解字幕遮住。"
+      }
+    },
+    {
+      "id": "sequence:7-exit-look",
+      "kind": "sequence",
+      "anchorEventId": "7-exit-look",
+      "nextEventId": "7-exit-turn",
+      "choiceEventIds": [
+        "7-exit-turn",
+        "7-bus-1",
+        "7-cross-1"
+      ],
+      "hint": "想想离开考场后，要先进入哪一条主路。"
+    },
+    {
+      "id": "sequence:7-bus-1",
+      "kind": "sequence",
+      "anchorEventId": "7-bus-1",
+      "nextEventId": "7-cross-1",
+      "choiceEventIds": [
+        "7-cross-1",
+        "7-bus-2",
+        "7-cross-2"
+      ],
+      "hint": "沿大学路接着往前，留意学校区域之后的位置。"
+    },
+    {
+      "id": "sequence:7-cross-2",
+      "kind": "sequence",
+      "anchorEventId": "7-cross-2",
+      "nextEventId": "7-meeting",
+      "choiceEventIds": [
+        "7-meeting",
+        "7-uturn-1",
+        "7-straight"
+      ],
+      "hint": "进入工业区后，第一次掉头之前还有一个交通观察项目。"
+    },
+    {
+      "id": "sequence:7-uturn-1",
+      "kind": "sequence",
+      "anchorEventId": "7-uturn-1",
+      "nextEventId": "7-straight",
+      "choiceEventIds": [
+        "7-straight",
+        "7-turn-2",
+        "7-cross-3"
+      ],
+      "hint": "掉头后先沿反向道路走一段，再接上下一个转弯。"
+    },
+    {
+      "id": "sequence:7-overtake",
+      "kind": "sequence",
+      "anchorEventId": "7-overtake",
+      "nextEventId": "7-cross-5",
+      "choiceEventIds": [
+        "7-cross-5",
+        "7-uturn-2",
+        "7-cross-6"
+      ],
+      "hint": "先回忆超车之后、第二次掉头之前经过的路口。"
+    },
+    {
+      "id": "sequence:7-stop-look-2",
+      "kind": "sequence",
+      "anchorEventId": "7-stop-look-2",
+      "nextEventId": "7-return-turn",
+      "choiceEventIds": [
+        "7-return-turn",
+        "7-cross-6",
+        "7-parking"
+      ],
+      "hint": "在出口观察以后，先回到大学路，再往终点方向走。"
+    }
+  ]
+}
