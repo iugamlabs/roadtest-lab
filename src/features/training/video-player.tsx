@@ -22,7 +22,8 @@ interface Props {
   requiresOperations: boolean
   practiceNotice: string | null
   subtitle: string | null
-  controller: TrainingController | null
+  controller: Pick<TrainingController, 'toggle'> | null
+  concealAnswers?: boolean
   onSeek: (seconds: number) => void
   onTime: (seconds: number) => void
   onDuration: (seconds: number) => void
@@ -31,7 +32,7 @@ interface Props {
 }
 
 export function TrainingVideoPlayer(props: Props) {
-  const { routeId, name, video, time, duration, playing, playbackLabel, playbackDisabled, pauseControl, mediaReady, mediaError, requiresOperations, practiceNotice, subtitle, controller, onSeek, onTime, onDuration, onPlaying, onError } = props
+  const { routeId, name, video, time, duration, playing, playbackLabel, playbackDisabled, pauseControl, mediaReady, mediaError, requiresOperations, practiceNotice, subtitle, controller, onSeek, onTime, onDuration, onPlaying, onError, concealAnswers = false } = props
   const { settings, save } = useSettings()
   const player = useRef<HTMLElement>(null)
   const [fullscreen, setFullscreen] = useState(false)
@@ -70,7 +71,7 @@ export function TrainingVideoPlayer(props: Props) {
     }
     setExpanded(true)
   }
-  function mute() { setNotice(save({ ...settings, originalAudio: !settings.originalAudio }) ? '' : '原声已调整，本次生效。') }
+  function mute() { if (!concealAnswers) setNotice(save({ ...settings, originalAudio: !settings.originalAudio }) ? '' : '原声已调整，本次生效。') }
   function keyboard(event: KeyboardEvent<HTMLElement>) {
     if (event.target instanceof HTMLElement && event.target.closest('button, input, select, [role="combobox"], [role="option"]')) return
     if (event.altKey || event.ctrlKey || event.metaKey) return
@@ -79,20 +80,20 @@ export function TrainingVideoPlayer(props: Props) {
     if (key === 'arrowleft' || key === 'arrowright') { event.preventDefault(); if (mediaReady) onSeek(time + (key === 'arrowleft' ? -10 : 10)) }
     if (key === 'f') { event.preventDefault(); void toggleFullscreen() }
     if (key === 'm') { event.preventDefault(); mute() }
-    if (key === 'c') { event.preventDefault(); setCaptions(value => !value) }
+    if (key === 'c') { event.preventDefault(); if (!concealAnswers) setCaptions(value => !value) }
   }
   return <section ref={player} tabIndex={0} aria-label="路线视频播放器" aria-keyshortcuts="Space K ArrowLeft ArrowRight F M C" onKeyDown={keyboard} className={`training-player min-w-0 overflow-hidden rounded-lg border bg-background ${expanded ? 'is-expanded' : ''}`}>
     <div className="video-frame">
-      <video ref={video} src={mediaUrl(routeId, 'mp4')} playsInline preload="metadata" muted={!settings.originalAudio} aria-label={`${name}教学视频`}
+      <video ref={video} src={mediaUrl(routeId, 'mp4')} playsInline preload="metadata" muted={concealAnswers || !settings.originalAudio} aria-label={`${name}教学视频`}
         onLoadedMetadata={event => { const element = event.currentTarget; element.playbackRate = Number(settings.playbackRate); element.volume = volume; onDuration(Number.isFinite(element.duration) ? element.duration : 0) }}
         onTimeUpdate={event => onTime(event.currentTarget.currentTime)} onPlay={() => onPlaying(true)} onPause={() => { onPlaying(false); setWaiting(false) }} onEnded={() => { onPlaying(false); setWaiting(false) }}
         onWaiting={() => setWaiting(true)} onPlaying={() => setWaiting(false)} onCanPlay={() => setWaiting(false)}
         onProgress={event => { const element = event.currentTarget; setBuffered(element.buffered.length && Number.isFinite(element.duration) && element.duration > 0 ? element.buffered.end(element.buffered.length - 1) / element.duration * 100 : 0) }}
         onError={() => { onError(true); onPlaying(false); setWaiting(false) }} />
-      {settings.blurSubtitles && !mediaError && <div aria-hidden className="subtitle-mask" style={{ top: `${settings.maskTop}%`, height: `${settings.maskHeight}%` }} />}
+      {(settings.blurSubtitles || concealAnswers) && !mediaError && <div aria-hidden className={concealAnswers ? 'absolute inset-x-0 bg-black' : 'subtitle-mask'} style={{ top: `${settings.maskTop}%`, height: `${settings.maskHeight}%` }} />}
       <div className="player-heading"><span>{name} · 实景教学</span><span>{waiting ? '正在缓冲' : playing ? '播放中' : '已暂停'}</span></div>
       {practiceNotice && !mediaError && <span className="video-state player-practice-notice">{practiceNotice}</span>}
-      {captions && subtitle && !mediaError && <div className="player-caption" aria-label="当前教学字幕"><span className="player-caption-label">教学字幕</span><p>{subtitle}</p></div>}
+      {!concealAnswers && captions && subtitle && !mediaError && <div className="player-caption" aria-label="当前教学字幕"><span className="player-caption-label">教学字幕</span><p>{subtitle}</p></div>}
       {mediaError && <div role="alert" className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 p-5 text-center text-white"><p className="text-xl font-bold">暂时无法播放这段视频</p><Button variant="secondary" onClick={() => { onError(false); video.current?.load() }}>重新加载视频</Button></div>}
     </div>
     <div className="player-controls space-y-2 border-t p-3">
@@ -110,11 +111,11 @@ export function TrainingVideoPlayer(props: Props) {
         <Button variant="outline" size="icon" className="size-[56px]" disabled={!mediaReady || !controller} onClick={() => onSeek(time - 10)} aria-label="后退 10 秒" title="后退 10 秒（←）"><RotateCcw aria-hidden /></Button>
         <Button variant="outline" size="icon" className="size-[56px]" disabled={!mediaReady || !controller} onClick={() => onSeek(time + 10)} aria-label="前进 10 秒" title="前进 10 秒（→）"><RotateCw aria-hidden /></Button>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="size-[56px]" aria-label={settings.originalAudio ? '关闭原声' : '开启原声'} aria-pressed={!settings.originalAudio} title="原声开关（M）" onClick={mute}>{settings.originalAudio && volume > 0 ? <Volume2 aria-hidden /> : <VolumeX aria-hidden />}</Button>
-          <input type="range" min={0} max={1} step={.05} value={settings.originalAudio ? volume : 0} aria-label="视频音量" aria-valuetext={`${Math.round((settings.originalAudio ? volume : 0) * 100)}%`} className="player-volume" onChange={event => { const next = Number(event.target.value); setVolume(next); if (next > 0 && !settings.originalAudio) save({ ...settings, originalAudio: true }) }} />
+          <Button variant="ghost" size="icon" className="size-[56px]" disabled={concealAnswers} aria-label={concealAnswers ? '回忆时原声已关闭' : settings.originalAudio ? '关闭原声' : '开启原声'} aria-pressed={concealAnswers || !settings.originalAudio} title="原声开关（M）" onClick={mute}>{!concealAnswers && settings.originalAudio && volume > 0 ? <Volume2 aria-hidden /> : <VolumeX aria-hidden />}</Button>
+          <input type="range" min={0} max={1} step={.05} disabled={concealAnswers} value={!concealAnswers && settings.originalAudio ? volume : 0} aria-label="视频音量" aria-valuetext={`${Math.round((!concealAnswers && settings.originalAudio ? volume : 0) * 100)}%`} className="player-volume" onChange={event => { const next = Number(event.target.value); setVolume(next); if (next > 0 && !settings.originalAudio) save({ ...settings, originalAudio: true }) }} />
         </div>
         <Select value={settings.playbackRate} onValueChange={value => { const parsed = playbackRateSchema.safeParse(value); if (parsed.success) setNotice(save({ ...settings, playbackRate: parsed.data }) ? '' : '倍速已调整，本次生效。') }}><SelectTrigger aria-label="播放速度" className="min-h-[56px] w-[6rem] text-base"><SelectValue /></SelectTrigger><SelectContent container={player.current}>{playbackRates.map(value => <SelectItem key={value} value={value} className="min-h-11 text-base">{value} 倍</SelectItem>)}</SelectContent></Select>
-        <Button variant={captions ? 'secondary' : 'ghost'} size="icon" className="size-[56px]" aria-label={captions ? '关闭教学字幕' : '显示教学字幕'} aria-pressed={captions} title="教学字幕（C）" onClick={() => setCaptions(value => !value)}><Captions aria-hidden /></Button>
+        <Button variant={!concealAnswers && captions ? 'secondary' : 'ghost'} size="icon" className="size-[56px]" disabled={concealAnswers} aria-label={concealAnswers ? '回忆时教学字幕已隐藏' : captions ? '关闭教学字幕' : '显示教学字幕'} aria-pressed={!concealAnswers && captions} title="教学字幕（C）" onClick={() => setCaptions(value => !value)}><Captions aria-hidden /></Button>
         <Button variant="ghost" size="icon" className="size-[56px]" aria-label={enlarged ? '退出全屏' : '全屏播放'} title={enlarged ? '退出全屏（F / Esc）' : '全屏播放（F）'} onClick={() => void toggleFullscreen()}>{enlarged ? <Minimize aria-hidden /> : <Maximize aria-hidden />}</Button>
       </div>
       {notice && <p role="status" className="text-sm text-muted-foreground">{notice}</p>}
