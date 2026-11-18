@@ -8,10 +8,10 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
+    "dev": "vite --host 127.0.0.1 --port 19237",
     "build": "node scripts/prepare-subtitles.mjs && node --experimental-strip-types scripts/prepare-events.mjs && vite build && tsc --noEmit",
     "typecheck": "tsc --noEmit",
-    "preview": "vite preview --host 127.0.0.1",
+    "preview": "vite preview --host 127.0.0.1 --port 19237",
     "test": "vitest run",
     "prepare:media": "node scripts/prepare-media.mjs",
     "import:ocr": "node scripts/import-ocr.mjs",
