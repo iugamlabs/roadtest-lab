@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, Play, Lightbulb } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MapRouteCards } from '@/features/exam/map/route-cards'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
@@ -29,15 +30,23 @@ function HomePage() {
 
       <nav aria-label="其他学习入口" className="grid gap-3 lg:grid-cols-3">
         {shortcuts.map(item => (
-          <Button key={item.to} asChild variant={item.to === '/exam/lighting' ? 'default' : 'outline'} className="group h-auto min-w-0 justify-start whitespace-normal p-5 text-left">
+          <Button
+            key={item.to}
+            asChild
+            variant="outline"
+            className={cn(
+              'h-auto min-w-0 justify-start whitespace-normal p-5 text-left',
+              item.to === '/exam/lighting' && 'border-(--lighting-main)/45 dark:border-(--lighting-main)/45',
+            )}
+          >
             <Link to={item.to}>
               <div className="w-full min-w-0">
-                <div className="flex items-center gap-3">
+                <div className={cn('flex items-center gap-3', item.to === '/exam/lighting' && 'text-(--lighting-main)')}>
                   <item.icon className="size-6 shrink-0" aria-hidden />
                   <h2 className="flex-1 text-lg font-semibold">{item.title}</h2>
                   <ArrowRight className="size-5 opacity-80" aria-hidden />
                 </div>
-                <p className="mt-3 text-base font-normal leading-relaxed text-muted-foreground group-data-[variant=default]:text-primary-foreground">{item.description}</p>
+                <p className="mt-3 text-base font-normal leading-relaxed text-muted-foreground">{item.description}</p>
               </div>
             </Link>
           </Button>
