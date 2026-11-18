@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { BookOpen, ClipboardCheck, Play } from 'lucide-react'
+import { Lightbulb, Play } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -7,7 +7,7 @@ import { scenarioRoutes } from '../routes'
 import { pathData, roadRects } from './geometry'
 import { mapRoute } from './routes'
 
-export function MapRouteCards({ showDescription = false, destination = 'scenario' }: { showDescription?: boolean; destination?: 'video' | 'scenario' }) {
+export function MapRouteCards({ showDescription = false, destination = 'memory' }: { showDescription?: boolean; destination?: 'video' | 'memory' }) {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,18rem),1fr))] gap-4">
       {scenarioRoutes.map(route => {
@@ -17,7 +17,6 @@ export function MapRouteCards({ showDescription = false, destination = 'scenario
             <CardHeader className="px-4">
               <div className="flex items-center justify-between gap-3">
                 <CardTitle className="text-xl"><h2 id={`route-card-${route.id}`}>{route.name}</h2></CardTitle>
-                {destination === 'scenario' && <Badge variant="outline" className="text-sm">{route.scenes.length}项</Badge>}
               </div>
               {showDescription && <CardDescription className="text-base leading-relaxed">{route.description}</CardDescription>}
             </CardHeader>
@@ -38,17 +37,8 @@ export function MapRouteCards({ showDescription = false, destination = 'scenario
               <Button asChild className="w-full">
                 <Link to="/train/$routeId" params={{ routeId: route.id }}><Play aria-hidden />进入视频练习</Link>
               </Button>
-            </CardFooter> : <CardFooter className="grid grid-cols-1 gap-2 px-4 @min-[16rem]/route-card:grid-cols-2">
-              <Button asChild className="px-3">
-                <Link to="/exam/$routeId" params={{ routeId: route.id }} search={{ mode: 'assessment' }}>
-                  <ClipboardCheck aria-hidden />进入考试
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="px-3">
-                <Link to="/exam/$routeId" params={{ routeId: route.id }} search={{ mode: 'practice' }}>
-                  <BookOpen aria-hidden />进入练习
-                </Link>
-              </Button>
+            </CardFooter> : <CardFooter className="px-4">
+              <Button asChild className="w-full"><Link to="/memory/$routeId" params={{ routeId: route.id }}><Lightbulb aria-hidden />开始记路线</Link></Button>
             </CardFooter>}
           </Card>
         )
