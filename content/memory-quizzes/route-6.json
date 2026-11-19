@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "routeId": "6",
   "videoSha256": "2b1cf86c7ee45c8422f1d8f7cb1a4c457038d11d44073a6516238ab7175c235b",
   "subtitleSha256": "e490e3e6c0f30cc99c38eb94431145a2667058093883109d05d43f4300938dbe",
@@ -10,7 +10,6 @@
       "kind": "direction",
       "anchorEventId": "6-exit-turn",
       "correct": "right",
-      "hint": "前一处是「出场路口停车瞭望」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 17000,
         "maskTop": 80,
@@ -24,7 +23,6 @@
       "kind": "direction",
       "anchorEventId": "6-industrial-turn",
       "correct": "right",
-      "hint": "前一处是「工业区入口前的公交站」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 118000,
         "maskTop": 80,
@@ -38,7 +36,6 @@
       "kind": "direction",
       "anchorEventId": "6-uturn",
       "correct": "uturn",
-      "hint": "前一处是「工业区第一个路口直行」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 197000,
         "maskTop": 80,
@@ -48,76 +45,370 @@
       }
     },
     {
+      "id": "direction:6-cross-2",
+      "kind": "direction",
+      "anchorEventId": "6-cross-2",
+      "correct": "straight",
+      "frame": {
+        "atMs": 150000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "仍朝横跨道路的红色横幅及路口行驶，直行字幕在遮罩内；159秒拍摄车沿原方向通过。"
+      },
+      "clue": "认跨在道路上方的红色横幅，以及右侧绿色围挡。"
+    },
+    {
+      "id": "direction:6-cross-3",
+      "kind": "direction",
+      "anchorEventId": "6-cross-3",
+      "correct": "straight",
+      "frame": {
+        "atMs": 253000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "绿化带在左，前方横跨道路的构筑物可辨；字幕需遮住；264秒一路向前，右侧饭店出现。"
+      },
+      "clue": "认左边的绿化带，过了这个路口才看到右侧饭店。"
+    },
+    {
+      "id": "direction:6-cross-4",
+      "kind": "direction",
+      "anchorEventId": "6-cross-4",
+      "correct": "straight",
+      "frame": {
+        "atMs": 535000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "画面尚在信号路口前，右侧可见金属塔架；547秒拍摄车沿主路通过路口。"
+      },
+      "clue": "看信号灯和路口右侧高高的金属塔架。"
+    },
+    {
+      "id": "scene:6-bus-2",
+      "kind": "scene",
+      "anchorEventId": "6-bus-2",
+      "choiceEventIds": [
+        "6-bus-2",
+        "6-bus-1",
+        "6-bus-3"
+      ],
+      "frame": {
+        "atMs": 94000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "右侧候车亭背后是沿街楼房，旁边有一排停车位。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "右侧候车亭背后是沿街楼房，旁边有一排停车位。"
+    },
+    {
+      "id": "scene:6-bus-3",
+      "kind": "scene",
+      "anchorEventId": "6-bus-3",
+      "choiceEventIds": [
+        "6-bus-3",
+        "6-bus-2",
+        "6-bus-4"
+      ],
+      "frame": {
+        "atMs": 338000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "右侧候车亭背后有带图案的长围墙。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "右侧候车亭背后有带图案的长围墙。"
+    },
+    {
+      "id": "scene:6-bus-4",
+      "kind": "scene",
+      "anchorEventId": "6-bus-4",
+      "choiceEventIds": [
+        "6-bus-4",
+        "6-bus-2",
+        "6-bus-3"
+      ],
+      "frame": {
+        "atMs": 566000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "右侧候车亭、旁边的红蓝路牌及后方的树列可辨，遮罩不挡住这些特征。"
+      },
+      "clue": "右侧候车亭旁有红蓝路牌，背后是成排绿树。经过这里后继续向终点方向走。"
+    },
+    {
+      "id": "scene:6-inspection",
+      "kind": "scene",
+      "anchorEventId": "6-inspection",
+      "choiceEventIds": [
+        "6-inspection",
+        "6-bus-4",
+        "6-cross-4"
+      ],
+      "frame": {
+        "atMs": 609000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "右侧路边可看到黄色框线，框线外是开阔的路肩。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "右侧路边可看到黄色框线，框线外是开阔的路肩。"
+    },
+    {
+      "id": "scene:6-cross-2",
+      "kind": "scene",
+      "anchorEventId": "6-cross-2",
+      "choiceEventIds": [
+        "6-cross-2",
+        "6-cross-3",
+        "6-cross-4"
+      ],
+      "frame": {
+        "atMs": 150000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "红色横幅横跨道路，右边是绿色围挡。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "红色横幅横跨道路，右边是绿色围挡。"
+    },
+    {
+      "id": "scene:6-cross-3",
+      "kind": "scene",
+      "anchorEventId": "6-cross-3",
+      "choiceEventIds": [
+        "6-cross-3",
+        "6-cross-2",
+        "6-cross-4"
+      ],
+      "frame": {
+        "atMs": 253000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "左边有较宽的绿化带，前方可看到横跨道路的构筑物，过路口之后才到饭店。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "左边有较宽的绿化带，前方可看到横跨道路的构筑物，过路口之后才到饭店。"
+    },
+    {
       "id": "sequence:6-exit-look",
       "kind": "sequence",
       "anchorEventId": "6-exit-look",
-      "nextEventId": "6-exit-turn",
+      "relation": "next",
+      "answerEventId": "6-exit-turn",
       "choiceEventIds": [
         "6-exit-turn",
         "6-bus-1",
         "6-straight"
-      ],
-      "hint": "想想离开考场后，要先进入哪一条主路。"
+      ]
     },
     {
       "id": "sequence:6-bus-1",
       "kind": "sequence",
       "anchorEventId": "6-bus-1",
-      "nextEventId": "6-straight",
+      "relation": "next",
+      "answerEventId": "6-straight",
       "choiceEventIds": [
         "6-straight",
         "6-cross-1",
         "6-bus-2"
-      ],
-      "hint": "第一处公交站之后，回忆沿大学路的直线路段。"
+      ]
     },
     {
       "id": "sequence:6-cross-1",
       "kind": "sequence",
       "anchorEventId": "6-cross-1",
-      "nextEventId": "6-bus-2",
+      "relation": "next",
+      "answerEventId": "6-bus-2",
       "choiceEventIds": [
         "6-bus-2",
         "6-cross-2",
         "6-bus-3"
-      ],
-      "hint": "路口通过以后，还没进入工业区，先留意主路右侧。"
+      ]
     },
     {
       "id": "sequence:6-industrial-turn",
       "kind": "sequence",
       "anchorEventId": "6-industrial-turn",
-      "nextEventId": "6-cross-2",
+      "relation": "next",
+      "answerEventId": "6-cross-2",
       "choiceEventIds": [
         "6-cross-2",
         "6-uturn",
         "6-lane-command"
-      ],
-      "hint": "进入工业区后，先接上第一个路口。"
+      ]
     },
     {
       "id": "sequence:6-cross-4",
       "kind": "sequence",
       "anchorEventId": "6-cross-4",
-      "nextEventId": "6-bus-4",
+      "relation": "next",
+      "answerEventId": "6-bus-4",
       "choiceEventIds": [
         "6-bus-4",
         "6-meeting",
         "6-inspection"
-      ],
-      "hint": "回到大学路并通过这个路口后，继续留意右侧候车亭。"
+      ]
     },
     {
       "id": "sequence:6-meeting",
       "kind": "sequence",
       "anchorEventId": "6-meeting",
-      "nextEventId": "6-inspection",
+      "relation": "next",
+      "answerEventId": "6-inspection",
       "choiceEventIds": [
         "6-inspection",
         "6-bus-4",
         "6-parking"
-      ],
-      "hint": "在停车收尾之前，还有一个需要自主留意的区域。"
+      ]
+    },
+    {
+      "id": "sequence:6-cross-2",
+      "kind": "sequence",
+      "anchorEventId": "6-cross-2",
+      "relation": "next",
+      "answerEventId": "6-uturn",
+      "choiceEventIds": [
+        "6-uturn",
+        "6-lane-command",
+        "6-meeting"
+      ]
+    },
+    {
+      "id": "sequence:6-lane-command",
+      "kind": "sequence",
+      "anchorEventId": "6-lane-command",
+      "relation": "previous",
+      "answerEventId": "6-uturn",
+      "choiceEventIds": [
+        "6-uturn",
+        "6-cross-2",
+        "6-cross-3"
+      ]
+    },
+    {
+      "id": "sequence:6-overtake",
+      "kind": "sequence",
+      "anchorEventId": "6-overtake",
+      "relation": "previous",
+      "answerEventId": "6-bus-3",
+      "choiceEventIds": [
+        "6-bus-3",
+        "6-bus-2",
+        "6-bus-4"
+      ]
+    },
+    {
+      "id": "sequence:6-cross-3",
+      "kind": "sequence",
+      "anchorEventId": "6-cross-3",
+      "relation": "previous",
+      "answerEventId": "6-lane-command",
+      "choiceEventIds": [
+        "6-lane-command",
+        "6-overtake",
+        "6-straight"
+      ]
+    },
+    {
+      "id": "sequence:6-bus-4",
+      "kind": "sequence",
+      "anchorEventId": "6-bus-4",
+      "relation": "next",
+      "answerEventId": "6-meeting",
+      "choiceEventIds": [
+        "6-meeting",
+        "6-inspection",
+        "6-parking"
+      ]
+    },
+    {
+      "id": "sequence:6-parking",
+      "kind": "sequence",
+      "anchorEventId": "6-parking",
+      "relation": "previous",
+      "answerEventId": "6-inspection",
+      "choiceEventIds": [
+        "6-inspection",
+        "6-bus-4",
+        "6-meeting"
+      ]
+    },
+    {
+      "id": "bridge:6-bus-1",
+      "kind": "bridge",
+      "anchorEventId": "6-bus-1",
+      "beforeEventId": "6-exit-turn",
+      "afterEventId": "6-straight",
+      "choiceEventIds": [
+        "6-bus-1",
+        "6-bus-2",
+        "6-bus-3"
+      ]
+    },
+    {
+      "id": "bridge:6-cross-1",
+      "kind": "bridge",
+      "anchorEventId": "6-cross-1",
+      "beforeEventId": "6-straight",
+      "afterEventId": "6-bus-2",
+      "choiceEventIds": [
+        "6-cross-1",
+        "6-cross-2",
+        "6-cross-3"
+      ]
+    },
+    {
+      "id": "bridge:6-uturn",
+      "kind": "bridge",
+      "anchorEventId": "6-uturn",
+      "beforeEventId": "6-cross-2",
+      "afterEventId": "6-lane-command",
+      "choiceEventIds": [
+        "6-uturn",
+        "6-meeting",
+        "6-overtake"
+      ]
+    },
+    {
+      "id": "bridge:6-overtake",
+      "kind": "bridge",
+      "anchorEventId": "6-overtake",
+      "beforeEventId": "6-bus-3",
+      "afterEventId": "6-cross-4",
+      "choiceEventIds": [
+        "6-overtake",
+        "6-lane-command",
+        "6-straight"
+      ]
+    },
+    {
+      "id": "bridge:6-bus-4",
+      "kind": "bridge",
+      "anchorEventId": "6-bus-4",
+      "beforeEventId": "6-cross-4",
+      "afterEventId": "6-meeting",
+      "choiceEventIds": [
+        "6-bus-4",
+        "6-bus-2",
+        "6-bus-3"
+      ]
+    },
+    {
+      "id": "bridge:6-meeting",
+      "kind": "bridge",
+      "anchorEventId": "6-meeting",
+      "beforeEventId": "6-bus-4",
+      "afterEventId": "6-inspection",
+      "choiceEventIds": [
+        "6-meeting",
+        "6-overtake",
+        "6-straight"
+      ]
     }
   ]
 }

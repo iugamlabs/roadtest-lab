@@ -12,6 +12,18 @@ const result = () => makeQuizResult(questions.map(question => question.id), [ans
 function storage() { const map = new Map<string, string>(); return { map, getItem: (key: string) => map.get(key) ?? null, setItem: (key: string, value: string) => { map.set(key, value) } } }
 
 describe('separate versioned route quiz history', () => {
+  it('keeps five-question history when saving a full ten-question round', () => {
+    const local = storage()
+    const makeRound = (size: number) => {
+      const items = bank.questions.slice(0, size)
+      return makeQuizResult(items.map(item => item.id), items.map(item => ({ questionId: item.id, selected: item.correct, usedHint: false })), size, `round-${size}`)
+    }
+    const old = makeRound(5)
+    const current = makeRound(10)
+    expect(saveQuizResult(local, bank, [], old)).toBe(true)
+    expect(saveQuizResult(local, bank, readQuizHistory(local, bank).results, current)).toBe(true)
+    expect(readQuizHistory(local, bank).results).toEqual([current, old])
+  })
   it('keeps a partial round without inventing answers, and never touches recall self assessments', () => {
     const local = storage()
     local.setItem('roadtest.route-memory.v1.5', 'self-assessment')

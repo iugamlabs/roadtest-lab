@@ -5,6 +5,7 @@ import { routeIdSchema } from '@/features/content/schema'
 import { MemoryWorkspace } from '@/features/memory/workspace'
 
 export const Route = createFileRoute('/memory/$routeId')({
+  validateSearch: (search: Record<string, unknown>): { quiz?: true } => search.quiz === true ? { quiz: true } : {},
   beforeLoad: ({ params }) => { if (!routeIdSchema.safeParse(params.routeId).success) throw notFound() },
   loader: ({ context, params }) => Promise.all([
     context.queryClient.ensureQueryData(eventsQueryOptions(routeIdSchema.parse(params.routeId))),
@@ -16,7 +17,10 @@ export const Route = createFileRoute('/memory/$routeId')({
 
 function MemoryPage() {
   const id = routeIdSchema.parse(Route.useParams().routeId)
+  const { quiz } = Route.useSearch()
+  const navigate = Route.useNavigate()
   const { data: source } = useSuspenseQuery(eventsQueryOptions(id))
   const { data: subtitles } = useSuspenseQuery(subtitlesQueryOptions(id))
-  return <MemoryWorkspace key={id} source={source} subtitles={subtitles} />
+  return <MemoryWorkspace key={`${id}:${quiz ? 'quiz' : 'study'}`} source={source} subtitles={subtitles}
+    closeDirectQuiz={quiz ? () => void navigate({ search: {}, replace: true }) : undefined} />
 }

@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Lightbulb, Play } from 'lucide-react'
+import { ClipboardCheck, Lightbulb, Play } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -7,7 +7,7 @@ import { scenarioRoutes } from '../routes'
 import { pathData, roadRects } from './geometry'
 import { mapRoute } from './routes'
 
-export function MapRouteCards({ showDescription = false, destination = 'memory' }: { showDescription?: boolean; destination?: 'video' | 'memory' }) {
+export function MapRouteCards({ showDescription = false, destination = 'memory', showQuiz = false }: { showDescription?: boolean; destination?: 'video' | 'memory'; showQuiz?: boolean }) {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,18rem),1fr))] gap-4">
       {scenarioRoutes.map(route => {
@@ -37,8 +37,11 @@ export function MapRouteCards({ showDescription = false, destination = 'memory' 
               <Button asChild className="w-full">
                 <Link to="/train/$routeId" params={{ routeId: route.id }}><Play aria-hidden />进入视频练习</Link>
               </Button>
-            </CardFooter> : <CardFooter className="px-4">
+            </CardFooter> : <CardFooter className="grid gap-2 px-4">
               <Button asChild className="w-full"><Link to="/memory/$routeId" params={{ routeId: route.id }}><Lightbulb aria-hidden />开始记路线</Link></Button>
+              {showQuiz && <Button asChild variant="secondary" className="w-full border">
+                <Link to="/memory/$routeId" params={{ routeId: route.id }} search={{ quiz: true }} aria-label={`${route.name}路线小测`}><ClipboardCheck aria-hidden />路线小测</Link>
+              </Button>}
             </CardFooter>}
           </Card>
         )

@@ -3,12 +3,13 @@ import { ArrowRight, BookOpen, Play, Lightbulb } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MapRouteCards } from '@/features/exam/map/route-cards'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/')({ component: HomePage })
 
 const shortcuts = [
   { to: '/train', icon: Play, title: '视频操作练习', description: '观看完整教学，按步骤练关键动作。' },
-  { to: '/exam/lighting', icon: Lightbulb, title: '灯光考试', description: '听口令选灯光，随机 5 题。' },
+  { to: '/exam/lighting', icon: Lightbulb, title: '灯光口令考核', description: '听口令选灯光，随机 5 题。' },
   { to: '/materials', icon: BookOpen, title: '学习资料', description: '查路线图、字幕和考试流程。' },
 ] as const
 
@@ -24,18 +25,26 @@ function HomePage() {
       </header>
 
       <section aria-label="选择路线开始记忆">
-        <MapRouteCards destination="memory" />
+        <MapRouteCards showQuiz />
       </section>
 
       <nav aria-label="其他学习入口" className="grid gap-3 lg:grid-cols-3">
         {shortcuts.map(item => (
-          <Button key={item.to} asChild variant="outline" className="h-auto min-w-0 justify-start whitespace-normal p-5 text-left">
+          <Button
+            key={item.to}
+            asChild
+            variant="outline"
+            className={cn(
+              'h-auto min-w-0 justify-start whitespace-normal p-5 text-left',
+              item.to === '/exam/lighting' && 'border-(--lighting-main)/45 dark:border-(--lighting-main)/45',
+            )}
+          >
             <Link to={item.to}>
               <div className="w-full min-w-0">
-                <div className="flex items-center gap-3">
+                <div className={cn('flex items-center gap-3', item.to === '/exam/lighting' && 'text-(--lighting-main)')}>
                   <item.icon className="size-6 shrink-0" aria-hidden />
                   <h2 className="flex-1 text-lg font-semibold">{item.title}</h2>
-                  <ArrowRight className="size-5 text-muted-foreground" aria-hidden />
+                  <ArrowRight className="size-5 opacity-80" aria-hidden />
                 </div>
                 <p className="mt-3 text-base font-normal leading-relaxed text-muted-foreground">{item.description}</p>
               </div>

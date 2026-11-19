@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "routeId": "5",
   "videoSha256": "83e0f5a8352c3731b0b80bc2003e6cc13ed14dc6ee1cfb8cf2ce37d999fed610",
   "subtitleSha256": "ee09db6a7c8b5e0635125ecacd4b1dbb1542af5708a254f1f78f698f32ade11f",
@@ -10,7 +10,6 @@
       "kind": "direction",
       "anchorEventId": "5-exit-turn",
       "correct": "right",
-      "hint": "前一处是「出场路口停车瞭望」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 19000,
         "maskTop": 80,
@@ -24,7 +23,6 @@
       "kind": "direction",
       "anchorEventId": "5-industrial-turn",
       "correct": "right",
-      "hint": "前一处是「变道后自主返回右侧车道」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 296000,
         "maskTop": 80,
@@ -38,7 +36,6 @@
       "kind": "direction",
       "anchorEventId": "5-turn-left-1",
       "correct": "left",
-      "hint": "前一处是「右转进入两车道路段」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 368000,
         "maskTop": 80,
@@ -52,7 +49,6 @@
       "kind": "direction",
       "anchorEventId": "5-uturn",
       "correct": "uturn",
-      "hint": "前一处是「超车后自主向左选道」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 488000,
         "maskTop": 80,
@@ -66,7 +62,6 @@
       "kind": "direction",
       "anchorEventId": "5-turn-left-2",
       "correct": "left",
-      "hint": "前一处是「工业区尽头掉头」，回忆从那里接过来的这段道路。",
       "frame": {
         "atMs": 541000,
         "maskTop": 80,
@@ -76,76 +71,362 @@
       }
     },
     {
+      "id": "direction:5-cross-2",
+      "kind": "direction",
+      "anchorEventId": "5-cross-2",
+      "correct": "straight",
+      "frame": {
+        "atMs": 190000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "前方有信号灯，右侧人行道旁有护栏；205–208秒仍沿同一主路穿过路口。"
+      },
+      "clue": "认右侧人行道护栏和前方横排信号灯，过路口后仍沿大学路走。"
+    },
+    {
+      "id": "direction:5-turn-2",
+      "kind": "direction",
+      "anchorEventId": "5-turn-2",
+      "correct": "right",
+      "frame": {
+        "atMs": 340000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头仍朝向横跨道路的绿色管廊，底部字幕需遮盖；352–355秒拍摄车已拐入两车道路段。"
+      },
+      "clue": "转弯前可认横跨路口的绿色管廊。"
+    },
+    {
+      "id": "direction:5-turn-3",
+      "kind": "direction",
+      "anchorEventId": "5-turn-3",
+      "correct": "right",
+      "frame": {
+        "atMs": 407000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "车头正对路口，右侧蓝色无障碍通行标志可见；415–418秒拍摄车右转后沿围墙行驶。"
+      },
+      "clue": "路口右前方树旁有蓝色无障碍通行标志。"
+    },
+    {
+      "id": "direction:5-turn-4",
+      "kind": "direction",
+      "anchorEventId": "5-turn-4",
+      "correct": "right",
+      "frame": {
+        "atMs": 430000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "拍摄车尚沿围墙接近路口，字幕落在遮罩内；444–449秒拍摄车完成右转并驶入较宽路段。"
+      },
+      "clue": "沿右侧浅色围墙走到下一处路口，再转入较宽的路段。"
+    },
+    {
+      "id": "direction:5-turn-left-3",
+      "kind": "direction",
+      "anchorEventId": "5-turn-left-3",
+      "correct": "left",
+      "frame": {
+        "atMs": 592000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "拍摄车正朝楼宇之间的路口，字幕在遮罩内；605–608秒驶入左侧、右边有连续围栏的道路。"
+      },
+      "clue": "可认路口左前方的成排浅色楼房，以及右前方有深色横条的楼。"
+    },
+    {
+      "id": "scene:5-bus-1",
+      "kind": "scene",
+      "anchorEventId": "5-bus-1",
+      "choiceEventIds": [
+        "5-bus-1",
+        "5-bus-2",
+        "5-bus-3"
+      ],
+      "frame": {
+        "atMs": 38000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "靠右侧绿化带的候车亭可辨，底部遮罩保留道路和候车亭。"
+      },
+      "clue": "右侧候车亭背靠一大片绿化，刚出场驶入大学路不久就会经过这里。"
+    },
+    {
+      "id": "scene:5-bus-2",
+      "kind": "scene",
+      "anchorEventId": "5-bus-2",
+      "choiceEventIds": [
+        "5-bus-2",
+        "5-bus-1",
+        "5-bus-3"
+      ],
+      "frame": {
+        "atMs": 156000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "右侧候车亭紧挨沿街楼房和停车区域。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "右侧候车亭紧挨沿街楼房和停车区域。"
+    },
+    {
+      "id": "scene:5-bus-3",
+      "kind": "scene",
+      "anchorEventId": "5-bus-3",
+      "choiceEventIds": [
+        "5-bus-3",
+        "5-bus-1",
+        "5-bus-2"
+      ],
+      "frame": {
+        "atMs": 216000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "右侧候车亭后方是连续围墙，前方路旁有红蓝路牌。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "右侧候车亭后方是连续围墙，前方路旁有红蓝路牌。"
+    },
+    {
+      "id": "scene:5-turn-2",
+      "kind": "scene",
+      "anchorEventId": "5-turn-2",
+      "choiceEventIds": [
+        "5-turn-2",
+        "5-turn-3",
+        "5-turn-4"
+      ],
+      "frame": {
+        "atMs": 340000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "前方路口有绿色架空管廊，过了这里转进两车道路段。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "前方路口有绿色架空管廊，过了这里转进两车道路段。"
+    },
+    {
+      "id": "scene:5-turn-3",
+      "kind": "scene",
+      "anchorEventId": "5-turn-3",
+      "choiceEventIds": [
+        "5-turn-3",
+        "5-turn-2",
+        "5-turn-4"
+      ],
+      "frame": {
+        "atMs": 407000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "右前方树旁是蓝色无障碍通行标志，对面是一片开阔地。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "右前方树旁是蓝色无障碍通行标志，对面是一片开阔地。"
+    },
+    {
+      "id": "scene:5-turn-left-3",
+      "kind": "scene",
+      "anchorEventId": "5-turn-left-3",
+      "choiceEventIds": [
+        "5-turn-left-3",
+        "5-turn-left-1",
+        "5-turn-left-2"
+      ],
+      "frame": {
+        "atMs": 592000,
+        "maskTop": 80,
+        "maskHeight": 14,
+        "reviewedAt": "2026-11-18",
+        "observation": "左前方有一排浅色楼房，右前方可见有深色横条的楼和空地。已检查固定遮罩范围，上方无透露具体答案的标注。"
+      },
+      "clue": "左前方有一排浅色楼房，右前方可见有深色横条的楼和空地。"
+    },
+    {
       "id": "sequence:5-exit-look",
       "kind": "sequence",
       "anchorEventId": "5-exit-look",
-      "nextEventId": "5-exit-turn",
+      "relation": "next",
+      "answerEventId": "5-exit-turn",
       "choiceEventIds": [
         "5-exit-turn",
         "5-bus-1",
         "5-straight"
-      ],
-      "hint": "想想离开考场后，要先进入哪一条主路。"
+      ]
     },
     {
       "id": "sequence:5-bus-1",
       "kind": "sequence",
       "anchorEventId": "5-bus-1",
-      "nextEventId": "5-cross-1",
+      "relation": "next",
+      "answerEventId": "5-cross-1",
       "choiceEventIds": [
         "5-cross-1",
         "5-bus-2",
         "5-cross-2"
-      ],
-      "hint": "沿大学路接着往前，留意学校区域之后的位置。"
+      ]
     },
     {
       "id": "sequence:5-bus-2",
       "kind": "sequence",
       "anchorEventId": "5-bus-2",
-      "nextEventId": "5-cross-2",
+      "relation": "next",
+      "answerEventId": "5-cross-2",
       "choiceEventIds": [
         "5-cross-2",
         "5-bus-3",
         "5-lane-command"
-      ],
-      "hint": "先回忆大学路上公交站与路口的前后关系。"
+      ]
     },
     {
       "id": "sequence:5-turn-left-1",
       "kind": "sequence",
       "anchorEventId": "5-turn-left-1",
-      "nextEventId": "5-straight",
+      "relation": "next",
+      "answerEventId": "5-straight",
       "choiceEventIds": [
         "5-straight",
         "5-turn-3",
         "5-overtake"
-      ],
-      "hint": "转过这个弯后，还有一段路要保持行驶方向。"
-    },
-    {
-      "id": "sequence:5-overtake",
-      "kind": "sequence",
-      "anchorEventId": "5-overtake",
-      "nextEventId": "5-lane-uturn",
-      "choiceEventIds": [
-        "5-lane-uturn",
-        "5-uturn",
-        "5-turn-left-2"
-      ],
-      "hint": "想想掉头之前，需要先完成哪一步车道准备。"
+      ]
     },
     {
       "id": "sequence:5-uturn",
       "kind": "sequence",
       "anchorEventId": "5-uturn",
-      "nextEventId": "5-turn-left-2",
+      "relation": "next",
+      "answerEventId": "5-turn-left-2",
       "choiceEventIds": [
         "5-turn-left-2",
         "5-turn-left-3",
         "5-parking"
-      ],
-      "hint": "先接上掉头后的第一个路口，再往终点方向回忆。"
+      ]
+    },
+    {
+      "id": "sequence:5-bus-3",
+      "kind": "sequence",
+      "anchorEventId": "5-bus-3",
+      "relation": "previous",
+      "answerEventId": "5-cross-2",
+      "choiceEventIds": [
+        "5-cross-2",
+        "5-cross-1",
+        "5-lane-command"
+      ]
+    },
+    {
+      "id": "sequence:5-meeting",
+      "kind": "sequence",
+      "anchorEventId": "5-meeting",
+      "relation": "previous",
+      "answerEventId": "5-industrial-turn",
+      "choiceEventIds": [
+        "5-industrial-turn",
+        "5-turn-2",
+        "5-cross-2"
+      ]
+    },
+    {
+      "id": "sequence:5-turn-4",
+      "kind": "sequence",
+      "anchorEventId": "5-turn-4",
+      "relation": "previous",
+      "answerEventId": "5-turn-3",
+      "choiceEventIds": [
+        "5-turn-3",
+        "5-turn-2",
+        "5-turn-left-1"
+      ]
+    },
+    {
+      "id": "sequence:5-parking",
+      "kind": "sequence",
+      "anchorEventId": "5-parking",
+      "relation": "previous",
+      "answerEventId": "5-turn-left-3",
+      "choiceEventIds": [
+        "5-turn-left-3",
+        "5-turn-left-2",
+        "5-turn-4"
+      ]
+    },
+    {
+      "id": "bridge:5-cross-1",
+      "kind": "bridge",
+      "anchorEventId": "5-cross-1",
+      "beforeEventId": "5-bus-1",
+      "afterEventId": "5-bus-2",
+      "choiceEventIds": [
+        "5-cross-1",
+        "5-cross-2",
+        "5-lane-command"
+      ]
+    },
+    {
+      "id": "bridge:5-bus-3",
+      "kind": "bridge",
+      "anchorEventId": "5-bus-3",
+      "beforeEventId": "5-cross-2",
+      "afterEventId": "5-lane-command",
+      "choiceEventIds": [
+        "5-bus-3",
+        "5-bus-1",
+        "5-bus-2"
+      ]
+    },
+    {
+      "id": "bridge:5-lane-return",
+      "kind": "bridge",
+      "anchorEventId": "5-lane-return",
+      "beforeEventId": "5-lane-command",
+      "afterEventId": "5-industrial-turn",
+      "choiceEventIds": [
+        "5-lane-return",
+        "5-lane-uturn",
+        "5-overtake"
+      ]
+    },
+    {
+      "id": "bridge:5-turn-2",
+      "kind": "bridge",
+      "anchorEventId": "5-turn-2",
+      "beforeEventId": "5-meeting",
+      "afterEventId": "5-turn-left-1",
+      "choiceEventIds": [
+        "5-turn-2",
+        "5-turn-3",
+        "5-turn-4"
+      ]
+    },
+    {
+      "id": "bridge:5-turn-3",
+      "kind": "bridge",
+      "anchorEventId": "5-turn-3",
+      "beforeEventId": "5-straight",
+      "afterEventId": "5-turn-4",
+      "choiceEventIds": [
+        "5-turn-3",
+        "5-turn-2",
+        "5-turn-left-2"
+      ]
+    },
+    {
+      "id": "bridge:5-turn-left-3",
+      "kind": "bridge",
+      "anchorEventId": "5-turn-left-3",
+      "beforeEventId": "5-turn-left-2",
+      "afterEventId": "5-parking",
+      "choiceEventIds": [
+        "5-turn-left-3",
+        "5-turn-left-1",
+        "5-turn-4"
+      ]
     }
   ]
 }
