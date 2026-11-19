@@ -2,6 +2,7 @@ import { Link, useRouterState } from '@tanstack/react-router'
 import { BookOpen, CarFront, Lightbulb, House, PanelLeftClose, PanelLeftOpen, Route as RouteIcon, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
+import { ThemeToggle } from '@/features/settings/theme'
 
 // Adapted from the official shadcn sidebar-07 block for TanStack Router.
 export function AppSidebar() {
@@ -35,6 +36,7 @@ export function AppSidebar() {
       </SidebarGroupContent></SidebarGroup>
     </SidebarContent>
     <SidebarFooter className="border-t p-3">
+      <ThemeToggle />
       <p className="px-2 py-2 text-sm leading-relaxed text-muted-foreground group-data-[collapsible=icon]:hidden">汕头大学路 · C2<br />按自己的节奏练习</p>
     </SidebarFooter>
   </Sidebar>
