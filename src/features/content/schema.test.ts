@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { trainingEventSchema, subtitleDocumentSchema } from './schema'
 import { settingsSchema, defaultSettings } from '@/features/settings/settings'
+import { defaultTheme, readTheme, themeSchema, THEME_STORAGE_KEY } from '@/features/settings/theme'
 
 describe('content boundaries', () => {
   it('rejects impossible event windows and unsupported route IDs', () => {
@@ -21,5 +22,14 @@ describe('content boundaries', () => {
     expect(settingsSchema.safeParse({ ...defaultSettings, maskTop: 90, maskHeight: 30 }).success).toBe(false)
     expect(settingsSchema.safeParse({ ...defaultSettings, playbackRate: '10' }).success).toBe(false)
     for (const playbackRate of ['0.75', '1', '1.25', '1.5', '1.75', '2']) expect(settingsSchema.safeParse({ ...defaultSettings, playbackRate }).success).toBe(true)
+  })
+  it('defaults the app theme to light and accepts only light/dark', () => {
+    expect(defaultTheme).toBe('light')
+    expect(themeSchema.safeParse('light').success).toBe(true)
+    expect(themeSchema.safeParse('dark').success).toBe(true)
+    expect(themeSchema.safeParse('system').success).toBe(false)
+    expect(readTheme({ getItem: () => null })).toBe('light')
+    expect(readTheme({ getItem: key => key === THEME_STORAGE_KEY ? JSON.stringify('dark') : null })).toBe('dark')
+    expect(readTheme({ getItem: () => 'not-json' })).toBe('light')
   })
 })

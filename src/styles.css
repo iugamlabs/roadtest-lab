@@ -42,6 +42,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 :root {
+  color-scheme: light;
   --radius: 0.375rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -85,6 +86,7 @@
   font-size: 20px;
 }
 .dark {
+  color-scheme: dark;
   --lighting-main: #f5cc66;
   --lighting-dipped: #8bd3ad;
   --lighting-full: #86bffd;

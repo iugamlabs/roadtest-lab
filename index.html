@@ -6,6 +6,21 @@
     <meta name="theme-color" content="#ffffff" />
     <meta name="description" content="汕头大学路科目三 C2 实景路线学习与关键操作训练。" />
     <title>路考练习室 · 汕头大学路科目三</title>
+    <script>
+      (function () {
+        try {
+          var theme = JSON.parse(localStorage.getItem('roadtest.theme.v1') || 'null')
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark')
+            document.documentElement.style.colorScheme = 'dark'
+            var meta = document.querySelector('meta[name="theme-color"]')
+            if (meta) meta.setAttribute('content', '#171717')
+          } else {
+            document.documentElement.style.colorScheme = 'light'
+          }
+        } catch (error) {}
+      })()
+    </script>
   </head>
   <body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body>
 </html>

@@ -50,6 +50,7 @@
 ## 主题与可访问性
 
 - 主题集中在 `src/styles.css` 的 `:root` / `.dark`，使用标准 shadcn 语义变量及 Tailwind `@theme inline` 映射。
+- 浅色 / 深色由 `src/features/settings/theme.tsx` 管理：默认浅色，侧栏底部切换；选择保存在本机 `roadtest.theme.v1`，与学习设置分开。在 `html` 上切换 `.dark`，并同步 `color-scheme` 与 `theme-color`；`index.html` 启动脚本避免首屏闪烁。
 - 颜色使用 `background`、`foreground`、`primary`、`muted`、`border`、`ring`、`sidebar-*` 等语义 token；圆角由 `--radius` 派生。避免页面内硬编码配色，以便后续直接应用 shadcn Themes。
 - 视频底色、字幕遮罩等与媒体显示直接相关的颜色可使用必要的固定值。
 - 保留约 20px 基础字号和至少 56px 的主要操作按钮，不为追求紧凑而缩小核心文字和点击区域；紧凑主要依靠去除冗余布局。
