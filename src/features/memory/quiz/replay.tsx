@@ -36,9 +36,9 @@ function ReplayClips({ source, clips, questions }: {
 }) {
   const [index, setIndex] = useState(0)
   const clip = clips[index]
-  const frame = questions.find(question => question.anchorEventId === clip.id && question.frame)?.frame
+  const question = questions.find(question => question.anchorEventId === clip.id && (question.frame || question.clip))
   const leadIn = Math.max(memoryLeadIn(source.events, clip), clip.windowStartMs - 12_000)
-  const start = Math.min(leadIn, frame?.atMs ?? leadIn) / 1000
+  const start = (question?.clip?.startMs ?? Math.min(leadIn, question?.frame?.atMs ?? leadIn)) / 1000
   const end = clip.windowEndMs / 1000
   return <>
     <p className="font-semibold" aria-live="polite">{clip.title}{clips.length > 1 && ` · ${index + 1} / ${clips.length} 段`}</p>

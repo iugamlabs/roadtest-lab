@@ -9,10 +9,11 @@ const bank = loadQuizBank(source)
 const direction = bank.questions.find(question => question.kind === 'direction')!
 const sequence = bank.questions.find(question => question.kind === 'sequence')!
 const scene = bank.questions.find(question => question.kind === 'scene')!
+const clip = bank.questions.find(question => question.kind === 'clip')!
 const start = () => routeQuizReducer(initialRouteQuizState, { type: 'start', questions: [direction, sequence] })
 
 describe('route quiz first-answer locking and deferred feedback', () => {
-  it.each([direction, scene])('waits for the frame and an explicit reveal on $kind questions', question => {
+  it.each([direction, scene, clip])('waits for the media and an explicit reveal on $kind questions', question => {
     let state = routeQuizReducer(initialRouteQuizState, { type: 'start', questions: [question] })
     expect(routeQuizReducer(state, { type: 'reveal-options' })).toBe(state)
     expect(routeQuizReducer(state, { type: 'select', selected: question.correct })).toBe(state)

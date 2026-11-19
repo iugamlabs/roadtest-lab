@@ -6,22 +6,27 @@ import { routeIdSchema, type CalibratedEvent } from '@/features/content/schema'
 import type { MemorySource } from '../progress'
 
 export const directionLabels = { left: '左转', straight: '直行', right: '右转', uturn: '掉头' } as const
-export const quizKindLabels = { scene: '认实景', direction: '记走向', sequence: '接顺序', bridge: '补缺项' } as const
+export const quizKindLabels = { clip: '短片认实景', scene: '定格认实景', direction: '记走向', sequence: '接顺序', bridge: '补缺项' } as const
 export const QUIZ_ROUND_SIZE = 10
-const SCENE_TARGET = 4
-const kindBits = { scene: 1, direction: 2, sequence: 4, bridge: 8 } as const
+const CLIP_TARGET = 4
+const SCENE_TARGET = 2
+const kindBits = { scene: 1, direction: 2, sequence: 4, bridge: 8, clip: 16 } as const
 
 const directionSchema = z.enum(['left', 'straight', 'right', 'uturn'])
 const eventIdSchema = z.string().regex(/^[567]-[a-z0-9-]+$/)
 const choicesSchema = z.array(eventIdSchema).length(3)
-const frameSchema = z.object({
-  atMs: z.number().int().nonnegative(), maskTop: z.number().min(0).max(90), maskHeight: z.number().min(1).max(40),
+const timeMsSchema = z.number().int().nonnegative()
+const visualReview = {
+  maskTop: z.number().min(0).max(90), maskHeight: z.number().min(1).max(40),
   reviewedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), observation: z.string().min(1),
-}).refine(frame => frame.maskTop + frame.maskHeight <= 100)
+}
+const frameSchema = z.object({ ...visualReview, atMs: timeMsSchema }).refine(frame => frame.maskTop + frame.maskHeight <= 100)
+const clipSchema = z.object({ ...visualReview, startMs: timeMsSchema, endMs: timeMsSchema })
+  .refine(clip => clip.maskTop + clip.maskHeight <= 100 && clip.endMs - clip.startMs >= 5_000 && clip.endMs - clip.startMs <= 12_000)
 const base = { id: z.string().min(1), anchorEventId: eventIdSchema }
 const questionSchema = z.discriminatedUnion('kind', [
   z.object({ ...base, kind: z.literal('direction'), correct: directionSchema, frame: frameSchema, clue: z.string().min(1).optional() }),
-  z.object({ ...base, kind: z.literal('scene'), frame: frameSchema, choiceEventIds: choicesSchema, clue: z.string().min(1) }),
+  z.object({ ...base, kind: z.literal('scene'), frame: frameSchema, clip: clipSchema, choiceEventIds: choicesSchema, clue: z.string().min(1) }),
   z.object({ ...base, kind: z.literal('sequence'), relation: z.enum(['previous', 'next']), answerEventId: eventIdSchema, choiceEventIds: choicesSchema }),
   z.object({ ...base, kind: z.literal('bridge'), beforeEventId: eventIdSchema, afterEventId: eventIdSchema, choiceEventIds: choicesSchema }),
 ])
@@ -43,6 +48,7 @@ export interface QuizQuestion {
   correct: string
   explanation: string
   frame?: { atMs: number; maskTop: number; maskHeight: number }
+  clip?: { startMs: number; endMs: number; maskTop: number; maskHeight: number }
 }
 export interface QuizBank { routeId: MemorySource['routeId']; signature: string; questions: QuizQuestion[]; notice: string }
 export const quizEventSignature = (source: MemorySource) => JSON.stringify(source.events.map(event => [event.id, event.title, event.kind, event.direction, event.windowStartMs, event.windowEndMs]))
@@ -96,9 +102,15 @@ export function loadQuizBank(source: MemorySource, raw: unknown = authoredBanks[
     if (!choices.every(isReviewedEvent) || new Set(choices.map(event => event.title)).size !== 3) return unavailable
     const options = choices.map(event => ({ id: event.id, label: event.title }))
     if (question.kind === 'scene') {
-      if (!choices.includes(anchor)) return unavailable
-      questions.push({ ...common, topicEventIds: [anchor.id], prompt: '这张画面对应路线上的哪个位置？',
-        options, correct: anchor.id, frame: question.frame, explanation: `这里是「${anchor.title}」。${question.clue}` })
+      const { clip } = question
+      const earliest = anchor.id === '6-bus-3' ? 330_000 : Math.max(0, anchor.windowStartMs - 24_000)
+      if (!choices.includes(anchor) || clip.startMs < earliest || clip.endMs > question.frame.atMs
+        || clip.endMs < Math.max(0, anchor.windowStartMs - 12_000)) return unavailable
+      const recognition = { ...common, topicEventIds: [anchor.id], options, correct: anchor.id, explanation: `这里是「${anchor.title}」。${question.clue}` }
+      questions.push(
+        { ...recognition, prompt: '这张画面对应路线上的哪个位置？', frame: question.frame },
+        { ...recognition, id: `clip:${anchor.id}`, kind: 'clip', prompt: '短片停住时，车到了路线上的哪个位置？', clip },
+      )
     } else if (question.kind === 'sequence') {
       const previous = question.relation === 'previous'
       const adjacent = source.events[index + (previous ? -1 : 1)]
@@ -153,29 +165,32 @@ export function chooseQuizQuestions(pool: QuizQuestion[], random = Math.random, 
   type Pick = { score: number; questions: QuizQuestion[] }
   const empty: Pick = { score: 0, questions: [] }
   const memo = new Map<string, Pick>()
-  function bestFrom(index: number, remaining: number, kinds: number, sections: number, scenes: number): Pick {
+  function bestFrom(index: number, remaining: number, kinds: number, sections: number, clips: number, scenes: number): Pick {
     if (!remaining || index === candidates.length) return empty
-    const key = [index, remaining, kinds, sections, scenes].join(',')
+    const key = [index, remaining, kinds, sections, clips, scenes].join(',')
     const cached = memo.get(key)
     if (cached) return cached
 
     const { question, tieBreak } = candidates[index]
     const kind = kindBits[question.kind]
     const section = 1 << question.section
+    const isClip = question.kind === 'clip'
     const isScene = question.kind === 'scene'
+    const nextClips = Math.min(CLIP_TARGET, clips + Number(isClip))
     const nextScenes = Math.min(SCENE_TARGET, scenes + Number(isScene))
-    const rest = bestFrom(nextIndices[index], remaining - 1, kinds | kind, sections | section, nextScenes)
-    // In priority order: round length, type coverage, four scene questions, route coverage, freshness.
+    const rest = bestFrom(nextIndices[index], remaining - 1, kinds | kind, sections | section, nextClips, nextScenes)
+    // In priority order: round length, type coverage, clip and still targets, route coverage, freshness.
     const score = rest.score + 10_000 + (kinds & kind ? 0 : 1000)
+      + (isClip ? (clips < CLIP_TARGET ? 100 : -100) : 0)
       + (isScene ? (scenes < SCENE_TARGET ? 100 : -100) : 0)
       + (sections & section ? 0 : 20) + (recentIds.has(question.id) ? 0 : 1) + tieBreak
 
-    const skip = bestFrom(index + 1, remaining, kinds, sections, scenes)
+    const skip = bestFrom(index + 1, remaining, kinds, sections, clips, scenes)
     const best = score > skip.score ? { score, questions: [question, ...rest.questions] } : skip
     memo.set(key, best)
     return best
   }
 
-  const selected = bestFrom(0, QUIZ_ROUND_SIZE, 0, 0, 0).questions
+  const selected = bestFrom(0, QUIZ_ROUND_SIZE, 0, 0, 0, 0).questions
   return shuffle(selected, random).map(question => question.kind === 'direction' ? question : { ...question, options: shuffle(question.options, random) })
 }

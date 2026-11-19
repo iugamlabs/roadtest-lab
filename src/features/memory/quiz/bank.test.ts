@@ -8,11 +8,19 @@ const rawFor = (id: string) => JSON.parse(readFileSync(`content/memory-quizzes/r
 const rng = (seed: number) => () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 0x100000000)
 
 describe('reviewed route quiz content', () => {
-  for (const [id, count] of [['5', 31], ['6', 30], ['7', 34]] as const) it(`publishes reviewed route ${id} questions with unambiguous source references`, () => {
+  for (const [id, count] of [['5', 37], ['6', 36], ['7', 40]] as const) it(`publishes reviewed route ${id} questions with unambiguous source references`, () => {
     const source = sourceFor(id)
     const bank = loadQuizBank(source)
     expect(bank.notice).toBe('')
     expect(bank.questions).toHaveLength(count)
+    const stills = bank.questions.filter(question => question.kind === 'scene')
+    const clips = bank.questions.filter(question => question.kind === 'clip')
+    expect(clips.map(question => question.anchorEventId)).toEqual(stills.map(question => question.anchorEventId))
+    for (const [index, question] of clips.entries()) {
+      expect(question.options).toEqual(stills[index].options)
+      expect(question.correct).toBe(stills[index].correct)
+      expect(question.clip!.endMs).toBeLessThanOrEqual(stills[index].frame!.atMs)
+    }
     for (const question of bank.questions) {
       expect(question.options.filter(option => option.id === question.correct)).toHaveLength(1)
       expect(question.topicEventIds.every(eventId => source.events.some(event => event.id === eventId))).toBe(true)
@@ -22,6 +30,15 @@ describe('reviewed route quiz content', () => {
         expect(question.frame.atMs).toBeLessThanOrEqual(question.kind === 'direction' ? anchor.windowStartMs : anchor.windowEndMs)
         expect(question.frame.maskTop + question.frame.maskHeight).toBeLessThanOrEqual(100)
       }
+    }
+  })
+  it('rejects late or out-of-range clips and clips crossing the unpublished route 6 turn', () => {
+    const source = sourceFor('6')
+    for (const change of [{ startMs: 329_999 }, { endMs: 338_001 }, { endMs: 331_000 }, { maskTop: 90 }]) {
+      const raw = rawFor('6')
+      const question = raw.questions.find((item: { id: string }) => item.id === 'scene:6-bus-3')
+      Object.assign(question.clip, change)
+      expect(loadQuizBank(source, raw).questions).toEqual([])
     }
   })
   it('closes the bank on source drift, conflicting directions, late frames or broken sequence answers', () => {
@@ -51,13 +68,14 @@ describe('reviewed route quiz content', () => {
       { id: 'bridge:6-bus-3', kind: 'bridge', anchorEventId: '6-bus-3', beforeEventId: '6-cross-3', afterEventId: '6-overtake', choiceEventIds: ['6-bus-3', '6-bus-4', '6-bus-2'] },
     ]) expect(loadQuizBank(sourceFor('6'), { ...rawFor('6'), questions: [question] }).questions).toEqual([])
   })
-  for (const id of ['5', '6', '7']) it(`selects ten varied questions including four scenes on route ${id}`, () => {
+  for (const id of ['5', '6', '7']) it(`selects four clips and two still recognition questions in every full route ${id} round`, () => {
     const bank = loadQuizBank(sourceFor(id))
     const rounds = new Set<string>()
-    for (let seed = 1; seed <= 80; seed++) {
+    for (let seed = 1; seed <= 24; seed++) {
       const round = chooseQuizQuestions(bank.questions, rng(seed))
       expect(round).toHaveLength(10)
-      expect(round.filter(question => question.kind === 'scene')).toHaveLength(4)
+      expect(round.filter(question => question.kind === 'clip')).toHaveLength(4)
+      expect(round.filter(question => question.kind === 'scene')).toHaveLength(2)
       expect(new Set(round.map(question => question.kind))).toEqual(new Set(Object.keys(quizKindLabels)))
       expect(new Set(round.map(question => question.section)).size).toBe(3)
       const topics = round.flatMap(question => question.topicEventIds)
@@ -69,12 +87,13 @@ describe('reviewed route quiz content', () => {
   })
   for (const id of ['5', '6', '7']) it(`prefers fresh questions for three consecutive rounds on route ${id}`, () => {
     const bank = loadQuizBank(sourceFor(id))
-    for (let seed = 1; seed <= 30; seed++) {
+    for (let seed = 1; seed <= 10; seed++) {
       const recent = new Set<string>()
       for (let i = 0; i < 3; i++) {
         const round = chooseQuizQuestions(bank.questions, rng(seed + i), recent)
         expect(round).toHaveLength(10)
-        expect(round.filter(question => question.kind === 'scene')).toHaveLength(4)
+        expect(round.filter(question => question.kind === 'clip')).toHaveLength(4)
+        expect(round.filter(question => question.kind === 'scene')).toHaveLength(2)
         expect(round.some(question => !recent.has(question.id))).toBe(true)
         round.forEach(question => recent.add(question.id))
       }

@@ -22,15 +22,17 @@ export type RouteQuizAction =
 
 export const initialRouteQuizState: RouteQuizState = { phase: 'ready', questions: [], index: 0, selected: null, frameReady: false, optionsVisible: false, answers: [] }
 
+const needsMedia = (question: QuizQuestion) => Boolean(question.frame || question.clip)
+
 export function routeQuizReducer(state: RouteQuizState, action: RouteQuizAction): RouteQuizState {
   const question = state.questions[state.index]
   switch (action.type) {
     case 'reset': return initialRouteQuizState
     case 'start': {
       if (!action.questions.length || action.questions.length > QUIZ_ROUND_SIZE || new Set(action.questions.map(item => item.id)).size !== action.questions.length) return state
-      return { ...initialRouteQuizState, phase: 'answering', questions: action.questions, frameReady: !action.questions[0].frame }
+      return { ...initialRouteQuizState, phase: 'answering', questions: action.questions, frameReady: !needsMedia(action.questions[0]) }
     }
-    case 'frame-ready': return question?.id === action.questionId && question.frame && state.phase === 'answering' ? { ...state, frameReady: action.ready } : state
+    case 'frame-ready': return question?.id === action.questionId && needsMedia(question) && state.phase === 'answering' ? { ...state, frameReady: action.ready } : state
     case 'reveal-options': return state.phase === 'answering' && state.frameReady ? { ...state, optionsVisible: true } : state
     case 'select': return state.phase === 'answering' && state.frameReady && state.optionsVisible && (action.selected === UNKNOWN_ANSWER || question?.options.some(option => option.id === action.selected)) ? { ...state, selected: action.selected } : state
     case 'submit': {
@@ -38,7 +40,7 @@ export function routeQuizReducer(state: RouteQuizState, action: RouteQuizAction)
       const answers = [...state.answers, { questionId: question.id, selected: state.selected, usedHint: false }]
       const index = state.index + 1
       if (index === state.questions.length) return { ...state, phase: 'finished', answers }
-      return { ...state, index, answers, selected: null, frameReady: !state.questions[index].frame, optionsVisible: false }
+      return { ...state, index, answers, selected: null, frameReady: !needsMedia(state.questions[index]), optionsVisible: false }
     }
     case 'finish': return state.phase === 'ready' ? state : { ...state, phase: 'finished' }
   }

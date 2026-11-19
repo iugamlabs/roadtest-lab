@@ -11,6 +11,7 @@ import { BrowserSpeech } from '@/features/exam/speech'
 import type { MemorySource } from '../progress'
 import { chooseQuizQuestions, QUIZ_ROUND_SIZE, quizKindLabels, scopedQuizQuestions, type QuizBank, type QuizQuestion } from './bank'
 import { QuizFrame } from './frame'
+import { QuizClip } from './clip'
 import { makeQuizResult, readQuizHistory, saveQuizResult, type RouteQuizResult } from './history'
 import { initialRouteQuizState, routeQuizReducer, summarizeQuiz, UNKNOWN_ANSWER } from './model'
 import { QuizReplay } from './replay'
@@ -112,15 +113,16 @@ export function RouteQuiz({ source, bank, scopeEventIds, onClose }: {
 
     {state.phase === 'ready' && !viewedResult && <section className="space-y-4 rounded-lg border p-4">
       <h2 ref={heading} tabIndex={-1} className="text-xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">试试能否自己接起路线</h2>
-      <p className="leading-relaxed">{scopeEventIds ? '考一考刚才学习的这一段。' : '看实景认位置，回忆走向和前后的项目。'}不限时，先想一想，再看选项。整轮结束后核对答案。</p>
+      <p className="leading-relaxed">{scopeEventIds ? '考一考刚才学习的这一段。' : '看短片和定格画面认位置，回忆走向和前后的项目。'}不限时，先想一想，再看选项。整轮结束后核对答案。</p>
       {voiceControls}
       {prepared.length > 0 ? <Button onClick={() => start()}><ClipboardCheck aria-hidden />开始路线小测 · {prepared.length} 题</Button> : <p role="status" className="text-base">{bank.notice || '这一段暂时没有合适的小测题，可以先回忆或选择其他路段。'}</p>}
       {scopeEventIds && prepared.length < QUIZ_ROUND_SIZE && <p className="text-base text-muted-foreground">这段可测 {prepared.length} 题。整条路线每轮最多 {QUIZ_ROUND_SIZE} 题。</p>}
       <p className="text-sm text-muted-foreground">一轮只覆盖部分路段，做完后可以换一组继续测。</p>
     </section>}
 
-    {question && <div ref={questionArea} className={question.frame ? 'grid scroll-mt-4 items-start gap-4 xl:grid-cols-[minmax(0,1.5fr)_minmax(18rem,1fr)]' : 'mx-auto max-w-3xl scroll-mt-4'}>
+    {question && <div ref={questionArea} className={question.frame || question.clip ? 'grid scroll-mt-4 items-start gap-4 xl:grid-cols-[minmax(0,1.5fr)_minmax(18rem,1fr)]' : 'mx-auto max-w-3xl scroll-mt-4'}>
       {question.frame && <QuizFrame key={question.id} routeId={source.routeId} question={question} onReady={ready => dispatch({ type: 'frame-ready', questionId: question.id, ready })} />}
+      {question.clip && <QuizClip key={question.id} routeId={source.routeId} clip={question.clip} suspended={speechPaused} onReady={ready => dispatch({ type: 'frame-ready', questionId: question.id, ready })} />}
       <section className="min-w-0 space-y-4 rounded-lg border p-4" aria-label="小测答题区">
         <div className="flex flex-wrap items-center justify-between gap-2"><Badge variant="secondary">{quizKindLabels[question.kind]}</Badge><span className="text-base text-muted-foreground">第 {state.index + 1} / {state.questions.length} 题</span></div>
         <h2 ref={heading} tabIndex={-1} className="scroll-mt-4 text-xl font-semibold leading-relaxed focus-visible:outline-2 focus-visible:outline-ring">{question.prompt}</h2>
