@@ -16,7 +16,7 @@ export type RouteQuizAction =
   | { type: 'frame-ready'; questionId: string; ready: boolean }
   | { type: 'reveal-options' }
   | { type: 'select'; selected: string }
-  | { type: 'submit' }
+  | { type: 'submit'; unknown?: boolean }
   | { type: 'finish' }
   | { type: 'reset' }
 
@@ -36,8 +36,9 @@ export function routeQuizReducer(state: RouteQuizState, action: RouteQuizAction)
     case 'reveal-options': return state.phase === 'answering' && state.frameReady ? { ...state, optionsVisible: true } : state
     case 'select': return state.phase === 'answering' && state.frameReady && state.optionsVisible && (action.selected === UNKNOWN_ANSWER || question?.options.some(option => option.id === action.selected)) ? { ...state, selected: action.selected } : state
     case 'submit': {
-      if (state.phase !== 'answering' || !question || !state.frameReady || state.selected === null) return state
-      const answers = [...state.answers, { questionId: question.id, selected: state.selected, usedHint: false }]
+      const selected = action.unknown ? UNKNOWN_ANSWER : state.selected
+      if (state.phase !== 'answering' || !question || !state.frameReady || selected === null) return state
+      const answers = [...state.answers, { questionId: question.id, selected, usedHint: false }]
       const index = state.index + 1
       if (index === state.questions.length) return { ...state, phase: 'finished', answers }
       return { ...state, index, answers, selected: null, frameReady: !needsMedia(state.questions[index]), optionsVisible: false }

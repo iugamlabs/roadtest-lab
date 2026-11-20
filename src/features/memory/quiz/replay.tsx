@@ -6,7 +6,7 @@ import { mediaUrl } from '@/features/content/queries'
 import { useSettings } from '@/features/settings/settings'
 import { memoryLeadIn } from '../model'
 import type { MemorySource } from '../progress'
-import type { QuizQuestion } from './bank'
+import { unpublishedRoute6Return, type QuizQuestion } from './bank'
 
 export function QuizReplay({ source, questions, trigger, onClose }: {
   source: MemorySource
@@ -14,17 +14,29 @@ export function QuizReplay({ source, questions, trigger, onClose }: {
   trigger: HTMLButtonElement | null
   onClose: () => void
 }) {
-  const ids = new Set(questions.flatMap(question => question.topicEventIds))
+  return <RouteEventReplay source={source} eventIds={questions.flatMap(question => question.topicEventIds)}
+    questions={questions} trigger={trigger} onClose={onClose} returnLabel="返回小测结果" />
+}
+
+export function RouteEventReplay({ source, eventIds, questions = [], trigger, onClose, returnLabel }: {
+  source: MemorySource
+  eventIds: string[]
+  questions?: QuizQuestion[]
+  trigger: HTMLButtonElement | null
+  onClose: () => void
+  returnLabel: string
+}) {
+  const ids = new Set(eventIds)
   const clips = source.events.filter(event => ids.has(event.id))
-  return <Dialog open={questions.length > 0} onOpenChange={open => { if (!open) onClose() }}>
+  return <Dialog open={clips.length > 0} onOpenChange={open => { if (!open) onClose() }}>
     <DialogContent showCloseButton={false} className="max-h-[calc(100dvh-2rem)] overflow-y-auto p-4 sm:max-w-4xl"
       onCloseAutoFocus={event => { event.preventDefault(); trigger?.focus({ preventScroll: true }) }}>
       <DialogHeader>
         <DialogTitle>回看实景</DialogTitle>
-        <DialogDescription>关闭后可继续查看小测结果。</DialogDescription>
+        <DialogDescription>按行驶顺序回看这段路线的项目。</DialogDescription>
       </DialogHeader>
       {clips.length > 0 && <ReplayClips source={source} clips={clips} questions={questions} />}
-      <DialogFooter><DialogClose asChild><Button>返回小测结果</Button></DialogClose></DialogFooter>
+      <DialogFooter><DialogClose asChild><Button>{returnLabel}</Button></DialogClose></DialogFooter>
     </DialogContent>
   </Dialog>
 }
@@ -38,7 +50,8 @@ function ReplayClips({ source, clips, questions }: {
   const clip = clips[index]
   const question = questions.find(question => question.anchorEventId === clip.id && (question.frame || question.clip))
   const leadIn = Math.max(memoryLeadIn(source.events, clip), clip.windowStartMs - 12_000)
-  const start = (question?.clip?.startMs ?? Math.min(leadIn, question?.frame?.atMs ?? leadIn)) / 1000
+  const startMs = question?.clip?.startMs ?? Math.min(leadIn, question?.frame?.atMs ?? leadIn)
+  const start = (clip.id === '6-bus-3' ? Math.max(startMs, unpublishedRoute6Return.endMs) : startMs) / 1000
   const end = clip.windowEndMs / 1000
   return <>
     <p className="font-semibold" aria-live="polite">{clip.title}{clips.length > 1 && ` · ${index + 1} / ${clips.length} 段`}</p>

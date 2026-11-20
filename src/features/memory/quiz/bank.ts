@@ -8,6 +8,7 @@ import type { MemorySource } from '../progress'
 export const directionLabels = { left: '左转', straight: '直行', right: '右转', uturn: '掉头' } as const
 export const quizKindLabels = { clip: '短片认实景', scene: '定格认实景', direction: '记走向', sequence: '接顺序', bridge: '补缺项' } as const
 export const QUIZ_ROUND_SIZE = 10
+export const unpublishedRoute6Return = { startMs: 309_000, endMs: 330_000 }
 const CLIP_TARGET = 4
 const SCENE_TARGET = 2
 const kindBits = { scene: 1, direction: 2, sequence: 4, bridge: 8, clip: 16 } as const
@@ -103,7 +104,7 @@ export function loadQuizBank(source: MemorySource, raw: unknown = authoredBanks[
     const options = choices.map(event => ({ id: event.id, label: event.title }))
     if (question.kind === 'scene') {
       const { clip } = question
-      const earliest = anchor.id === '6-bus-3' ? 330_000 : Math.max(0, anchor.windowStartMs - 24_000)
+      const earliest = anchor.id === '6-bus-3' ? unpublishedRoute6Return.endMs : Math.max(0, anchor.windowStartMs - 24_000)
       if (!choices.includes(anchor) || clip.startMs < earliest || clip.endMs > question.frame.atMs
         || clip.endMs < Math.max(0, anchor.windowStartMs - 12_000)) return unavailable
       const recognition = { ...common, topicEventIds: [anchor.id], options, correct: anchor.id, explanation: `这里是「${anchor.title}」。${question.clue}` }
@@ -139,7 +140,7 @@ export function scopedQuizQuestions(bank: QuizBank, eventIds?: string[]) {
   return bank.questions.filter(question => !ids || question.topicEventIds.every(id => ids.has(id)))
 }
 
-function shuffle<T>(items: T[], random: () => number): T[] {
+export function shuffle<T>(items: T[], random: () => number): T[] {
   const result = [...items]
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.max(0, Math.min(0.999999999, random())) * (i + 1))
