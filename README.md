@@ -12,6 +12,8 @@
 
 入口为 `/memory` 和 `/memory/$routeId`。三条路线使用现有已发布视频项目，共62处（22、18、22），不补造六号线受阻节点。详见[实景路线记忆](docs/route-memory.md)。
 
+科目三流程模拟 `/exam/simulation` 从首页、侧栏和路线记忆页进入，按上车准备、灯光口令、C2 起步、实景路线、停车收尾走完整轮。实景环节沿用「从头走一遍」的 10 段接续题；结束后统一回顾，不限时，采用教学反馈与路线记忆计分。[流程与覆盖范围](docs/route-memory.md#科目三流程模拟)
+
 原路线场景考试已退出主流程，首页和侧栏不再提供入口；旧 `/exam`、`/exam/$routeId` 链接会转到记忆模块。历史实现、测试和本机数据保留，不与记忆自评混用，见[历史2D说明](docs/map-training.md)。原型与早期透视页保留原链接兼容。
 
 视频操作练习 `/train` 继续提供完整教学视频、成稿字幕、局部字幕模糊、统一倍速、全屏、学习设置及62项暂停操作练习。可练全程或单项，支持独立计时、纠正提示、重练、回看和人工暂停点校准；不计分、不设操作超时。详见[训练引擎](docs/training-engine.md)、[人工校准](docs/event-calibration.md)和[界面约定](docs/ui-workspace.md)。
@@ -51,7 +53,7 @@ src/features/content/   路线、字幕查询及 Zod 数据契约
 src/features/settings/  学习设置与本机持久化
 src/features/training/  训练引擎、媒体控制、操作面板与项目重练
 src/features/memory/    主用路线记忆、媒体控制、分级提示与本机自评
-src/features/exam/      独立灯光考核、语音，以及保留的历史路线场景代码
+src/features/exam/      科目三流程模拟、独立灯光考核、语音与历史路线场景代码
 src/features/exam/map/  历史2D实现，轨迹卡片仍供首页复用
 src/lib/                通用工具及按需加载的 Motion 特性
 public/data/            前端使用的统一字幕 JSON，以及保留的 OCR 来源快照
