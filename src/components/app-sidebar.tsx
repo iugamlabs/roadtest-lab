@@ -1,5 +1,5 @@
 import { Link, useRouterState } from '@tanstack/react-router'
-import { BookOpen, CarFront, Lightbulb, House, PanelLeftClose, PanelLeftOpen, Route as RouteIcon, Play } from 'lucide-react'
+import { BookOpen, CarFront, ClipboardCheck, Lightbulb, House, PanelLeftClose, PanelLeftOpen, Route as RouteIcon, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { ThemeToggle } from '@/features/settings/theme'
@@ -13,6 +13,7 @@ export function AppSidebar() {
   const items = [
     { to: '/' as const, title: '首页', icon: House, active: pathname === '/' },
     { to: '/memory' as const, title: '路线记忆', icon: RouteIcon, active: pathname.startsWith('/memory') },
+    { to: '/exam/simulation' as const, title: '流程模拟', icon: ClipboardCheck, active: pathname === '/exam/simulation' },
     { to: '/train' as const, title: '视频练习', icon: Play, active: pathname.startsWith('/train') },
     { to: '/exam/lighting' as const, title: '灯光考核', icon: Lightbulb, active: pathname === '/exam/lighting' },
     { to: '/materials' as const, title: '学习资料', icon: BookOpen, active: pathname === '/materials' },

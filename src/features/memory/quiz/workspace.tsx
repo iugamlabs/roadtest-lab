@@ -118,7 +118,6 @@ export function RouteQuiz({ source, bank, scopeEventIds, onClose }: {
       {prepared.length > 0 ? <Button onClick={() => start()}><ClipboardCheck aria-hidden />开始路线小测 · {prepared.length} 题</Button> : <p role="status" className="text-base">{bank.notice || '这一段暂时没有合适的小测题，可以先回忆或选择其他路段。'}</p>}
       {scopeEventIds && prepared.length < QUIZ_ROUND_SIZE && <p className="text-base text-muted-foreground">这段可测 {prepared.length} 题。整条路线每轮最多 {QUIZ_ROUND_SIZE} 题。</p>}
       <p className="text-sm text-muted-foreground">一轮只覆盖部分路段，做完后可以换一组继续测。</p>
-      {!scopeEventIds && <Button asChild variant="outline"><Link to="/memory/$routeId" params={{ routeId: source.routeId }} search={{ quiz: true, course: true }}>从头走一遍</Link></Button>}
     </section>}
 
     {question && <div ref={questionArea} className={question.frame || question.clip ? 'grid scroll-mt-4 items-start gap-4 xl:grid-cols-[minmax(0,1.5fr)_minmax(18rem,1fr)]' : 'mx-auto max-w-3xl scroll-mt-4'}>

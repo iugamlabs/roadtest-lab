@@ -102,7 +102,7 @@ function MemoryStudy({ source, subtitles, bank, onQuiz }: WorkspaceProps & { ban
       </div>
       <div className="flex flex-wrap gap-2">
         {!live && <Button disabled={!bank.questions.length} onClick={() => onQuiz()}><ClipboardCheck aria-hidden />路线小测</Button>}
-        {!live && <Button asChild variant="outline"><Link to="/memory/$routeId" params={{ routeId: source.routeId }} search={{ course: true }}><ArrowRight aria-hidden />从头走一遍</Link></Button>}
+        {!live && <Button asChild variant="outline"><Link to="/exam/simulation" search={{ routeId: source.routeId }}><ArrowRight aria-hidden />科目三流程模拟</Link></Button>}
         {live && <Button variant="ghost" onClick={() => { playback.pause(); setEnding(true) }}>结束本轮</Button>}
         <Sheet open={settingsOpen} onOpenChange={open => { if (open) playback.pause(); setSettingsOpen(open) }}>
           <SheetTrigger asChild><Button variant="outline"><Settings2 aria-hidden />学习设置</Button></SheetTrigger>
