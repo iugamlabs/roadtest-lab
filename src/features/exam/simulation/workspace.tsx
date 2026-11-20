@@ -1,0 +1,145 @@
+import { useEffect, useRef, useState } from 'react'
+import { Link, useBlocker } from '@tanstack/react-router'
+import { ArrowLeft, Play, RotateCcw } from 'lucide-react'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { useSidebar } from '@/components/ui/sidebar'
+import { roadRoutes } from '@/features/content/queries'
+import { loadRouteCourse } from '@/features/memory/course/course'
+import { CourseResults, RouteCourse, type CourseAnswers } from '@/features/memory/course/workspace'
+import type { MemorySource } from '@/features/memory/progress'
+import { LightingExam, LightingReview } from '../lighting/exam'
+import { lightingQuizScore, type LightingQuiz } from '../lighting/quiz'
+import { operationSteps, SimulationOperations, type OperationReview } from './operations'
+
+const stages = [
+  { id: 'preparation', title: '上车准备' },
+  { id: 'lighting', title: '灯光口令' },
+  { id: 'start', title: 'C2 起步' },
+  { id: 'road', title: '实景路线' },
+  { id: 'parking', title: '停车收尾' },
+] as const
+
+type Stage = typeof stages[number]['id'] | 'ready' | 'result'
+type OperationStage = keyof typeof operationSteps
+const nextOperationStage = {
+  preparation: { stage: 'lighting', label: '进入灯光环节' },
+  start: { stage: 'road', label: '进入实景路线' },
+  parking: { stage: 'result', label: '完成模拟，查看回顾' },
+} as const
+
+export function SimulationWorkspace({ source }: { source: MemorySource }) {
+  const routeName = roadRoutes.find(route => route.id === source.routeId)!.name
+  const [course] = useState(() => loadRouteCourse(source))
+  const [stage, setStage] = useState<Stage>('ready')
+  const [exiting, setExiting] = useState(false)
+  const [lighting, setLighting] = useState<LightingQuiz>()
+  const [road, setRoad] = useState<CourseAnswers>()
+  const [reviews, setReviews] = useState<Partial<Record<OperationStage, OperationReview[]>>>({})
+  const heading = useRef<HTMLHeadingElement>(null)
+  const startButton = useRef<HTMLButtonElement>(null)
+  const beforeDialog = useRef<HTMLElement>(null)
+  const current = stages.find(item => item.id === stage)
+  const active = current !== undefined
+  const blocker = useBlocker({ shouldBlockFn: () => active, withResolver: true, enableBeforeUnload: active })
+  const { openMobile } = useSidebar()
+  const suspended = exiting || blocker.status === 'blocked' || openMobile
+
+  useEffect(() => {
+    if (stage !== 'ready' && stage !== 'road') heading.current?.focus()
+  }, [stage])
+
+  function reset(next: 'ready' | 'preparation') {
+    setLighting(undefined)
+    setRoad(undefined)
+    setReviews({})
+    setExiting(false)
+    setStage(next)
+  }
+
+  function completeOperations(id: OperationStage, corrections: OperationReview[]) {
+    setReviews(previous => ({ ...previous, [id]: corrections }))
+    setStage(nextOperationStage[id].stage)
+  }
+
+  return <div className="mx-auto max-w-6xl space-y-4">
+    <header className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex items-center gap-2">
+        <Button asChild variant="outline" size="icon" className="size-14 shrink-0">
+          <Link to="/exam/simulation" search={{}} aria-label="返回模拟路线选择"><ArrowLeft aria-hidden /></Link>
+        </Button>
+        <h1 className="page-title">{routeName} · 科目三流程模拟</h1>
+      </div>
+      {active && <Button variant="outline" onClick={() => setExiting(true)}>退出本轮</Button>}
+    </header>
+
+    <ol aria-label="模拟进度" className="flex flex-wrap gap-2">
+      {stages.map((item, index) => <li key={item.id} aria-current={stage === item.id ? 'step' : undefined}>
+        <Badge variant={stage === item.id ? 'default' : 'outline'} className="text-base">{index + 1}. {item.title}</Badge>
+      </li>)}
+    </ol>
+
+    {stage === 'ready' && <Card><CardContent className="space-y-3">
+      <p>从上车准备练到停车下车。灯光随机 5 题，实景路线按顺序走 10 段，不限时。</p>
+      <p className="text-base text-muted-foreground">身份核验在页面内模拟。实景环节用短片练路线衔接，结束后查看各环节的练习回顾。</p>
+      <Alert><AlertDescription className="text-base">上车流程参考《考试流程》图片。操作顺序用于 C2 学习，实车要求以当地考场和考试车辆为准。{source.routeId === '6' && '六号线跳过一处尚未开放的转弯。'}</AlertDescription></Alert>
+      {course ? <Button ref={startButton} onClick={() => reset('preparation')}><Play aria-hidden />开始模拟</Button>
+        : <p role="status">路线资料核对后会开放本线路的模拟。</p>}
+    </CardContent></Card>}
+
+    {current && <h2 ref={heading} tabIndex={-1} className="text-xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">{current.title}</h2>}
+
+    {(stage === 'preparation' || stage === 'start' || stage === 'parking') &&
+      <SimulationOperations key={stage} steps={operationSteps[stage]} nextLabel={nextOperationStage[stage].label}
+        onComplete={corrections => completeOperations(stage, corrections)} />}
+    {stage === 'lighting' && <LightingExam suspended={suspended} onComplete={quiz => { setLighting(quiz); setStage('start') }} />}
+    {stage === 'road' && course && <RouteCourse source={source} course={course} suspended={suspended}
+      onComplete={result => { setRoad(result); setStage('parking') }} />}
+
+    {stage === 'result' && road && lighting && <>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 ref={heading} tabIndex={-1} className="text-2xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">模拟完成</h2>
+        <Button variant="outline" onClick={() => reset('preparation')}><RotateCcw aria-hidden />再模拟一次</Button>
+      </div>
+      <p className="text-base text-muted-foreground">回顾仅在本页查看。路线记忆得分用于复习，正式考试另行评判。</p>
+      <details className="rounded-lg border p-4">
+        <summary className="cursor-pointer font-semibold">灯光口令 · 答对 {lightingQuizScore(lighting) / 20} / {lighting.questions.length} 题</summary>
+        <LightingReview quiz={lighting} />
+      </details>
+      {stages.map(({ id, title }) => {
+        if (id === 'lighting' || id === 'road') return null
+        const entries = reviews[id] ?? []
+        return <details key={id} className="rounded-lg border p-4">
+          <summary className="cursor-pointer font-semibold">{title} · {entries.length ? `${entries.length} 步需要回顾` : '所有步骤一次选对'}</summary>
+          {entries.length ? <ul className="mt-3 space-y-2 text-base">
+            {entries.map(entry => <li key={entry.expected}>先选了「{entry.attempted}」，这一步应先做「{entry.expected}」。</li>)}
+          </ul> : <p className="mt-3 text-base">已按练习顺序完成全部操作。</p>}
+        </details>
+      })}
+      <h3 className="text-xl font-semibold">实景路线回顾</h3>
+      <CourseResults source={source} {...road} />
+    </>}
+
+    <Dialog open={exiting || blocker.status === 'blocked'} onOpenChange={open => {
+      if (!open) { setExiting(false); blocker.reset?.() }
+    }}>
+      <DialogContent onOpenAutoFocus={() => {
+        beforeDialog.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+      }} onCloseAutoFocus={event => {
+        event.preventDefault()
+        if (beforeDialog.current?.isConnected) beforeDialog.current.focus()
+        else startButton.current?.focus()
+      }}>
+        <DialogHeader><DialogTitle>退出本轮模拟？</DialogTitle>
+          <DialogDescription>退出后，本轮作答和操作记录会清除。</DialogDescription></DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => { setExiting(false); blocker.reset?.() }}>继续模拟</Button>
+          <Button onClick={() => { if (blocker.status === 'blocked') blocker.proceed(); else reset('ready') }}>退出本轮</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </div>
+}

@@ -16,6 +16,7 @@ import { Route as ExamIndexRouteImport } from './routes/exam.index'
 import { Route as ExamRouteIdRouteImport } from './routes/exam.$routeId'
 import { Route as ExamLightingRouteImport } from './routes/exam.lighting'
 import { Route as ExamPrototypeRouteImport } from './routes/exam.prototype'
+import { Route as ExamSimulationRouteImport } from './routes/exam.simulation'
 import { Route as MemoryIndexRouteImport } from './routes/memory.index'
 import { Route as MemoryRouteIdRouteImport } from './routes/memory.$routeId'
 import { Route as TrainIndexRouteImport } from './routes/train.index'
@@ -57,6 +58,11 @@ const ExamPrototypeRoute = ExamPrototypeRouteImport.update({
   path: '/exam/prototype',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExamSimulationRoute = ExamSimulationRouteImport.update({
+  id: '/exam/simulation',
+  path: '/exam/simulation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MemoryIndexRoute = MemoryIndexRouteImport.update({
   id: '/memory/',
   path: '/memory/',
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/exam/$routeId': typeof ExamRouteIdRoute
   '/exam/lighting': typeof ExamLightingRoute
   '/exam/prototype': typeof ExamPrototypeRoute
+  '/exam/simulation': typeof ExamSimulationRoute
   '/memory/$routeId': typeof MemoryRouteIdRoute
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam/': typeof ExamIndexRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/exam/$routeId': typeof ExamRouteIdRoute
   '/exam/lighting': typeof ExamLightingRoute
   '/exam/prototype': typeof ExamPrototypeRoute
+  '/exam/simulation': typeof ExamSimulationRoute
   '/memory/$routeId': typeof MemoryRouteIdRoute
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam': typeof ExamIndexRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/exam/$routeId': typeof ExamRouteIdRoute
   '/exam/lighting': typeof ExamLightingRoute
   '/exam/prototype': typeof ExamPrototypeRoute
+  '/exam/simulation': typeof ExamSimulationRoute
   '/memory/$routeId': typeof MemoryRouteIdRoute
   '/train/$routeId': typeof TrainRouteIdRoute
   '/exam/': typeof ExamIndexRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/exam/$routeId'
     | '/exam/lighting'
     | '/exam/prototype'
+    | '/exam/simulation'
     | '/memory/$routeId'
     | '/train/$routeId'
     | '/exam/'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/exam/$routeId'
     | '/exam/lighting'
     | '/exam/prototype'
+    | '/exam/simulation'
     | '/memory/$routeId'
     | '/train/$routeId'
     | '/exam'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/exam/$routeId'
     | '/exam/lighting'
     | '/exam/prototype'
+    | '/exam/simulation'
     | '/memory/$routeId'
     | '/train/$routeId'
     | '/exam/'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   ExamRouteIdRoute: typeof ExamRouteIdRoute
   ExamLightingRoute: typeof ExamLightingRoute
   ExamPrototypeRoute: typeof ExamPrototypeRoute
+  ExamSimulationRoute: typeof ExamSimulationRoute
   MemoryRouteIdRoute: typeof MemoryRouteIdRoute
   TrainRouteIdRoute: typeof TrainRouteIdRoute
   ExamIndexRoute: typeof ExamIndexRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExamPrototypeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/exam/simulation': {
+      id: '/exam/simulation'
+      path: '/exam/simulation'
+      fullPath: '/exam/simulation'
+      preLoaderRoute: typeof ExamSimulationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/memory/': {
       id: '/memory/'
       path: '/memory'
@@ -282,6 +302,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExamRouteIdRoute: ExamRouteIdRoute,
   ExamLightingRoute: ExamLightingRoute,
   ExamPrototypeRoute: ExamPrototypeRoute,
+  ExamSimulationRoute: ExamSimulationRoute,
   MemoryRouteIdRoute: MemoryRouteIdRoute,
   TrainRouteIdRoute: TrainRouteIdRoute,
   ExamIndexRoute: ExamIndexRoute,

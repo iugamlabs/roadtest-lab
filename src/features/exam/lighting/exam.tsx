@@ -15,7 +15,10 @@ const lightingAppearance = {
   '示宽灯（小灯）': { icon: ParkingCircle, kind: 'position' },
 } satisfies Record<LightingAction, { icon: typeof Lightbulb; kind: string }>
 
-export function LightingExam() {
+export function LightingExam({ onComplete, suspended = false }: {
+  onComplete?: (quiz: LightingQuiz) => void
+  suspended?: boolean
+} = {}) {
   const [quiz, setQuiz] = useState<LightingQuiz | null>(null)
   const [index, setIndex] = useState(0)
   const [finished, setFinished] = useState(false)
@@ -33,7 +36,7 @@ export function LightingExam() {
   }, [quiz, index, finished])
 
   useEffect(() => {
-    if (!question || answered || !voice || document.hidden) return
+    if (!question || answered || !voice || suspended || document.hidden) return
     const cancel = new BrowserSpeech().speak(question[0], {
       end: () => {},
       error: () => setVoiceError(true),
@@ -44,7 +47,7 @@ export function LightingExam() {
       cancel()
       document.removeEventListener('visibilitychange', onVisibility)
     }
-  }, [question, answered, voice, replay])
+  }, [question, answered, voice, replay, suspended])
 
   const start = () => {
     setQuiz(createLightingQuiz())
@@ -56,12 +59,12 @@ export function LightingExam() {
   return <>
     <Card><CardContent className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-muted-foreground">随机 5 题 · 每题 20 分 · 不限时</p>
+        <p className="text-muted-foreground">{onComplete ? '随机 5 题 · 不限时' : '随机 5 题 · 每题 20 分 · 不限时'}</p>
         <div className="flex items-center gap-3"><Label htmlFor="lighting-voice">{voice ? <Volume2 className="size-5" aria-hidden /> : <VolumeX className="size-5" aria-hidden />}语音播报</Label><Switch id="lighting-voice" checked={voice} onCheckedChange={value => { setVoice(value); setVoiceError(false) }} /></div>
       </div>
       {!quiz && <>
-        <p className="leading-relaxed">听口令或看文字，选择对应的灯光操作。答题后查看反馈，再进入下一题。全部答完后查看成绩和错题。</p>
-        <p className="text-base text-muted-foreground">这是灯光口令学习考核，不代表官方考试评分。</p>
+        <p className="leading-relaxed">{onComplete ? '听口令或看文字，选择对应的灯光操作。全程结束后统一核对。' : '听口令或看文字，选择对应的灯光操作。答题后查看反馈，再进入下一题。全部答完后查看成绩和错题。'}</p>
+        {!onComplete && <p className="text-base text-muted-foreground">这是灯光口令学习考核，不代表官方考试评分。</p>}
         <Button className="lighting-button" data-kind="dipped" onClick={start}><Play className="size-6" aria-hidden />开始灯光考试</Button>
       </>}
       {question && quiz && <>
@@ -80,26 +83,37 @@ export function LightingExam() {
             </Button>
           })}
         </div>
-        {answered && <div role="status" className="flex items-start gap-2 border-t pt-4">
+        {answered && !onComplete && <div role="status" className="flex items-start gap-2 border-t pt-4">
           {correct ? <Check className="mt-1 size-6 shrink-0" aria-hidden /> : <X className="mt-1 size-6 shrink-0" aria-hidden />}
           <p className="leading-relaxed">{correct ? '回答正确，得 20 分。' : `回答错误。你选择了“${selected}”，正确操作是“${question[1]}”。`}</p>
         </div>}
         <div className="flex flex-wrap gap-3">
-          {answered && <Button className="lighting-button" data-kind={index + 1 === quiz.questions.length ? 'main' : 'flash'} onClick={() => { setVoiceError(false); if (index + 1 === quiz.questions.length) setFinished(true); else setIndex(value => value + 1) }}>{index + 1 === quiz.questions.length ? <ClipboardCheck className="size-6" aria-hidden /> : <ArrowRight className="size-6" aria-hidden />}{index + 1 === quiz.questions.length ? '查看成绩' : '下一题'}</Button>}
-          <Button variant="outline" className="lighting-button" data-kind="exit" onClick={() => { setQuiz(null); setVoiceError(false) }}><Square className="size-6" aria-hidden />结束本次考试</Button>
+          {answered && <Button className="lighting-button" data-kind={index + 1 === quiz.questions.length ? 'main' : 'flash'} onClick={() => {
+            setVoiceError(false)
+            if (index + 1 < quiz.questions.length) setIndex(index + 1)
+            else if (onComplete) onComplete(quiz)
+            else setFinished(true)
+          }}>{index + 1 === quiz.questions.length && !onComplete ? <ClipboardCheck aria-hidden /> : <ArrowRight aria-hidden />}{index + 1 < quiz.questions.length ? '下一题' : onComplete ? '完成灯光，进入起步' : '查看成绩'}</Button>}
+          {!onComplete && <Button variant="outline" className="lighting-button" data-kind="exit" onClick={() => { setQuiz(null); setVoiceError(false) }}><Square className="size-6" aria-hidden />结束本次考试</Button>}
         </div>
       </>}
       {finished && quiz && <>
         <h3 ref={heading} tabIndex={-1} className="text-2xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">考试完成：{lightingQuizScore(quiz)} 分</h3>
         <p>答对 {lightingQuizScore(quiz) / 20} / {quiz.questions.length} 题。{lightingQuizScore(quiz) === 100 ? '全部正确！' : '对照下面的正确操作，再练一次。'}</p>
-        <ol aria-label="本次答题回顾" className="divide-y">
-          {quiz.questions.map(([command, action], i) => <li key={command} className="space-y-1 py-3">
-            <p className="font-semibold">{i + 1}. {command}</p>
-            <p className="flex items-start gap-2">{quiz.answers[i] === action ? <Check className="mt-1 size-5 shrink-0" aria-hidden /> : <X className="mt-1 size-5 shrink-0" aria-hidden />}<span>{quiz.answers[i] === action ? `正确：${action}` : `答错：${quiz.answers[i]}；正确操作：${action}`}</span></p>
-          </li>)}
-        </ol>
+        <LightingReview quiz={quiz} />
         <Button className="lighting-button" data-kind="position" onClick={start}><RotateCcw className="size-6" aria-hidden />再考一次</Button>
       </>}
     </CardContent></Card>
   </>
+}
+
+export function LightingReview({ quiz }: { quiz: LightingQuiz }) {
+  return <ol aria-label="灯光答题回顾" className="divide-y">
+    {quiz.questions.map(([command, action], index) => <li key={command} className="space-y-1 py-3">
+      <p className="font-semibold">{index + 1}. {command}</p>
+      <p className="flex items-start gap-2">{quiz.answers[index] === action ? <Check className="mt-1 size-5 shrink-0" aria-hidden /> : <X className="mt-1 size-5 shrink-0" aria-hidden />}
+        <span>{quiz.answers[index] === action ? `正确：${action}` : `答错：${quiz.answers[index]}。正确操作：${action}`}</span>
+      </p>
+    </li>)}
+  </ol>
 }

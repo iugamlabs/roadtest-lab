@@ -1,11 +1,7 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
-import { useBlocker } from '@tanstack/react-router'
-import { ArrowLeft, ArrowRight, Check, CircleHelp, Minus, Play, RotateCcw, X } from 'lucide-react'
+import { ArrowRight, Check, CircleHelp, Minus, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useSidebar } from '@/components/ui/sidebar'
-import { roadRoutes } from '@/features/content/queries'
 import type { MemorySource } from '../progress'
 import type { QuizQuestion } from '../quiz/bank'
 import { QuizClip } from '../quiz/clip'
@@ -14,70 +10,38 @@ import { RouteEventReplay } from '../quiz/replay'
 import { outcomeStyles } from '../quiz/results'
 import { COURSE_POINTS_PER_SEGMENT, prepareRouteCourse, type RouteCourseContent } from './course'
 
-export function RouteCourse({ source, course, onClose }: {
+export function RouteCourse({ source, course, suspended, onComplete }: {
   source: MemorySource
-  course: RouteCourseContent | null
-  onClose: () => void
+  course: RouteCourseContent
+  suspended: boolean
+  onComplete: (answers: CourseAnswers) => void
 }) {
-  const routeName = roadRoutes.find(route => route.id === source.routeId)!.name
-  const questions = course?.questions ?? []
-  const [state, dispatch] = useReducer(routeQuizReducer, initialRouteQuizState)
-  const [ending, setEnding] = useState(false)
+  const [state, dispatch] = useReducer(routeQuizReducer, course.questions, questions =>
+    routeQuizReducer(initialRouteQuizState, { type: 'start', questions: prepareRouteCourse(questions) }))
   const [arrivalReady, setArrivalReady] = useState(false)
-  const [reviewing, setReviewing] = useState(false)
   const heading = useRef<HTMLHeadingElement>(null)
   const stage = useRef<HTMLDivElement>(null)
   const options = useRef<HTMLDivElement>(null)
   const question = state.phase === 'answering' ? state.questions[state.index] : undefined
-  const arrival = state.phase === 'finished' && state.answers.length === questions.length && !reviewing
-  const showResult = state.phase === 'finished' && !arrival
-  const live = Boolean(question) || arrival
-  const blocker = useBlocker({ shouldBlockFn: () => live, withResolver: true, enableBeforeUnload: live })
-  const { openMobile } = useSidebar()
-  const suspended = ending || blocker.status === 'blocked' || openMobile
+  const arrival = state.phase === 'finished'
 
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })
-    if (live) stage.current?.scrollIntoView({ block: 'start' })
-    else window.scrollTo({ top: 0, behavior: 'instant' })
-  }, [state.phase, state.index, live])
+    stage.current?.scrollIntoView({ block: 'nearest' })
+  }, [state.phase, state.index])
 
   useEffect(() => {
     if (state.optionsVisible) options.current?.focus({ preventScroll: true })
   }, [state.optionsVisible])
 
-  function start() {
-    setArrivalReady(false)
-    setReviewing(false)
-    dispatch({ type: 'start', questions: prepareRouteCourse(questions) })
-  }
-
-  return <div className="mx-auto max-w-6xl space-y-4">
-    <header className="flex flex-wrap items-center justify-between gap-2">
-      <div className="flex items-center gap-2">
-        <Button variant="outline" size="icon" className="size-14 shrink-0" aria-label="返回上一页" onClick={() => live ? setEnding(true) : onClose()}><ArrowLeft aria-hidden /></Button>
-        <h1 className="page-title">{routeName} <span className="inline-block">· 从头走一遍</span></h1>
-      </div>
-      {live && <Button variant="ghost" onClick={() => setEnding(true)}>结束本轮</Button>}
-    </header>
-
-    {state.phase === 'ready' && <section className="space-y-4 rounded-lg border p-4">
-      <h2 ref={heading} tabIndex={-1} className="text-xl font-semibold">试试能不能把{routeName}一路接到终点</h2>
-      {questions.length ? <>
-        <p>先看实景认位置，自己想下一段的顺序和走向，再看选项。提交后继续往前走，到终点统一核对。不限时。</p>
-        <p className="text-base text-muted-foreground">想先自查的话，可以在看视频前，从出场到停车口头讲一遍。</p>
-        <Button onClick={start}><Play aria-hidden />从起点开始 · {questions.length} 段</Button>
-      </> : <p role="status">路线资料核对后会开放这一考程，可以先返回学习。</p>}
-    </section>}
-
-    {live && <div ref={stage} className="grid scroll-mt-4 items-start gap-4 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
+  return <div ref={stage} className="grid scroll-mt-4 items-start gap-4 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
       {question?.clip && <QuizClip key={question.id} routeId={source.routeId} clip={question.clip} suspended={suspended}
         onReady={ready => dispatch({ type: 'frame-ready', questionId: question.id, ready })} />}
-      {arrival && course && <QuizClip key="arrival" routeId={source.routeId} clip={course.arrivalClip} suspended={suspended} onReady={setArrivalReady} />}
+      {arrival && <QuizClip key="arrival" routeId={source.routeId} clip={course.arrivalClip} suspended={suspended} onReady={setArrivalReady} />}
       <section className="min-w-0 space-y-4 rounded-lg border p-4" aria-label="路线接续答题区">
         <Badge variant="secondary">{arrival ? '终点' : `第 ${state.index + 1} / ${state.questions.length} 段`}</Badge>
         <h2 ref={heading} tabIndex={-1} className="text-xl font-semibold leading-relaxed focus-visible:outline-2 focus-visible:outline-ring">
-          {arrival ? '看完终点短片，就可以核对答案。' : question?.prompt}
+          {arrival ? '看完终点短片，完成停车收尾。' : question?.prompt}
         </h2>
         {question && <>
           {state.optionsVisible ? <>
@@ -96,43 +60,17 @@ export function RouteCourse({ source, course, onClose }: {
           <Button variant="outline" className="w-full" disabled={!state.frameReady}
             onClick={() => dispatch({ type: 'submit', unknown: true })}>想不起来，继续走</Button>
         </>}
-        {arrival && <Button disabled={!arrivalReady} onClick={() => setReviewing(true)}>查看本轮结果<ArrowRight aria-hidden /></Button>}
+        {arrival && <Button disabled={!arrivalReady} onClick={() => onComplete({ questions: state.questions, answers: state.answers })}>进入停车收尾<ArrowRight aria-hidden /></Button>}
       </section>
-    </div>}
-
-    {showResult && <>
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 ref={heading} tabIndex={-1} className="text-2xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">本轮路线回顾</h2>
-        <Button variant="outline" onClick={start}><RotateCcw aria-hidden />再从头走一遍</Button>
-      </div>
-      <CourseResults source={source} questions={state.questions} answers={state.answers} />
-    </>}
-
-    <Dialog open={ending} onOpenChange={setEnding}>
-      <DialogContent>
-        <DialogHeader><DialogTitle>现在结束本轮？</DialogTitle><DialogDescription>可以查看已经提交的答案。尚未提交的路段会标为未作答。</DialogDescription></DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setEnding(false)}>接着走</Button>
-          <Button onClick={() => { setEnding(false); setReviewing(true); dispatch({ type: 'finish' }) }}>结束并查看结果</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-    <Dialog open={blocker.status === 'blocked'} onOpenChange={open => { if (!open) blocker.reset?.() }}>
-      <DialogContent>
-        <DialogHeader><DialogTitle>离开这轮考程？</DialogTitle><DialogDescription>本轮答案仅在当前页面查看。离开前可以结束并查看结果。</DialogDescription></DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => blocker.reset?.()}>留下接着走</Button>
-          <Button onClick={() => blocker.proceed?.()}>离开考程</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   </div>
 }
 
 const segmentLabels = { independent: '答对', assisted: '答对', wrong: '答错', unknown: '想不起来', unanswered: '未作答' }
 const segmentIcons = { independent: Check, assisted: Check, wrong: X, unknown: CircleHelp, unanswered: Minus }
 
-function CourseResults({ source, questions, answers }: { source: MemorySource; questions: QuizQuestion[]; answers: QuizAnswer[] }) {
+export type CourseAnswers = { questions: QuizQuestion[]; answers: QuizAnswer[] }
+
+export function CourseResults({ source, questions, answers }: { source: MemorySource } & CourseAnswers) {
   const [replay, setReplay] = useState<string[]>([])
   const trigger = useRef<HTMLButtonElement>(null)
   const answersById = new Map(answers.map(answer => [answer.questionId, answer]))
