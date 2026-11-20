@@ -5,7 +5,7 @@ import { quizKindLabels, type QuizQuestion } from './bank'
 import { quizOutcome, quizOutcomeLabels, summarizeQuiz, UNKNOWN_ANSWER, type QuizAnswer } from './model'
 
 const outcomeIcons = { independent: Check, assisted: Lightbulb, wrong: X, unknown: CircleHelp, unanswered: CircleHelp }
-const outcomeStyles = {
+export const outcomeStyles = {
   independent: 'border-success/30 bg-success/10 text-success',
   assisted: 'border-success/30 bg-success/10 text-success',
   wrong: 'border-destructive/30 bg-destructive/10 text-destructive',

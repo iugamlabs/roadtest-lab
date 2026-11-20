@@ -7,6 +7,7 @@ import type { MemorySource } from '../progress'
 import { quizEventSignature, shuffle, unpublishedRoute6Return, type QuizQuestion } from '../quiz/bank'
 
 const authoredCourses = { '5': route5, '6': route6, '7': route7 }
+export const COURSE_POINTS_PER_SEGMENT = 10
 const time = z.number().nonnegative()
 const clipSchema = z.tuple([time, time]).refine(([start, end]) => end > start)
 const courseSchema = z.object({

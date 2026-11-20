@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { useBlocker } from '@tanstack/react-router'
-import { ArrowLeft, ArrowRight, Check, Play, RotateCcw } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, CircleHelp, Minus, Play, RotateCcw, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -9,9 +9,10 @@ import { roadRoutes } from '@/features/content/queries'
 import type { MemorySource } from '../progress'
 import type { QuizQuestion } from '../quiz/bank'
 import { QuizClip } from '../quiz/clip'
-import { initialRouteQuizState, quizOutcome, routeQuizReducer, UNKNOWN_ANSWER, type QuizAnswer } from '../quiz/model'
+import { initialRouteQuizState, quizOutcome, routeQuizReducer, summarizeQuiz, UNKNOWN_ANSWER, type QuizAnswer } from '../quiz/model'
 import { RouteEventReplay } from '../quiz/replay'
-import { prepareRouteCourse, type RouteCourseContent } from './course'
+import { outcomeStyles } from '../quiz/results'
+import { COURSE_POINTS_PER_SEGMENT, prepareRouteCourse, type RouteCourseContent } from './course'
 
 export function RouteCourse({ source, course, onClose }: {
   source: MemorySource
@@ -128,37 +129,84 @@ export function RouteCourse({ source, course, onClose }: {
   </div>
 }
 
+const segmentLabels = { independent: '答对', assisted: '答对', wrong: '答错', unknown: '想不起来', unanswered: '未作答' }
+const segmentIcons = { independent: Check, assisted: Check, wrong: X, unknown: CircleHelp, unanswered: Minus }
+
 function CourseResults({ source, questions, answers }: { source: MemorySource; questions: QuizQuestion[]; answers: QuizAnswer[] }) {
   const [replay, setReplay] = useState<string[]>([])
   const trigger = useRef<HTMLButtonElement>(null)
-  const outcomes = questions.map((question, index) => quizOutcome(question, answers[index]))
-  const correct = outcomes.filter(outcome => outcome === 'independent').length
+  const answersById = new Map(answers.map(answer => [answer.questionId, answer]))
+  const outcomes = questions.map(question => quizOutcome(question, answersById.get(question.id)))
+  const tally = summarizeQuiz(questions, answers)
+  const correct = tally.independent + tally.assisted
+  const totals = { independent: correct, wrong: tally.wrong, unknown: tally.unknown, unanswered: tally.unanswered }
   const firstGap = outcomes.findIndex(outcome => outcome === 'wrong' || outcome === 'unknown')
   const gapStart = firstGap < 0 ? undefined : source.events[questions[firstGap].topicStartIndex]
-  const labels = { independent: '接对了', assisted: '接对了', wrong: '接错了', unknown: '想不起来', unanswered: '未作答' }
+
   return <>
-    <p role="status">接对 {correct} / {questions.length} 段。
-      {gapStart && `第一次没接上的是第 ${firstGap + 1} 段，从「${gapStart.title}」开始。`}
-      {correct === questions.length && '从起点到终点，每一段都接上了。'}
-      {answers.length === 0 && '本轮还没有提交答案。'}
-    </p>
+    <section aria-label="本轮得分和各段结果" className="space-y-4 rounded-lg border p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-base font-medium">路线记忆得分</p>
+          <p className="font-semibold tabular-nums"><span className="text-4xl">{correct * COURSE_POINTS_PER_SEGMENT}</span>
+            <span className="ml-2 text-base text-muted-foreground">/ {questions.length * COURSE_POINTS_PER_SEGMENT} 分</span></p>
+        </div>
+        <p className="flex flex-wrap items-center gap-x-2 text-base text-muted-foreground">
+          {tally.unanswered > 0 && <span>提前结束</span>}
+          <span>答对一段得 {COURSE_POINTS_PER_SEGMENT} 分</span>
+        </p>
+      </div>
+      <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {(['independent', 'wrong', 'unknown', 'unanswered'] as const).map(outcome => {
+          const Icon = segmentIcons[outcome]
+          return <div key={outcome} className={`rounded-md border p-2 sm:p-2.5 ${outcomeStyles[outcome]}`}>
+            <dt className="flex items-center gap-1 text-sm font-medium sm:gap-1.5 sm:text-base"><Icon className="size-4 shrink-0 sm:size-5" aria-hidden />{segmentLabels[outcome]}</dt>
+            <dd className="mt-1 text-xl font-semibold tabular-nums">{totals[outcome]} <span className="text-base font-normal">段</span></dd>
+          </div>
+        })}
+      </dl>
+      {gapStart && <p className="text-base">第一次没接上的是第 {firstGap + 1} 段，从「{gapStart.title}」开始。</p>}
+      <div role="group" aria-label="按段查看解析" className="grid grid-cols-5 gap-2 sm:grid-cols-10">
+        {questions.map((question, index) => {
+          const outcome = outcomes[index]
+          const Icon = segmentIcons[outcome]
+          return <Button key={question.id} variant="ghost" size="icon"
+            className={`min-h-14 w-full flex-col gap-0.5 border text-base hover:underline ${outcomeStyles[outcome]}`}
+            aria-label={`第 ${index + 1} 段，${segmentLabels[outcome]}，查看解析`}
+            onClick={() => {
+              const heading = document.getElementById(question.id)
+              heading?.focus({ preventScroll: true })
+              heading?.scrollIntoView({ block: 'start' })
+            }}>
+            <Icon className="size-5" aria-hidden />
+            {index + 1}
+          </Button>
+        })}
+      </div>
+    </section>
     <ol className="divide-y rounded-lg border px-4">
       {questions.map((question, index) => {
-        const answer = answers[index]?.selected
-        const covered = source.events.filter(event => question.topicEventIds.includes(event.id))
-        const first = source.events[question.topicStartIndex - 1]
-        return <li key={question.id} className="space-y-2 py-4">
+        const outcome = outcomes[index]
+        const Icon = segmentIcons[outcome]
+        const answer = answersById.get(question.id)?.selected
+        const chosen = answer === UNKNOWN_ANSWER ? segmentLabels.unknown : question.options.find(option => option.id === answer)?.label ?? segmentLabels.unanswered
+        const start = source.events[question.topicStartIndex]
+        const end = source.events[question.topicStartIndex + question.topicEventIds.length - 1]
+        const previous = source.events[question.topicStartIndex - 1]
+        return <li key={question.id} className="space-y-3 py-4">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="font-semibold">第 {index + 1} 段</h3>
-            <Badge variant={outcomes[index] === 'independent' ? 'secondary' : 'outline'}>{labels[outcomes[index]]}</Badge>
+            <h3 id={question.id} tabIndex={-1} className="scroll-mt-20 font-semibold focus-visible:outline-2 focus-visible:outline-ring">第 {index + 1} 段</h3>
+            <Badge variant="outline" className={`text-sm ${outcomeStyles[outcome]}`}><Icon className="size-4" aria-hidden />{segmentLabels[outcome]}</Badge>
           </div>
-          <p className="text-base">{covered[0]?.title} 至 {covered.at(-1)?.title}</p>
-          {answer && answer !== UNKNOWN_ANSWER && answer !== question.correct &&
-            <p className="text-base text-muted-foreground">你选了 {question.options.find(option => option.id === answer)?.label}</p>}
-          <p className="text-base"><span className="font-medium">正确走法</span> {question.explanation}</p>
+          <p className="text-base text-muted-foreground">{start.title}{end !== start && ` 至 ${end.title}`}</p>
+          <p className="font-medium">{question.prompt}</p>
+          <dl className="grid gap-2 text-base sm:grid-cols-2">
+            <div className={`rounded-md border p-3 ${outcomeStyles[outcome]}`}><dt>你的答案</dt><dd className="font-semibold">{chosen}</dd></div>
+            <div className="rounded-md border p-3"><dt className="text-muted-foreground">正确答案</dt><dd className="font-semibold">{question.explanation}</dd></div>
+          </dl>
           <Button variant="outline" onClick={event => {
             trigger.current = event.currentTarget
-            setReplay(first ? [first.id, ...question.topicEventIds] : question.topicEventIds)
+            setReplay(previous ? [previous.id, ...question.topicEventIds] : question.topicEventIds)
           }}>回看这段实景<span className="sr-only">，第 {index + 1} 段</span></Button>
         </li>
       })}
