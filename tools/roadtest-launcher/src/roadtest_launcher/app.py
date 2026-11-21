@@ -55,8 +55,8 @@ class LauncherApp(ctk.CTk):
         ctk.set_default_color_theme("blue")
 
         self.title("路考练习室")
-        self.geometry("440x360")
-        self.minsize(400, 320)
+        # Let Tk fit the contents, including the footer and wrapped status text.
+        self.minsize(440, 360)
         self.resizable(False, False)
 
         try:
