@@ -36,9 +36,12 @@ def ctl_script(root: Path | None = None) -> Path:
 
 
 def runtime_dir() -> Path:
-    base = os.environ.get("XDG_RUNTIME_DIR") or os.environ.get(
-        "XDG_CACHE_HOME", str(Path.home() / ".cache")
-    )
+    if os.name == "nt":
+        base = os.environ.get("LOCALAPPDATA") or Path.home() / "AppData" / "Local"
+    else:
+        base = os.environ.get("XDG_RUNTIME_DIR") or os.environ.get(
+            "XDG_CACHE_HOME", str(Path.home() / ".cache")
+        )
     path = Path(base) / "roadtest-lab"
     path.mkdir(parents=True, exist_ok=True)
     return path

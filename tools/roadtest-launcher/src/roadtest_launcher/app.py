@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import queue
 import threading
 import traceback
@@ -18,6 +19,9 @@ from roadtest_launcher.service import (
     ServiceStatus,
 )
 from roadtest_launcher.single_instance import InstanceLock, acquire_instance_lock
+from roadtest_launcher.windows_service import WindowsRoadtestService
+
+PreviewService = RoadtestService | WindowsRoadtestService
 
 _STATE_LABELS: dict[ServiceState, str] = {
     "stopped": "已停止",
@@ -31,7 +35,7 @@ _BUTTON_HEIGHT = 56
 
 
 class LauncherApp(ctk.CTk):
-    def __init__(self, service: RoadtestService) -> None:
+    def __init__(self, service: PreviewService) -> None:
         super().__init__()
         self.service = service
         self.status = ServiceStatus(
@@ -486,7 +490,7 @@ class LauncherApp(ctk.CTk):
         self.focus_force()
 
 
-def _notify_already_running(service: RoadtestService) -> None:
+def _notify_already_running(service: PreviewService) -> None:
     try:
         status = service.status()
         if status.is_running:
@@ -507,7 +511,7 @@ def _notify_already_running(service: RoadtestService) -> None:
 def main() -> None:
     ctk.set_appearance_mode("system")
     lock: InstanceLock | None = acquire_instance_lock()
-    service = RoadtestService()
+    service = WindowsRoadtestService() if os.name == "nt" else RoadtestService()
 
     if lock is None:
         # 无主窗口时也尽量弹出提示；tk 需要短生命周期 root。
