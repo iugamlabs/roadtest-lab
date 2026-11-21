@@ -40,6 +40,16 @@ bash scripts/start-roadtest-lab.sh --stop  # 停止本项目的预览服务
 
 图形启动器若发现服务已在运行，会直接打开浏览器，不会重复构建。命令行无参数启动仍会先结束上次预览再重新构建。若 19237 端口被其他程序占用（例如另开终端里的 `pnpm dev`），请先在原终端退出该程序。启动和构建错误可查看脚本或启动器提示的日志路径。
 
+### Windows 桌面启动
+
+准备好 Node.js、pnpm、项目依赖、视频素材、uv 和带 Tkinter 的 Python 后，在仓库根目录的 PowerShell 运行：
+
+```powershell
+uv run --project tools/roadtest-launcher roadtest-launcher
+```
+
+可从窗口或托盘启动和停止练习室，并用系统默认浏览器打开。日志位于 `%LOCALAPPDATA%\roadtest-lab\preview.log`。[桌面启动器说明](tools/roadtest-launcher/README.md)
+
 ### 开发与首次准备
 
 需要 Node.js 22.12+、pnpm 12.4.2（见 `packageManager`）。

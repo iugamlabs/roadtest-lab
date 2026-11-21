@@ -80,7 +80,8 @@
 - `public/media/`：从原始素材准备的视频及路线图；与 `raw/`、`dist/` 一样不提交 Git。
 - `pnpm prepare:media` 依赖 FFmpeg/FFprobe，发布视频统一为 H.264 / yuv420p + AAC；兼容原片直接复制，其他原片转码并前置 MP4 索引。保留原尺寸、帧率、帧数及音视频起点和时长，禁止裁剪、变速或改写原片校准指纹。SHA-256 与转码版本缓存记录存于 `public/media/*.prepare.json`，来源、发布文件或转码版本变化时重新生成。构建后从 `dist/` 同步部署，不直接修补部署视频。
 - 不编辑 `dist/` 修复页面，必须修改源码后重新构建。
-- 仓库为 monorepo：前端在仓库根目录（pnpm）；本机桌面启动器在 `tools/roadtest-launcher`（uv + CustomTkinter + pystray）。首次准备依赖、素材、uv 与系统 `python3-tk` 后，用 `bash scripts/install-desktop-launcher.sh` 安装桌面/应用菜单项，入口为 `scripts/start-roadtest-lab-gui.sh`。图形启动器负责启停、打开浏览器与托盘状态；实际构建与预览仍由 `scripts/start-roadtest-lab.sh` 完成（支持 `--status` / `--open` / `--stop`）。预览固定本机端口 19237，按会话回收本项目 preview，不自动结束其他程序（例如另开的 `pnpm dev`）。使用说明见 `README.md`、`tools/roadtest-launcher/README.md` 和 `给家人的使用说明.txt`。
+- 仓库为 monorepo：前端在仓库根目录（pnpm）；本机桌面启动器在 `tools/roadtest-launcher`（uv + CustomTkinter + pystray）。Linux 首次准备依赖、素材、uv 与系统 `python3-tk` 后，用 `bash scripts/install-desktop-launcher.sh` 安装桌面/应用菜单项，入口为 `scripts/start-roadtest-lab-gui.sh`。图形启动器负责启停、打开浏览器与托盘状态；Linux 的构建与预览由 `scripts/start-roadtest-lab.sh` 完成（支持 `--status` / `--open` / `--stop`）。预览固定本机端口 19237，按会话回收本项目 preview，不自动结束其他程序（例如另开的 `pnpm dev`）。使用说明见 `README.md`、`tools/roadtest-launcher/README.md` 和 `给家人的使用说明.txt`。
+- Windows 在 `tools/roadtest-launcher` 中运行 `uv run roadtest-launcher`，由 Python 执行 `pnpm build` 并管理本进程启动的 Vite 预览。使用 Windows 文件锁保持单实例，关闭窗口到托盘时保留服务，退出或异常结束后关闭预览。日志位于 `%LOCALAPPDATA%\roadtest-lab\preview.log`。
 
 ## 字幕校对与训练事件
 
