@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=路考练习室
+Comment=打开汕头大学路科目三练习
+Exec=@START_SCRIPT@
+Icon=applications-multimedia
+Terminal=false
+Categories=Education;
+Keywords=路考;科目三;驾驶;练习;
