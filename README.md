@@ -30,10 +30,12 @@
 
 ```sh
 bash scripts/start-roadtest-lab.sh         # 构建、预览并打开浏览器
-bash scripts/start-roadtest-lab.sh --stop  # 停止启动器管理的预览
+bash scripts/start-roadtest-lab.sh --status # 输出 JSON 状态
+bash scripts/start-roadtest-lab.sh --open   # 预览可用时打开浏览器
+bash scripts/start-roadtest-lab.sh --stop   # 停止启动器的预览
 ```
 
-如果 19237 端口已由其他程序使用（例如 `pnpm dev`），请先从原终端退出该程序。启动和构建错误可查看脚本提示的日志路径。
+重复打开图标会先停止上次的预览并重新构建。若端口 19237 由其他程序使用（包括手动运行的预览），请先从原终端退出该程序。启动和构建错误可查看脚本提示的日志路径。
 
 ### 开发与首次准备
 

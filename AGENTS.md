@@ -80,7 +80,7 @@
 - `public/media/`：从原始素材准备的视频及路线图；与 `raw/`、`dist/` 一样不提交 Git。
 - `pnpm prepare:media` 依赖 FFmpeg/FFprobe，发布视频统一为 H.264 / yuv420p + AAC；兼容原片直接复制，其他原片转码并前置 MP4 索引。保留原尺寸、帧率、帧数及音视频起点和时长，禁止裁剪、变速或改写原片校准指纹。SHA-256 与转码版本缓存记录存于 `public/media/*.prepare.json`，来源、发布文件或转码版本变化时重新生成。构建后从 `dist/` 同步部署，不直接修补部署视频。
 - 不编辑 `dist/` 修复页面，必须修改源码后重新构建。
-- Linux 桌面启动器位于 `scripts/`，首次准备依赖和素材后用 `bash scripts/install-desktop-launcher.sh` 安装。启动时重新构建，并在固定的本机端口 19237 提供 Vite 预览；只管理自身启动的进程。使用说明见 `README.md` 和 `给家人的使用说明.txt`。
+- Linux 桌面启动器位于 `scripts/`，首次准备依赖和素材后用 `bash scripts/install-desktop-launcher.sh` 安装。启动时重新构建，并在固定的本机端口 19237 提供 Vite 预览；停止操作仅处理已记录的独立预览进程组，以及占用该端口的本项目孤儿预览进程。启停脚本也提供 `--status` 和 `--open`。使用说明见 `README.md` 和 `给家人的使用说明.txt`。
 
 ## 字幕校对与训练事件
 
