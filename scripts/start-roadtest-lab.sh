@@ -217,6 +217,7 @@ open_browser() {
   local browser
   for browser in google-chrome-stable google-chrome chromium chromium-browser xdg-open; do
     if command -v "$browser" >/dev/null 2>&1; then
+      # 关闭可能继承的 launcher 锁描述符，避免浏览器进程占住 flock。
       nohup "$browser" "$url" 9>&- </dev/null >/dev/null 2>&1 &
       return 0
     fi

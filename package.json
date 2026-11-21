@@ -18,7 +18,8 @@
     "import:asr": "node scripts/import-asr.mjs",
     "prepare:subtitles": "node scripts/prepare-subtitles.mjs",
     "prepare:events": "node --experimental-strip-types scripts/prepare-events.mjs",
-    "calibrate:media": "node --experimental-strip-types scripts/calibrate-media.mjs"
+    "calibrate:media": "node --experimental-strip-types scripts/calibrate-media.mjs",
+    "launcher": "bash scripts/start-roadtest-lab-gui.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.6",

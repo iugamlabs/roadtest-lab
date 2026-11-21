@@ -7,3 +7,4 @@ Icon=applications-multimedia
 Terminal=false
 Categories=Education;
 Keywords=路考;科目三;驾驶;练习;
+StartupNotify=true

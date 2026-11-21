@@ -9,11 +9,16 @@ if [[ -z "$desktop_dir" ]] && command -v xdg-user-dir >/dev/null 2>&1; then
 fi
 desktop_dir=${desktop_dir:-$HOME/Desktop}
 
-script="$root/scripts/start-roadtest-lab.sh"
+script="$root/scripts/start-roadtest-lab-gui.sh"
 if [[ "$script" == *[$'\n\r']* ]]; then
   echo '项目路径不能包含换行符。' >&2
   exit 1
 fi
+
+if [[ ! -x "$script" ]]; then
+  chmod +x -- "$script"
+fi
+
 # 先转义 Exec 的引号参数，再转义 desktop 文件的字符串值。
 script=${script//%/%%}
 script=${script//\\/\\\\}
@@ -41,3 +46,7 @@ if [[ -d "$desktop_dir" && "$desktop_dir" != "$HOME" ]]; then
   printf '已安装桌面图标：%s\n' "$desktop_launcher"
 fi
 printf '已安装应用菜单项：%s\n' "$launcher"
+printf '桌面启动器已改为图形界面（托盘 + 启停）。命令行仍可用：\n'
+printf '  bash scripts/start-roadtest-lab.sh\n'
+printf '  bash scripts/start-roadtest-lab.sh --stop\n'
+printf '  bash scripts/start-roadtest-lab-gui.sh\n'

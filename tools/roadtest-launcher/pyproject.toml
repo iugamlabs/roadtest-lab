@@ -1,0 +1,18 @@
+[project]
+name = "roadtest-launcher"
+version = "0.1.0"
+description = "路考练习室本机桌面启动器：启停预览服务、打开浏览器与托盘状态"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "customtkinter>=5.2.0",
+    "pillow>=10.0.0",
+    "pystray>=0.19.5",
+]
+
+[project.scripts]
+roadtest-launcher = "roadtest_launcher.app:main"
+
+[build-system]
+requires = ["uv_build>=0.13.8,<0.14.0"]
+build-backend = "uv_build"
