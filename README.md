@@ -24,6 +24,19 @@
 
 ## 启动
 
+### Linux 桌面一键启动
+
+首次准备好 Node.js、pnpm、项目依赖和视频素材后，在项目目录运行 `bash scripts/install-desktop-launcher.sh`。之后可从桌面或应用菜单打开「路考练习室」。每次启动会重新构建，再用 Vite 在 `http://127.0.0.1:19237/` 提供预览，优先用 Chrome 或 Chromium 打开。给学员的操作步骤见[给家人的使用说明](给家人的使用说明.txt)。
+
+```sh
+bash scripts/start-roadtest-lab.sh         # 构建、预览并打开浏览器
+bash scripts/start-roadtest-lab.sh --stop  # 停止启动器管理的预览
+```
+
+如果 19237 端口已由其他程序使用（例如 `pnpm dev`），请先从原终端退出该程序。启动和构建错误可查看脚本提示的日志路径。
+
+### 开发与首次准备
+
 需要 Node.js 22.12+、pnpm 12.4.2（见 `packageManager`）。
 
 ```sh
