@@ -9,3 +9,8 @@ coverage/
 .sites-runtime/
 artifacts/calibration/
 __pycache__/
+.venv/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
