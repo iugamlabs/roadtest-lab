@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useBlocker } from '@tanstack/react-router'
-import { ArrowLeft, Play, RotateCcw } from 'lucide-react'
+import { ArrowLeft, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
 import { useSidebar } from '@/components/ui/sidebar'
+import { Switch } from '@/components/ui/switch'
 import { roadRoutes } from '@/features/content/queries'
 import { loadRouteCourse } from '@/features/memory/course/course'
 import { CourseResults, RouteCourse, type CourseAnswers } from '@/features/memory/course/workspace'
@@ -35,6 +37,7 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
   const routeName = roadRoutes.find(route => route.id === source.routeId)!.name
   const [course] = useState(() => loadRouteCourse(source))
   const [stage, setStage] = useState<Stage>('ready')
+  const [voice, setVoice] = useState(true)
   const [exiting, setExiting] = useState(false)
   const [lighting, setLighting] = useState<LightingQuiz>()
   const [road, setRoad] = useState<CourseAnswers>()
@@ -73,7 +76,14 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
         </Button>
         <h1 className="page-title">{routeName} · 科目三流程模拟</h1>
       </div>
-      {active && <Button variant="outline" onClick={() => setExiting(true)}>退出本轮</Button>}
+      {(active || stage === 'ready') && <div className="flex flex-wrap items-center gap-3">
+        <Label htmlFor="simulation-voice">
+          {voice ? <Volume2 className="size-5" aria-hidden /> : <VolumeX className="size-5" aria-hidden />}
+          语音播报
+        </Label>
+        <Switch id="simulation-voice" checked={voice} onCheckedChange={setVoice} />
+        {active && <Button variant="outline" onClick={() => setExiting(true)}>退出本轮</Button>}
+      </div>}
     </header>
 
     <ol aria-label="模拟进度" className="flex flex-wrap gap-2">
@@ -94,9 +104,10 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
 
     {(stage === 'preparation' || stage === 'start' || stage === 'parking') &&
       <SimulationOperations key={stage} steps={operationSteps[stage]} nextLabel={nextOperationStage[stage].label}
+        voice={voice} suspended={suspended}
         onComplete={corrections => completeOperations(stage, corrections)} />}
-    {stage === 'lighting' && <LightingExam suspended={suspended} onComplete={quiz => { setLighting(quiz); setStage('start') }} />}
-    {stage === 'road' && course && <RouteCourse source={source} course={course} suspended={suspended}
+    {stage === 'lighting' && <LightingExam voice={voice} suspended={suspended} onComplete={quiz => { setLighting(quiz); setStage('start') }} />}
+    {stage === 'road' && course && <RouteCourse source={source} course={course} voice={voice} suspended={suspended}
       onComplete={result => { setRoad(result); setStage('parking') }} />}
 
     {stage === 'result' && road && lighting && <>

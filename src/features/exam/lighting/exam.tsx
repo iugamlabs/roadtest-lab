@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { BrowserSpeech } from '@/features/exam/speech'
+import { usePromptSpeech } from '../use-prompt-speech'
 import { answerLightingQuiz, createLightingQuiz, lightingActions, lightingQuizScore, type LightingAction, type LightingQuiz } from './quiz'
 
 const lightingAppearance = {
@@ -15,52 +15,38 @@ const lightingAppearance = {
   '示宽灯（小灯）': { icon: ParkingCircle, kind: 'position' },
 } satisfies Record<LightingAction, { icon: typeof Lightbulb; kind: string }>
 
-export function LightingExam({ onComplete, suspended = false }: {
+export function LightingExam({ onComplete, suspended = false, voice: simulationVoice }: {
   onComplete?: (quiz: LightingQuiz) => void
   suspended?: boolean
+  voice?: boolean
 } = {}) {
   const [quiz, setQuiz] = useState<LightingQuiz | null>(null)
   const [index, setIndex] = useState(0)
   const [finished, setFinished] = useState(false)
-  const [voice, setVoice] = useState(true)
-  const [voiceError, setVoiceError] = useState(false)
-  const [replay, setReplay] = useState(0)
+  const [standaloneVoice, setStandaloneVoice] = useState(true)
   const heading = useRef<HTMLHeadingElement>(null)
   const question = !finished ? quiz?.questions[index] : undefined
   const answered = quiz ? quiz.answers.length > index : false
   const selected = quiz?.answers[index]
   const correct = selected === question?.[1]
+  const voice = simulationVoice ?? standaloneVoice
+  const speech = usePromptSpeech(answered ? undefined : question?.[0], voice, suspended)
 
   useEffect(() => {
     if (quiz) heading.current?.focus()
   }, [quiz, index, finished])
 
-  useEffect(() => {
-    if (!question || answered || !voice || suspended || document.hidden) return
-    const cancel = new BrowserSpeech().speak(question[0], {
-      end: () => {},
-      error: () => setVoiceError(true),
-    })
-    const onVisibility = () => { if (document.hidden) cancel() }
-    document.addEventListener('visibilitychange', onVisibility)
-    return () => {
-      cancel()
-      document.removeEventListener('visibilitychange', onVisibility)
-    }
-  }, [question, answered, voice, replay, suspended])
-
   const start = () => {
     setQuiz(createLightingQuiz())
     setIndex(0)
     setFinished(false)
-    setVoiceError(false)
   }
 
   return <>
     <Card><CardContent className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-muted-foreground">{onComplete ? '随机 5 题 · 不限时' : '随机 5 题 · 每题 20 分 · 不限时'}</p>
-        <div className="flex items-center gap-3"><Label htmlFor="lighting-voice">{voice ? <Volume2 className="size-5" aria-hidden /> : <VolumeX className="size-5" aria-hidden />}语音播报</Label><Switch id="lighting-voice" checked={voice} onCheckedChange={value => { setVoice(value); setVoiceError(false) }} /></div>
+        {simulationVoice === undefined && <div className="flex items-center gap-3"><Label htmlFor="lighting-voice">{voice ? <Volume2 className="size-5" aria-hidden /> : <VolumeX className="size-5" aria-hidden />}语音播报</Label><Switch id="lighting-voice" checked={voice} onCheckedChange={setStandaloneVoice} /></div>}
       </div>
       {!quiz && <>
         <p className="leading-relaxed">{onComplete ? '听口令或看文字，选择对应的灯光操作。全程结束后统一核对。' : '听口令或看文字，选择对应的灯光操作。答题后查看反馈，再进入下一题。全部答完后查看成绩和错题。'}</p>
@@ -70,10 +56,10 @@ export function LightingExam({ onComplete, suspended = false }: {
       {question && quiz && <>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="font-semibold">第 {index + 1} / {quiz.questions.length} 题</p>
-          <Button variant="outline" className="lighting-button" data-kind="full" disabled={!voice || answered} onClick={() => { setVoiceError(false); setReplay(value => value + 1) }}><Volume2 className="size-6" aria-hidden />重听口令</Button>
+          <Button variant="outline" className="lighting-button" data-kind="full" disabled={!voice || answered || suspended} onClick={speech.replay}><Volume2 className="size-6" aria-hidden />重听口令</Button>
         </div>
         <h3 ref={heading} tabIndex={-1} className="rounded-md bg-muted px-4 py-5 text-2xl font-semibold leading-relaxed focus-visible:outline-2 focus-visible:outline-ring">{question[0]}</h3>
-        {voiceError && <p role="status" className="text-base text-muted-foreground">语音暂时无法播放，请按文字口令答题，也可点击“重听口令”。</p>}
+        {speech.failed && <p role="status" className="text-base text-muted-foreground">语音暂时无法播放，请按文字口令答题，也可点击“重听口令”。</p>}
         <div role="group" aria-label="选择灯光操作" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {lightingActions.map(action => {
             const { icon: Icon, kind } = lightingAppearance[action]
@@ -89,12 +75,11 @@ export function LightingExam({ onComplete, suspended = false }: {
         </div>}
         <div className="flex flex-wrap gap-3">
           {answered && <Button className="lighting-button" data-kind={index + 1 === quiz.questions.length ? 'main' : 'flash'} onClick={() => {
-            setVoiceError(false)
             if (index + 1 < quiz.questions.length) setIndex(index + 1)
             else if (onComplete) onComplete(quiz)
             else setFinished(true)
           }}>{index + 1 === quiz.questions.length && !onComplete ? <ClipboardCheck aria-hidden /> : <ArrowRight aria-hidden />}{index + 1 < quiz.questions.length ? '下一题' : onComplete ? '完成灯光，进入起步' : '查看成绩'}</Button>}
-          {!onComplete && <Button variant="outline" className="lighting-button" data-kind="exit" onClick={() => { setQuiz(null); setVoiceError(false) }}><Square className="size-6" aria-hidden />结束本次考试</Button>}
+          {!onComplete && <Button variant="outline" className="lighting-button" data-kind="exit" onClick={() => setQuiz(null)}><Square className="size-6" aria-hidden />结束本次考试</Button>}
         </div>
       </>}
       {finished && quiz && <>

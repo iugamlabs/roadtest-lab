@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check, Volume2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { shuffle } from '@/features/memory/quiz/bank'
+import { usePromptSpeech } from '../use-prompt-speech'
 
 const walkaround = '绕车检查'
 
@@ -36,9 +37,11 @@ export const operationSteps = {
 
 export type OperationReview = { attempted: string; expected: string }
 
-export function SimulationOperations({ steps, nextLabel, onComplete }: {
+export function SimulationOperations({ steps, nextLabel, voice, suspended, onComplete }: {
   steps: readonly string[]
   nextLabel: string
+  voice: boolean
+  suspended: boolean
   onComplete: (corrections: OperationReview[]) => void
 }) {
   const [choices] = useState(() => shuffle([...steps], Math.random))
@@ -51,6 +54,10 @@ export function SimulationOperations({ steps, nextLabel, onComplete }: {
   const next = useRef<HTMLButtonElement>(null)
   const done = completed === steps.length
   const checking = checkpoints !== null
+  const prompt = checking ? '模拟绕车检查，请确认四处检查点。'
+    : done ? '本环节操作已完成。'
+      : `第 ${completed + 1} 步，接下来要做什么？`
+  const speech = usePromptSpeech(prompt, voice, suspended)
 
   useEffect(() => {
     if (completed === 0) return
@@ -82,7 +89,11 @@ export function SimulationOperations({ steps, nextLabel, onComplete }: {
   }
 
   return <Card><CardContent className="space-y-4">
-    <p>{checkpoints ? '模拟绕车检查，确认四处检查点。' : done ? '本环节操作已完成。' : '按本练习的流程，选择接下来要做的操作。'}</p>
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <p>{prompt}</p>
+      <Button variant="outline" disabled={!voice || suspended} onClick={speech.replay}><Volume2 aria-hidden />重听提示</Button>
+    </div>
+    {speech.failed && <p role="status" className="text-base text-muted-foreground">语音暂时无法播放，请看文字提示。</p>}
     {checkpoints ? <div ref={checkpointGroup} tabIndex={-1} role="group" aria-label="绕车检查点" className="grid gap-2 rounded-md focus-visible:outline-2 focus-visible:outline-ring sm:grid-cols-2">
       {[1, 2, 3, 4].map(point => <Button key={point} variant={checkpoints.includes(point) ? 'secondary' : 'outline'}
         aria-pressed={checkpoints.includes(point)} onClick={() => setCheckpoints(current => current?.includes(point) ? current : [...(current ?? []), point])}>

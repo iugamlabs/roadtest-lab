@@ -1,7 +1,8 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
-import { ArrowRight, Check, CircleHelp, Minus, X } from 'lucide-react'
+import { ArrowRight, Check, CircleHelp, Minus, Volume2, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { usePromptSpeech } from '@/features/exam/use-prompt-speech'
 import type { MemorySource } from '../progress'
 import type { QuizQuestion } from '../quiz/bank'
 import { QuizClip } from '../quiz/clip'
@@ -10,9 +11,10 @@ import { RouteEventReplay } from '../quiz/replay'
 import { outcomeStyles } from '../quiz/results'
 import { COURSE_POINTS_PER_SEGMENT, prepareRouteCourse, type RouteCourseContent } from './course'
 
-export function RouteCourse({ source, course, suspended, onComplete }: {
+export function RouteCourse({ source, course, voice, suspended, onComplete }: {
   source: MemorySource
   course: RouteCourseContent
+  voice: boolean
   suspended: boolean
   onComplete: (answers: CourseAnswers) => void
 }) {
@@ -24,6 +26,8 @@ export function RouteCourse({ source, course, suspended, onComplete }: {
   const options = useRef<HTMLDivElement>(null)
   const question = state.phase === 'answering' ? state.questions[state.index] : undefined
   const arrival = state.phase === 'finished'
+  const prompt = arrival ? '看完终点短片，完成停车收尾。' : question?.prompt
+  const speech = usePromptSpeech(question ? `第 ${state.index + 1} 段。${question.prompt}` : prompt, voice, suspended)
 
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })
@@ -39,10 +43,14 @@ export function RouteCourse({ source, course, suspended, onComplete }: {
         onReady={ready => dispatch({ type: 'frame-ready', questionId: question.id, ready })} />}
       {arrival && <QuizClip key="arrival" routeId={source.routeId} clip={course.arrivalClip} suspended={suspended} onReady={setArrivalReady} />}
       <section className="min-w-0 space-y-4 rounded-lg border p-4" aria-label="路线接续答题区">
-        <Badge variant="secondary">{arrival ? '终点' : `第 ${state.index + 1} / ${state.questions.length} 段`}</Badge>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Badge variant="secondary">{arrival ? '终点' : `第 ${state.index + 1} / ${state.questions.length} 段`}</Badge>
+          <Button variant="outline" disabled={!voice || suspended} onClick={speech.replay}><Volume2 aria-hidden />{arrival ? '重听提示' : '重听题目'}</Button>
+        </div>
         <h2 ref={heading} tabIndex={-1} className="text-xl font-semibold leading-relaxed focus-visible:outline-2 focus-visible:outline-ring">
-          {arrival ? '看完终点短片，完成停车收尾。' : question?.prompt}
+          {prompt}
         </h2>
+        {speech.failed && <p role="status" className="text-base text-muted-foreground">语音暂时无法播放，请看文字提示。</p>}
         {question && <>
           {state.optionsVisible ? <>
             <div ref={options} tabIndex={-1} role="group" aria-label="选择这段的走法" className="grid gap-2">
