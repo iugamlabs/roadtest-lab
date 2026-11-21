@@ -26,16 +26,19 @@
 
 ### Linux 桌面一键启动
 
-首次准备好 Node.js、pnpm、项目依赖和视频素材后，在项目目录运行 `bash scripts/install-desktop-launcher.sh`。之后可从桌面或应用菜单打开「路考练习室」。每次启动会重新构建，再用 Vite 在 `http://127.0.0.1:19237/` 提供预览，优先用 Chrome 或 Chromium 打开。给学员的操作步骤见[给家人的使用说明](给家人的使用说明.txt)。
+本仓库是 monorepo：前端练习室在仓库根目录（pnpm），本机桌面启动器在 `tools/roadtest-launcher`（uv + Python）。
+
+首次准备好 Node.js、pnpm、项目依赖、视频素材，并安装 [uv](https://docs.astral.sh/uv/) 与系统 `python3-tk` 后，在项目目录运行 `bash scripts/install-desktop-launcher.sh`。之后可从桌面或应用菜单打开「路考练习室」图形启动器：启动/停止服务、打开浏览器，并在托盘显示运行状态。给学员的操作步骤见[给家人的使用说明](给家人的使用说明.txt)。
 
 ```sh
-bash scripts/start-roadtest-lab.sh         # 构建、预览并打开浏览器
-bash scripts/start-roadtest-lab.sh --status # 输出 JSON 状态
-bash scripts/start-roadtest-lab.sh --open   # 预览可用时打开浏览器
-bash scripts/start-roadtest-lab.sh --stop   # 停止启动器的预览
+bash scripts/start-roadtest-lab-gui.sh     # 打开图形启动器（推荐）
+bash scripts/start-roadtest-lab.sh         # 命令行：构建、预览并打开浏览器
+bash scripts/start-roadtest-lab.sh --status  # 输出 JSON 状态
+bash scripts/start-roadtest-lab.sh --open  # 服务已运行时打开浏览器
+bash scripts/start-roadtest-lab.sh --stop  # 停止本项目的预览服务
 ```
 
-重复打开图标会先停止上次的预览并重新构建。若端口 19237 由其他程序使用（包括手动运行的预览），请先从原终端退出该程序。启动和构建错误可查看脚本提示的日志路径。
+图形启动器若发现服务已在运行，会直接打开浏览器，不会重复构建。命令行无参数启动仍会先结束上次预览再重新构建。若 19237 端口被其他程序占用（例如另开终端里的 `pnpm dev`），请先在原终端退出该程序。启动和构建错误可查看脚本或启动器提示的日志路径。
 
 ### 开发与首次准备
 
@@ -76,7 +79,8 @@ content/subtitle-sources/ 可提交的 ASR 原文快照
 content/subtitle-reviews/ 人工修订、来源引用与待核实项
 content/subtitles/      同一成稿的标准 SRT 导出
 public/media/           本机准备的视频和路线图，Git 忽略
-scripts/                素材准备与字幕导入
+scripts/                素材准备、字幕导入与桌面启动入口
+tools/roadtest-launcher/ 本机图形启动器（uv / Python）
 docs/content-workflow.md 字幕与事件校对约定
 ```
 
