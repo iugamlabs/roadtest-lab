@@ -8,3 +8,4 @@ coverage/
 *.local
 .sites-runtime/
 artifacts/calibration/
+__pycache__/
