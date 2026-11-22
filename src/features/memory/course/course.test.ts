@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import route6 from '../../../../content/memory-courses/route-6.json'
 import { calibratedEventDocumentSchema } from '@/features/content/schema'
 import { initialRouteQuizState, routeQuizReducer, UNKNOWN_ANSWER } from '../quiz/model'
-import { loadRouteCourse } from './course'
+import { loadRouteCourse, summarizeRouteCourse } from './course'
 
 const sourceFor = (id: string) => calibratedEventDocumentSchema.parse(JSON.parse(readFileSync(`public/data/route-${id}.events.json`, 'utf8')))
 
@@ -56,5 +56,18 @@ describe('route course', () => {
     expect(next.optionsVisible).toBe(false)
     expect(routeQuizReducer(next, { type: 'frame-ready', questionId: questions[0].id, ready: true })).toBe(next)
     expect(routeQuizReducer(next, { type: 'reveal-options' })).toBe(next)
+  })
+
+  it('scores nine correct segments and one forgotten segment as 90 out of 100', () => {
+    const { questions } = loadRouteCourse(sourceFor('5'))!
+    const answers = questions.map((question, index) => ({
+      questionId: question.id,
+      selected: index === 0 ? UNKNOWN_ANSWER : question.correct,
+      usedHint: false,
+    }))
+
+    expect(summarizeRouteCourse(questions, answers)).toMatchObject({
+      correct: 9, unknown: 1, points: 90, maxPoints: 100,
+    })
   })
 })

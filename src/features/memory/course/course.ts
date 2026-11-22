@@ -5,6 +5,7 @@ import route7 from '../../../../content/memory-courses/route-7.json'
 import { routeIdSchema } from '@/features/content/schema'
 import type { MemorySource } from '../progress'
 import { quizEventSignature, shuffle, unpublishedRoute6Return, type QuizQuestion } from '../quiz/bank'
+import { summarizeQuiz, type QuizAnswer } from '../quiz/model'
 
 const authoredCourses = { '5': route5, '6': route6, '7': route7 }
 export const COURSE_POINTS_PER_SEGMENT = 10
@@ -71,4 +72,15 @@ export function loadRouteCourse(source: MemorySource, raw: unknown = authoredCou
 
 export function prepareRouteCourse(questions: QuizQuestion[]) {
   return questions.map(question => ({ ...question, options: shuffle(question.options, Math.random) }))
+}
+
+export function summarizeRouteCourse(questions: QuizQuestion[], answers: QuizAnswer[]) {
+  const tally = summarizeQuiz(questions, answers)
+  const correct = tally.independent + tally.assisted
+  return {
+    ...tally,
+    correct,
+    points: correct * COURSE_POINTS_PER_SEGMENT,
+    maxPoints: questions.length * COURSE_POINTS_PER_SEGMENT,
+  }
 }

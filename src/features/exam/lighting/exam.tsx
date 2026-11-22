@@ -15,8 +15,9 @@ const lightingAppearance = {
   '示宽灯（小灯）': { icon: ParkingCircle, kind: 'position' },
 } satisfies Record<LightingAction, { icon: typeof Lightbulb; kind: string }>
 
-export function LightingExam({ onComplete, suspended = false, voice: simulationVoice }: {
+export function LightingExam({ onComplete, stagePrompt, suspended = false, voice: simulationVoice }: {
   onComplete?: (quiz: LightingQuiz) => void
+  stagePrompt?: string
   suspended?: boolean
   voice?: boolean
 } = {}) {
@@ -30,7 +31,8 @@ export function LightingExam({ onComplete, suspended = false, voice: simulationV
   const selected = quiz?.answers[index]
   const correct = selected === question?.[1]
   const voice = simulationVoice ?? standaloneVoice
-  const speech = usePromptSpeech(answered ? undefined : question?.[0], voice, suspended)
+  const prompt = quiz ? question?.[0] : stagePrompt
+  const speech = usePromptSpeech(answered ? undefined : prompt, voice, suspended)
 
   useEffect(() => {
     if (quiz) heading.current?.focus()

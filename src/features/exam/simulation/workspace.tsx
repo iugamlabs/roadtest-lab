@@ -10,11 +10,12 @@ import { Label } from '@/components/ui/label'
 import { useSidebar } from '@/components/ui/sidebar'
 import { Switch } from '@/components/ui/switch'
 import { roadRoutes } from '@/features/content/queries'
-import { loadRouteCourse } from '@/features/memory/course/course'
+import { loadRouteCourse, summarizeRouteCourse } from '@/features/memory/course/course'
 import { CourseResults, RouteCourse, type CourseAnswers } from '@/features/memory/course/workspace'
 import type { MemorySource } from '@/features/memory/progress'
 import { LightingExam, LightingReview } from '../lighting/exam'
 import { lightingQuizScore, type LightingQuiz } from '../lighting/quiz'
+import { usePromptSpeech } from '../use-prompt-speech'
 import { operationSteps, SimulationOperations, type OperationReview } from './operations'
 
 const stages = [
@@ -46,10 +47,17 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
   const startButton = useRef<HTMLButtonElement>(null)
   const beforeDialog = useRef<HTMLElement>(null)
   const current = stages.find(item => item.id === stage)
+  const stagePrompt = current ? `第 ${stages.indexOf(current) + 1} 项，${current.title}。` : ''
   const active = current !== undefined
   const blocker = useBlocker({ shouldBlockFn: () => active, withResolver: true, enableBeforeUnload: active })
   const { openMobile } = useSidebar()
   const suspended = exiting || blocker.status === 'blocked' || openMobile
+  const routeScore = stage === 'result' && road ? summarizeRouteCourse(road.questions, road.answers) : undefined
+  const lightingCorrect = lighting ? lightingQuizScore(lighting) / 20 : 0
+  const resultPrompt = routeScore && lighting
+    ? `模拟考试结束。路线记忆得分 ${routeScore.points} 分，满分 ${routeScore.maxPoints} 分。灯光口令共 ${lighting.questions.length} 题，答对 ${lightingCorrect} 题。请查看各环节回顾。`
+    : undefined
+  const resultSpeech = usePromptSpeech(resultPrompt, voice, suspended)
 
   useEffect(() => {
     if (stage !== 'ready' && stage !== 'road') heading.current?.focus()
@@ -76,14 +84,14 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
         </Button>
         <h1 className="page-title">{routeName} · 科目三流程模拟</h1>
       </div>
-      {(active || stage === 'ready') && <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <Label htmlFor="simulation-voice">
           {voice ? <Volume2 className="size-5" aria-hidden /> : <VolumeX className="size-5" aria-hidden />}
           语音播报
         </Label>
         <Switch id="simulation-voice" checked={voice} onCheckedChange={setVoice} />
         {active && <Button variant="outline" onClick={() => setExiting(true)}>退出本轮</Button>}
-      </div>}
+      </div>
     </header>
 
     <ol aria-label="模拟进度" className="flex flex-wrap gap-2">
@@ -104,20 +112,24 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
 
     {(stage === 'preparation' || stage === 'start' || stage === 'parking') &&
       <SimulationOperations key={stage} steps={operationSteps[stage]} nextLabel={nextOperationStage[stage].label}
-        voice={voice} suspended={suspended}
+        stagePrompt={stagePrompt} voice={voice} suspended={suspended}
         onComplete={corrections => completeOperations(stage, corrections)} />}
-    {stage === 'lighting' && <LightingExam voice={voice} suspended={suspended} onComplete={quiz => { setLighting(quiz); setStage('start') }} />}
-    {stage === 'road' && course && <RouteCourse source={source} course={course} voice={voice} suspended={suspended}
+    {stage === 'lighting' && <LightingExam stagePrompt={stagePrompt} voice={voice} suspended={suspended} onComplete={quiz => { setLighting(quiz); setStage('start') }} />}
+    {stage === 'road' && course && <RouteCourse source={source} course={course} stagePrompt={stagePrompt} voice={voice} suspended={suspended}
       onComplete={result => { setRoad(result); setStage('parking') }} />}
 
     {stage === 'result' && road && lighting && <>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 ref={heading} tabIndex={-1} className="text-2xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">模拟完成</h2>
-        <Button variant="outline" onClick={() => reset('preparation')}><RotateCcw aria-hidden />再模拟一次</Button>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" disabled={!voice || suspended} onClick={resultSpeech.replay}><Volume2 aria-hidden />重听结果</Button>
+          <Button variant="outline" onClick={() => reset('preparation')}><RotateCcw aria-hidden />再模拟一次</Button>
+        </div>
       </div>
+      {resultSpeech.failed && <p role="status" className="text-base text-muted-foreground">语音暂时无法播放，请查看下方结果。</p>}
       <p className="text-base text-muted-foreground">回顾仅在本页查看。路线记忆得分用于复习，正式考试另行评判。</p>
       <details className="rounded-lg border p-4">
-        <summary className="cursor-pointer font-semibold">灯光口令 · 答对 {lightingQuizScore(lighting) / 20} / {lighting.questions.length} 题</summary>
+        <summary className="cursor-pointer font-semibold">灯光口令 · 答对 {lightingCorrect} / {lighting.questions.length} 题</summary>
         <LightingReview quiz={lighting} />
       </details>
       {stages.map(({ id, title }) => {

@@ -37,9 +37,10 @@ export const operationSteps = {
 
 export type OperationReview = { attempted: string; expected: string }
 
-export function SimulationOperations({ steps, nextLabel, voice, suspended, onComplete }: {
+export function SimulationOperations({ steps, nextLabel, stagePrompt, voice, suspended, onComplete }: {
   steps: readonly string[]
   nextLabel: string
+  stagePrompt: string
   voice: boolean
   suspended: boolean
   onComplete: (corrections: OperationReview[]) => void
@@ -57,7 +58,7 @@ export function SimulationOperations({ steps, nextLabel, voice, suspended, onCom
   const prompt = checking ? '模拟绕车检查，请确认四处检查点。'
     : done ? '本环节操作已完成。'
       : `第 ${completed + 1} 步，接下来要做什么？`
-  const speech = usePromptSpeech(prompt, voice, suspended)
+  const speech = usePromptSpeech(completed === 0 ? stagePrompt + prompt : prompt, voice, suspended)
 
   useEffect(() => {
     if (completed === 0) return

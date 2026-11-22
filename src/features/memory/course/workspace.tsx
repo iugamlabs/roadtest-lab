@@ -6,14 +6,15 @@ import { usePromptSpeech } from '@/features/exam/use-prompt-speech'
 import type { MemorySource } from '../progress'
 import type { QuizQuestion } from '../quiz/bank'
 import { QuizClip } from '../quiz/clip'
-import { initialRouteQuizState, quizOutcome, routeQuizReducer, summarizeQuiz, UNKNOWN_ANSWER, type QuizAnswer } from '../quiz/model'
+import { initialRouteQuizState, quizOutcome, routeQuizReducer, UNKNOWN_ANSWER, type QuizAnswer } from '../quiz/model'
 import { RouteEventReplay } from '../quiz/replay'
 import { outcomeStyles } from '../quiz/results'
-import { COURSE_POINTS_PER_SEGMENT, prepareRouteCourse, type RouteCourseContent } from './course'
+import { COURSE_POINTS_PER_SEGMENT, prepareRouteCourse, summarizeRouteCourse, type RouteCourseContent } from './course'
 
-export function RouteCourse({ source, course, voice, suspended, onComplete }: {
+export function RouteCourse({ source, course, stagePrompt, voice, suspended, onComplete }: {
   source: MemorySource
   course: RouteCourseContent
+  stagePrompt: string
   voice: boolean
   suspended: boolean
   onComplete: (answers: CourseAnswers) => void
@@ -27,7 +28,8 @@ export function RouteCourse({ source, course, voice, suspended, onComplete }: {
   const question = state.phase === 'answering' ? state.questions[state.index] : undefined
   const arrival = state.phase === 'finished'
   const prompt = arrival ? '看完终点短片，完成停车收尾。' : question?.prompt
-  const speech = usePromptSpeech(question ? `第 ${state.index + 1} 段。${question.prompt}` : prompt, voice, suspended)
+  const spokenPrompt = question ? `第 ${state.index + 1} 段。${question.prompt}` : prompt
+  const speech = usePromptSpeech(question && state.index === 0 ? stagePrompt + spokenPrompt : spokenPrompt, voice, suspended)
 
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })
@@ -83,9 +85,8 @@ export function CourseResults({ source, questions, answers }: { source: MemorySo
   const trigger = useRef<HTMLButtonElement>(null)
   const answersById = new Map(answers.map(answer => [answer.questionId, answer]))
   const outcomes = questions.map(question => quizOutcome(question, answersById.get(question.id)))
-  const tally = summarizeQuiz(questions, answers)
-  const correct = tally.independent + tally.assisted
-  const totals = { independent: correct, wrong: tally.wrong, unknown: tally.unknown, unanswered: tally.unanswered }
+  const tally = summarizeRouteCourse(questions, answers)
+  const totals = { independent: tally.correct, wrong: tally.wrong, unknown: tally.unknown, unanswered: tally.unanswered }
   const firstGap = outcomes.findIndex(outcome => outcome === 'wrong' || outcome === 'unknown')
   const gapStart = firstGap < 0 ? undefined : source.events[questions[firstGap].topicStartIndex]
 
@@ -94,8 +95,8 @@ export function CourseResults({ source, questions, answers }: { source: MemorySo
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-base font-medium">路线记忆得分</p>
-          <p className="font-semibold tabular-nums"><span className="text-4xl">{correct * COURSE_POINTS_PER_SEGMENT}</span>
-            <span className="ml-2 text-base text-muted-foreground">/ {questions.length * COURSE_POINTS_PER_SEGMENT} 分</span></p>
+          <p className="font-semibold tabular-nums"><span className="text-4xl">{tally.points}</span>
+            <span className="ml-2 text-base text-muted-foreground">/ {tally.maxPoints} 分</span></p>
         </div>
         <p className="flex flex-wrap items-center gap-x-2 text-base text-muted-foreground">
           {tally.unanswered > 0 && <span>提前结束</span>}
