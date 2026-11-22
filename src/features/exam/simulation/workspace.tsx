@@ -13,8 +13,9 @@ import { roadRoutes } from '@/features/content/queries'
 import { loadRouteCourse, summarizeRouteCourse } from '@/features/memory/course/course'
 import { CourseResults, RouteCourse, type CourseAnswers } from '@/features/memory/course/workspace'
 import type { MemorySource } from '@/features/memory/progress'
+import { UNKNOWN_ANSWER } from '@/features/memory/quiz/model'
 import { LightingExam, LightingReview } from '../lighting/exam'
-import { lightingQuizScore, type LightingQuiz } from '../lighting/quiz'
+import { createLightingQuiz, lightingQuizScore, type LightingQuiz } from '../lighting/quiz'
 import { usePromptSpeech } from '../use-prompt-speech'
 import { operationSteps, SimulationOperations, type OperationReview } from './operations'
 
@@ -26,7 +27,8 @@ const stages = [
   { id: 'parking', title: '停车收尾' },
 ] as const
 
-type Stage = typeof stages[number]['id'] | 'ready' | 'result'
+type ExerciseStage = typeof stages[number]['id']
+type Stage = ExerciseStage | 'ready' | 'result'
 type OperationStage = keyof typeof operationSteps
 const nextOperationStage = {
   preparation: { stage: 'lighting', label: '进入灯光环节' },
@@ -38,6 +40,7 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
   const routeName = roadRoutes.find(route => route.id === source.routeId)!.name
   const [course] = useState(() => loadRouteCourse(source))
   const [stage, setStage] = useState<Stage>('ready')
+  const [debugStart, setDebugStart] = useState<number>()
   const [voice, setVoice] = useState(true)
   const [exiting, setExiting] = useState(false)
   const [lighting, setLighting] = useState<LightingQuiz>()
@@ -63,12 +66,34 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
     if (stage !== 'ready' && stage !== 'road') heading.current?.focus()
   }, [stage])
 
-  function reset(next: 'ready' | 'preparation') {
+  function reset(next: Stage) {
+    setDebugStart(undefined)
     setLighting(undefined)
     setRoad(undefined)
     setReviews({})
     setExiting(false)
     setStage(next)
+  }
+
+  function startDebug(next: ExerciseStage | 'result') {
+    if (!import.meta.env.DEV || !course) return
+    reset(next)
+    const index = next === 'result' ? stages.length : stages.findIndex(item => item.id === next)
+    setDebugStart(index)
+    if (next === 'start' || next === 'road' || next === 'parking' || next === 'result') {
+      const quiz = createLightingQuiz(() => 0)
+      setLighting({ ...quiz, answers: quiz.questions.map(([, answer]) => answer) })
+    }
+    if (next === 'parking' || next === 'result') {
+      setRoad({
+        questions: course.questions,
+        answers: course.questions.map((question, index) => ({
+          questionId: question.id,
+          selected: index === 0 ? UNKNOWN_ANSWER : question.correct,
+          usedHint: false,
+        })),
+      })
+    }
   }
 
   function completeOperations(id: OperationStage, corrections: OperationReview[]) {
@@ -108,6 +133,19 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
         : <p role="status">路线资料核对后会开放本线路的模拟。</p>}
     </CardContent></Card>}
 
+    {import.meta.env.DEV && stage === 'ready' && course && <Card><CardContent className="space-y-3">
+      <h2 className="text-xl font-semibold">快速调试</h2>
+      <p className="text-base text-muted-foreground">选择要调试的阶段，或直接试听示例结果。</p>
+      <div className="flex flex-wrap gap-2">
+        {stages.map(({ id, title }) => <Button key={id} variant="outline" onClick={() => startDebug(id)}>{title}</Button>)}
+        <Button variant="outline" onClick={() => startDebug('result')}>试听示例结果</Button>
+      </div>
+    </CardContent></Card>}
+    {import.meta.env.DEV && debugStart !== undefined && <div className="flex flex-wrap items-center justify-between gap-2">
+      <p className="text-base text-muted-foreground">调试轮次。跳过的答题环节使用示例答案。</p>
+      <Button variant="outline" onClick={() => reset('ready')}>返回调试选择</Button>
+    </div>}
+
     {current && <h2 ref={heading} tabIndex={-1} className="text-xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">{current.title}</h2>}
 
     {(stage === 'preparation' || stage === 'start' || stage === 'parking') &&
@@ -132,8 +170,11 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
         <summary className="cursor-pointer font-semibold">灯光口令 · 答对 {lightingCorrect} / {lighting.questions.length} 题</summary>
         <LightingReview quiz={lighting} />
       </details>
-      {stages.map(({ id, title }) => {
+      {stages.map(({ id, title }, index) => {
         if (id === 'lighting' || id === 'road') return null
+        if (import.meta.env.DEV && debugStart !== undefined && index < debugStart) {
+          return <p key={id} className="rounded-lg border p-4 text-base">{title} · 调试时已跳过</p>
+        }
         const entries = reviews[id] ?? []
         return <details key={id} className="rounded-lg border p-4">
           <summary className="cursor-pointer font-semibold">{title} · {entries.length ? `${entries.length} 步需要回顾` : '所有步骤一次选对'}</summary>
