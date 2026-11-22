@@ -135,12 +135,33 @@
 }
 .page-title { font-size: 1.5rem; font-weight: 600; line-height: 1.4; }
 .muted { color: var(--muted-foreground); line-height: 1.75; }
-.lighting-button[data-kind=main] { --lighting-action: var(--lighting-main); }
-.lighting-button[data-kind=dipped] { --lighting-action: var(--lighting-dipped); }
-.lighting-button[data-kind=full] { --lighting-action: var(--lighting-full); }
-.lighting-button[data-kind=flash] { --lighting-action: var(--lighting-flash); }
-.lighting-button[data-kind=position] { --lighting-action: var(--lighting-position); }
-.lighting-button[data-kind=exit] { --lighting-action: var(--lighting-exit); }
+:is(.lighting-button, .vehicle-control, .vehicle-state)[data-kind=main] { --lighting-action: var(--lighting-main); }
+:is(.lighting-button, .vehicle-control, .vehicle-state)[data-kind=dipped] { --lighting-action: var(--lighting-dipped); }
+:is(.lighting-button, .vehicle-control, .vehicle-state)[data-kind=full] { --lighting-action: var(--lighting-full); }
+:is(.lighting-button, .vehicle-control, .vehicle-state)[data-kind=flash] { --lighting-action: var(--lighting-flash); }
+:is(.lighting-button, .vehicle-control, .vehicle-state)[data-kind=position] { --lighting-action: var(--lighting-position); }
+:is(.lighting-button, .vehicle-control, .vehicle-state)[data-kind=exit] { --lighting-action: var(--lighting-exit); }
+.vehicle-control {
+  color: var(--lighting-action);
+  background: color-mix(in srgb, var(--lighting-action) 7%, var(--card));
+  border-color: color-mix(in srgb, var(--lighting-action) 48%, var(--border));
+}
+.vehicle-control:hover:not(:disabled) {
+  color: var(--lighting-action);
+  background: color-mix(in srgb, var(--lighting-action) 14%, var(--card));
+  border-color: var(--lighting-action);
+}
+.vehicle-control:is([aria-pressed=true], [data-primary=true]) {
+  color: var(--background);
+  background: var(--lighting-action);
+  border-color: var(--lighting-action);
+}
+.vehicle-control:is([aria-pressed=true], [data-primary=true]):hover:not(:disabled) {
+  color: var(--background);
+  background: color-mix(in srgb, var(--lighting-action) 88%, var(--foreground));
+}
+.vehicle-state svg[data-active=true] { color: var(--lighting-action); }
+.vehicle-state svg[data-active=false] { color: var(--muted-foreground); }
 .lighting-button {
   color: var(--lighting-action);
   background: color-mix(in srgb, var(--lighting-action) 9%, var(--card));

@@ -1,6 +1,7 @@
-import { ArrowUpLeft, ArrowUpRight, Check, CircleOff, Eye, Footprints, Pause, Play, RotateCcw } from 'lucide-react'
+import { ArrowRight, ArrowUpLeft, ArrowUpRight, CarFront, CircleOff, CircleStop, Eye, Footprints, ListChecks, ParkingCircle, Pause, Play, RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Control, StatePanel, type StatusItem } from '@/components/vehicle-operation-ui'
 import { activeEvent, currentStep, isOperating, signalRemainingMs, stepsFor, type Operation, type TrainingState, type Suspension } from './engine'
 import type { TrainingController } from './controller'
 import { formatTime } from '../content/queries'
@@ -17,6 +18,20 @@ export function TrainingPanel({ state, controller, mediaReady }: PanelProps) {
   const blocked = state.seeking || !mediaReady || state.suspensions.some(reason => reason !== 'user')
   const executeStep = event ? stepsFor(event).slice(state.stepIndex).find(value => value.operation === 'execute') : undefined
   const frontObservation = event && ['brake', 'straight'].includes(event.kind)
+  const { vehicle } = state
+  const indicatorIcon = vehicle.indicator === 'off' ? CircleOff : vehicle.indicator === 'left' ? ArrowUpLeft : ArrowUpRight
+  const observationLabels = { left: '左侧', right: '右侧', front: '前方' }
+  const vehicleStatus: StatusItem[] = [
+    { label: '转向灯', value: vehicle.indicator === 'off' ? '关闭' : vehicle.indicator === 'left' ? '左灯开启' : '右灯开启',
+      icon: indicatorIcon, purpose: 'signal', active: vehicle.indicator !== 'off' },
+    { label: '挡位', value: `${vehicle.gear} 挡`, icon: ListChecks, purpose: 'gear' },
+    { label: '脚刹', value: vehicle.brake ? '已踩下' : '未踩下', icon: Footprints, purpose: 'brake', active: vehicle.brake },
+    { label: '驻车制动', value: vehicle.handbrake ? '已拉紧' : '已松开', icon: ParkingCircle, purpose: 'brake', active: vehicle.handbrake },
+    { label: '行驶状态', value: state.enabled ? (vehicle.motion === 'stopped' ? '已停稳' : '行驶中') : '待开始', icon: CarFront, purpose: 'move', active: state.enabled },
+    { label: '观察记录', value: vehicle.observed.map(direction => observationLabels[direction]).join('、') || '未观察',
+      icon: Eye, purpose: 'observe', active: vehicle.observed.length > 0 },
+  ]
+  if (vehicle.lane === 'passing') vehicleStatus.push({ label: '当前车道', value: '超车道', icon: ArrowRight, purpose: 'move' })
   const controls: { operation: Operation; label: string; icon: typeof Eye; pressed?: boolean }[] = [
     { operation: 'signal-left', label: '左转向灯', icon: ArrowUpLeft, pressed: state.vehicle.indicator === 'left' },
     { operation: 'signal-right', label: '右转向灯', icon: ArrowUpRight, pressed: state.vehicle.indicator === 'right' },
@@ -25,7 +40,7 @@ export function TrainingPanel({ state, controller, mediaReady }: PanelProps) {
       { operation: 'observe-right' as const, label: event?.kind === 'stop-and-observe' ? '观察右侧' : '观察右后方', icon: Eye, pressed: state.vehicle.observed.includes('right') },
     ]),
     { operation: 'brake', label: '踩刹车', icon: Footprints, pressed: state.vehicle.brake },
-    { operation: 'signal-off', label: '关闭转向灯', icon: CircleOff },
+    { operation: 'signal-off', label: '关闭转向灯', icon: CircleOff, pressed: vehicle.indicator === 'off' },
   ]
   return <section className="practice-panel min-w-0 rounded-lg border bg-card p-4" aria-label="关键操作练习">
     <div className="flex items-center justify-between gap-2"><h2 className="text-lg font-semibold">关键操作</h2><Badge variant="secondary">{state.enabled ? `${completed} / ${state.events.length} 项完成` : '暂停练习 · 不计分'}</Badge></div>
@@ -36,11 +51,21 @@ export function TrainingPanel({ state, controller, mediaReady }: PanelProps) {
     </div>
     <p role="status" aria-atomic="true" className="practice-feedback">{state.feedback}</p>
     {state.phase === 'practice' && <Button variant="outline" className="w-full lg:hidden" disabled={blocked} onClick={() => controller?.toggle()}>{state.suspensions.includes('user') ? <Play aria-hidden /> : <Pause aria-hidden />}{state.suspensions.includes('user') ? '继续练习' : '暂停练习'}</Button>}
-    {!state.enabled && <Button className="w-full" disabled={!controller || !mediaReady} onClick={() => controller?.start()}>开始全程练习</Button>}
-    <div className="grid grid-cols-2 gap-2" aria-label="车辆操作台">{controls.map(control => <Button key={control.operation} disabled={!operating} variant={control.pressed ? 'secondary' : 'outline'} className={`control-button ${control.operation === 'observe-front' ? 'col-span-2' : ''} ${step?.operation === control.operation && operating ? 'border-primary ring-1 ring-primary' : ''}`} aria-pressed={control.pressed} onClick={() => controller?.operate(control.operation)}><control.icon aria-hidden />{control.label}{control.pressed && <Check className="!size-4" aria-hidden />}</Button>)}</div>
-    {state.phase === 'practice' && executeStep && <Button className="w-full whitespace-normal" disabled={!operating} onClick={() => controller?.operate(step?.operation === 'stop' ? 'stop' : 'execute')}>{step?.operation === 'stop' ? '确认车辆停稳' : executeStep.label}</Button>}
-    {state.phase === 'practice' && event?.kind === 'parking' && !executeStep && <div className="grid grid-cols-2 gap-2"><Button variant="outline" disabled={!operating} aria-pressed={state.vehicle.gear === 'P'} onClick={() => controller?.operate('gear-p')}>挂 P 挡{state.vehicle.gear === 'P' && <Check aria-hidden />}</Button><Button variant="outline" disabled={!operating} aria-pressed={state.vehicle.handbrake} onClick={() => controller?.operate('handbrake-on')}>拉驻车制动{state.vehicle.handbrake && <Check aria-hidden />}</Button></div>}
-    <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-muted-foreground" aria-label="车辆状态"><span>转向灯：{state.vehicle.indicator === 'off' ? '关闭' : state.vehicle.indicator === 'left' ? '左' : '右'}</span><span>挡位 {state.vehicle.gear}</span><span>{state.vehicle.handbrake ? '驻车制动已拉起' : state.vehicle.motion === 'stopped' ? '已停稳' : '行驶中'}</span>{state.vehicle.lane === 'passing' && <span>超车道</span>}</div>
+    {!state.enabled && <Button className="w-full" disabled={!controller || !mediaReady} onClick={() => controller?.start()}><Play aria-hidden />开始全程练习</Button>}
+    <StatePanel title="车辆状态" items={vehicleStatus} compact />
+    <div className="grid grid-cols-2 gap-2" role="group" aria-label="车辆操作台">
+      {controls.map(control => <Control key={control.operation} icon={control.icon} disabled={!operating}
+        purpose={control.operation === 'brake' ? 'brake' : control.operation.startsWith('signal') ? 'signal' : 'observe'}
+        className={`control-button ${control.operation === 'observe-front' ? 'col-span-2' : ''} ${step?.operation === control.operation && operating ? 'ring-2 ring-primary' : ''}`}
+        selected={control.pressed} onClick={() => controller?.operate(control.operation)}>{control.label}</Control>)}
+    </div>
+    {state.phase === 'practice' && executeStep && <Control icon={step?.operation === 'stop' ? CircleStop : ArrowRight}
+      purpose={step?.operation === 'stop' ? 'brake' : 'move'} primary disabled={!operating}
+      onClick={() => controller?.operate(step?.operation === 'stop' ? 'stop' : 'execute')}>{step?.operation === 'stop' ? '确认车辆停稳' : executeStep.label}</Control>}
+    {state.phase === 'practice' && event?.kind === 'parking' && !executeStep && <div className="grid grid-cols-2 gap-2" role="group" aria-label="停车收尾">
+      <Control icon={ListChecks} purpose="gear" disabled={!operating} selected={vehicle.gear === 'P'} onClick={() => controller?.operate('gear-p')}>挂 P 挡</Control>
+      <Control icon={ParkingCircle} purpose="brake" disabled={!operating} selected={vehicle.handbrake} onClick={() => controller?.operate('handbrake-on')}>拉驻车制动</Control>
+    </div>}
     {event && <div className="flex flex-wrap gap-2"><Button variant="outline" className="flex-1" disabled={blocked} onClick={() => controller?.retry(event.id)}><RotateCcw aria-hidden />重练</Button><Button variant="outline" className="flex-1" disabled={blocked} onClick={() => controller?.retry(event.id, true)}>回看</Button>{state.phase === 'review' && <Button className="flex-1" disabled={blocked} onClick={() => controller?.continue()}>{state.scope ? '结束单项' : '继续路线'}</Button>}</div>}
   </section>
 }
