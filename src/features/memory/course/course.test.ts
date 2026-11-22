@@ -58,7 +58,7 @@ describe('route course', () => {
     expect(routeQuizReducer(next, { type: 'reveal-options' })).toBe(next)
   })
 
-  it('scores nine correct segments and one forgotten segment as 90 out of 100', () => {
+  it('reports nine correct segments and one forgotten segment', () => {
     const { questions } = loadRouteCourse(sourceFor('5'))!
     const answers = questions.map((question, index) => ({
       questionId: question.id,
@@ -67,7 +67,7 @@ describe('route course', () => {
     }))
 
     expect(summarizeRouteCourse(questions, answers)).toMatchObject({
-      correct: 9, unknown: 1, points: 90, maxPoints: 100,
+      correct: 9, unknown: 1,
     })
   })
 })

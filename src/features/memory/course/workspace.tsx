@@ -1,32 +1,38 @@
-import { useEffect, useReducer, useRef, useState } from 'react'
-import { ArrowRight, Check, CircleHelp, Minus, Volume2, X } from 'lucide-react'
+import { useEffect, useReducer, useRef, useState, type ReactNode } from 'react'
+import { ArrowRight, Check, CircleHelp, ListChecks, Minus, Volume2, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { usePromptSpeech } from '@/features/exam/use-prompt-speech'
 import type { MemorySource } from '../progress'
-import type { QuizQuestion } from '../quiz/bank'
 import { QuizClip } from '../quiz/clip'
-import { initialRouteQuizState, quizOutcome, routeQuizReducer, UNKNOWN_ANSWER, type QuizAnswer } from '../quiz/model'
+import { initialRouteQuizState, quizOutcome, routeQuizReducer, UNKNOWN_ANSWER } from '../quiz/model'
 import { RouteEventReplay } from '../quiz/replay'
 import { outcomeStyles } from '../quiz/results'
-import { COURSE_POINTS_PER_SEGMENT, prepareRouteCourse, summarizeRouteCourse, type RouteCourseContent } from './course'
+import { prepareRouteCourse, summarizeRouteCourse, type CourseAnswers, type RouteCourseContent } from './course'
 
-export function RouteCourse({ source, course, stagePrompt, voice, suspended, onComplete }: {
+export function RouteCourse({ source, course, stagePrompt, voice, suspended, hasCheckpoint, showCheckpointClip, renderCheckpoint, onComplete }: {
   source: MemorySource
   course: RouteCourseContent
   stagePrompt: string
   voice: boolean
   suspended: boolean
+  hasCheckpoint: (questionId: string) => boolean
+  showCheckpointClip: boolean
+  renderCheckpoint: (questionId: string, answers: CourseAnswers) => ReactNode
   onComplete: (answers: CourseAnswers) => void
 }) {
   const [state, dispatch] = useReducer(routeQuizReducer, course.questions, questions =>
     routeQuizReducer(initialRouteQuizState, { type: 'start', questions: prepareRouteCourse(questions) }))
   const [arrivalReady, setArrivalReady] = useState(false)
+  const [checkpointIndex, setCheckpointIndex] = useState<number | null>(null)
   const heading = useRef<HTMLHeadingElement>(null)
   const stage = useRef<HTMLDivElement>(null)
   const options = useRef<HTMLDivElement>(null)
-  const question = state.phase === 'answering' ? state.questions[state.index] : undefined
-  const arrival = state.phase === 'finished'
+  const checkpointQuestion = checkpointIndex === null ? undefined : state.questions[checkpointIndex]
+  const question = !checkpointQuestion && state.phase === 'answering' ? state.questions[state.index] : undefined
+  const mediaQuestion = checkpointQuestion ?? question
+  const hideClip = Boolean(checkpointQuestion) && !showCheckpointClip
+  const arrival = state.phase === 'finished' && !checkpointQuestion
   const prompt = arrival ? '看完终点短片，完成停车收尾。' : question?.prompt
   const spokenPrompt = question ? `第 ${state.index + 1} 段。${question.prompt}` : prompt
   const speech = usePromptSpeech(question && state.index === 0 ? stagePrompt + spokenPrompt : spokenPrompt, voice, suspended)
@@ -34,17 +40,29 @@ export function RouteCourse({ source, course, stagePrompt, voice, suspended, onC
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })
     stage.current?.scrollIntoView({ block: 'nearest' })
-  }, [state.phase, state.index])
+  }, [state.phase, state.index, checkpointIndex])
 
   useEffect(() => {
     if (state.optionsVisible) options.current?.focus({ preventScroll: true })
   }, [state.optionsVisible])
 
-  return <div ref={stage} className="grid scroll-mt-4 items-start gap-4 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
-      {question?.clip && <QuizClip key={question.id} routeId={source.routeId} clip={question.clip} suspended={suspended}
-        onReady={ready => dispatch({ type: 'frame-ready', questionId: question.id, ready })} />}
+  function submit(unknown = false) {
+    if (!question || suspended || !state.frameReady || (!unknown && state.selected === null)) return
+    if (hasCheckpoint(question.id)) setCheckpointIndex(state.index)
+    dispatch({ type: 'submit', unknown })
+  }
+
+  return <div ref={stage} className={`grid scroll-mt-4 items-start gap-4 ${hideClip ? '' : 'lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]'}`}>
+      {mediaQuestion?.clip && <div key={mediaQuestion.id} hidden={hideClip} className="min-w-0">
+        <QuizClip routeId={source.routeId} clip={mediaQuestion.clip} suspended={suspended || !!checkpointQuestion}
+          onReady={ready => dispatch({ type: 'frame-ready', questionId: mediaQuestion.id, ready })} />
+      </div>}
       {arrival && <QuizClip key="arrival" routeId={source.routeId} clip={course.arrivalClip} suspended={suspended} onReady={setArrivalReady} />}
-      <section className="min-w-0 space-y-4 rounded-lg border p-4" aria-label="路线接续答题区">
+      {checkpointQuestion ? renderCheckpoint(checkpointQuestion.id, { questions: state.questions, answers: state.answers }) ??
+        <section className="min-w-0 rounded-lg border p-4" aria-label="本段操作">
+          <Button ref={element => { element?.focus({ preventScroll: true }) }} disabled={suspended}
+            onClick={() => setCheckpointIndex(null)}>继续实景路线<ArrowRight aria-hidden /></Button>
+        </section> : <section className="min-w-0 space-y-4 rounded-lg border p-4" aria-label="路线接续答题区">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Badge variant="secondary">{arrival ? '终点' : `第 ${state.index + 1} / ${state.questions.length} 段`}</Badge>
           <Button variant="outline" disabled={!voice || suspended} onClick={speech.replay}><Volume2 aria-hidden />{arrival ? '重听提示' : '重听题目'}</Button>
@@ -59,26 +77,24 @@ export function RouteCourse({ source, course, stagePrompt, voice, suspended, onC
               {question.options.map(option => <Button key={option.id}
                 variant={state.selected === option.id ? 'secondary' : 'outline'} aria-pressed={state.selected === option.id}
                 className="h-auto min-h-14 justify-start whitespace-normal py-3 text-left text-base"
-                disabled={!state.frameReady} onClick={() => dispatch({ type: 'select', selected: option.id })}>
+                disabled={suspended || !state.frameReady} onClick={() => dispatch({ type: 'select', selected: option.id })}>
                 <span className="flex-1">{option.label}</span>
                 {state.selected === option.id && <span className="inline-flex shrink-0 items-center gap-1 text-sm"><Check aria-hidden />已选</span>}
               </Button>)}
             </div>
-            <Button className="w-full" disabled={!state.frameReady || state.selected === null}
-              onClick={() => dispatch({ type: 'submit' })}>确定并继续<ArrowRight aria-hidden /></Button>
-          </> : <Button className="w-full" disabled={!state.frameReady} onClick={() => dispatch({ type: 'reveal-options' })}>查看选项</Button>}
-          <Button variant="outline" className="w-full" disabled={!state.frameReady}
-            onClick={() => dispatch({ type: 'submit', unknown: true })}>想不起来，继续走</Button>
+            <Button className="w-full" disabled={suspended || !state.frameReady || state.selected === null}
+              onClick={() => submit()}>确定并继续<ArrowRight aria-hidden /></Button>
+          </> : <Button className="w-full" disabled={suspended || !state.frameReady} onClick={() => dispatch({ type: 'reveal-options' })}><ListChecks aria-hidden />查看选项</Button>}
+          <Button variant="outline" className="w-full" disabled={suspended || !state.frameReady}
+            onClick={() => submit(true)}><CircleHelp aria-hidden />想不起来，继续走</Button>
         </>}
-        {arrival && <Button disabled={!arrivalReady} onClick={() => onComplete({ questions: state.questions, answers: state.answers })}>进入停车收尾<ArrowRight aria-hidden /></Button>}
-      </section>
+        {arrival && <Button disabled={suspended || !arrivalReady} onClick={() => onComplete({ questions: state.questions, answers: state.answers })}>进入停车收尾<ArrowRight aria-hidden /></Button>}
+      </section>}
   </div>
 }
 
 const segmentLabels = { independent: '答对', assisted: '答对', wrong: '答错', unknown: '想不起来', unanswered: '未作答' }
 const segmentIcons = { independent: Check, assisted: Check, wrong: X, unknown: CircleHelp, unanswered: Minus }
-
-export type CourseAnswers = { questions: QuizQuestion[]; answers: QuizAnswer[] }
 
 export function CourseResults({ source, questions, answers }: { source: MemorySource } & CourseAnswers) {
   const [replay, setReplay] = useState<string[]>([])
@@ -91,17 +107,14 @@ export function CourseResults({ source, questions, answers }: { source: MemorySo
   const gapStart = firstGap < 0 ? undefined : source.events[questions[firstGap].topicStartIndex]
 
   return <>
-    <section aria-label="本轮得分和各段结果" className="space-y-4 rounded-lg border p-4">
+    <section aria-label="各段路线记忆结果" className="space-y-4 rounded-lg border p-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-base font-medium">路线记忆得分</p>
-          <p className="font-semibold tabular-nums"><span className="text-4xl">{tally.points}</span>
-            <span className="ml-2 text-base text-muted-foreground">/ {tally.maxPoints} 分</span></p>
+          <p className="text-base font-medium">路线记忆</p>
+          <p className="font-semibold tabular-nums"><span className="text-3xl">答对 {tally.correct}</span>
+            <span className="ml-2 text-base text-muted-foreground">/ {questions.length} 段</span></p>
         </div>
-        <p className="flex flex-wrap items-center gap-x-2 text-base text-muted-foreground">
-          {tally.unanswered > 0 && <span>提前结束</span>}
-          <span>答对一段得 {COURSE_POINTS_PER_SEGMENT} 分</span>
-        </p>
+        {tally.unanswered > 0 && <p className="text-base text-muted-foreground">提前结束</p>}
       </div>
       <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {(['independent', 'wrong', 'unknown', 'unanswered'] as const).map(outcome => {

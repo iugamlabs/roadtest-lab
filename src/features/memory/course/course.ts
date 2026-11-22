@@ -8,7 +8,6 @@ import { quizEventSignature, shuffle, unpublishedRoute6Return, type QuizQuestion
 import { summarizeQuiz, type QuizAnswer } from '../quiz/model'
 
 const authoredCourses = { '5': route5, '6': route6, '7': route7 }
-export const COURSE_POINTS_PER_SEGMENT = 10
 const time = z.number().nonnegative()
 const clipSchema = z.tuple([time, time]).refine(([start, end]) => end > start)
 const courseSchema = z.object({
@@ -27,6 +26,7 @@ const courseSchema = z.object({
 
 type CourseClip = NonNullable<QuizQuestion['clip']>
 export type RouteCourseContent = { questions: QuizQuestion[]; arrivalClip: CourseClip }
+export type CourseAnswers = { questions: QuizQuestion[]; answers: QuizAnswer[] }
 
 function clipBetween([start, end]: [number, number]): CourseClip {
   return { startMs: Math.round(start * 1000), endMs: Math.round(end * 1000), maskTop: 80, maskHeight: 14 }
@@ -80,7 +80,5 @@ export function summarizeRouteCourse(questions: QuizQuestion[], answers: QuizAns
   return {
     ...tally,
     correct,
-    points: correct * COURSE_POINTS_PER_SEGMENT,
-    maxPoints: questions.length * COURSE_POINTS_PER_SEGMENT,
   }
 }
