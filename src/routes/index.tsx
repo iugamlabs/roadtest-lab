@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 export const Route = createFileRoute('/')({ component: HomePage })
 
 const shortcuts = [
-  { to: '/exam/simulation', icon: ClipboardCheck, title: '科目三流程模拟', description: '从上车准备、灯光和起步，练到实景路线和停车下车。' },
+  { to: '/exam/simulation', icon: ClipboardCheck, title: '科目三流程模拟', description: '听流程、练灯光，看实景短片答路线题。' },
   { to: '/train', icon: Play, title: '视频操作练习', description: '观看完整教学，按步骤练关键动作。' },
   { to: '/exam/lighting', icon: Lightbulb, title: '灯光口令考核', description: '听口令选灯光，随机 5 题。' },
   { to: '/materials', icon: BookOpen, title: '学习资料', description: '查路线图、字幕和考试流程。' },

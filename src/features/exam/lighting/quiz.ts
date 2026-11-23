@@ -9,8 +9,8 @@ export interface LightingQuiz {
   answers: readonly LightingAction[]
 }
 
-export function createLightingQuiz(random: () => number = Math.random): LightingQuiz {
-  const questions = [...lightingCommands]
+export function createLightingQuiz(random: () => number = Math.random, pool: readonly LightingQuestion[] = lightingCommands): LightingQuiz {
+  const questions = [...pool]
   for (let i = questions.length - 1; i > 0; i--) {
     const j = Math.floor(random() * (i + 1))
     ;[questions[i], questions[j]] = [questions[j], questions[i]]

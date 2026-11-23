@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useReducer, useRef, useState } from 'react'
 import { ArrowRight, Check, CircleHelp, ListChecks, Minus, Volume2, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -10,29 +10,22 @@ import { RouteEventReplay } from '../quiz/replay'
 import { outcomeStyles } from '../quiz/results'
 import { prepareRouteCourse, summarizeRouteCourse, type CourseAnswers, type RouteCourseContent } from './course'
 
-export function RouteCourse({ source, course, stagePrompt, voice, suspended, hasCheckpoint, showCheckpointClip, renderCheckpoint, onComplete }: {
+export function RouteCourse({ source, course, stagePrompt, voice, suspended, onComplete }: {
   source: MemorySource
   course: RouteCourseContent
   stagePrompt: string
   voice: boolean
   suspended: boolean
-  hasCheckpoint: (questionId: string) => boolean
-  showCheckpointClip: boolean
-  renderCheckpoint: (questionId: string, answers: CourseAnswers) => ReactNode
   onComplete: (answers: CourseAnswers) => void
 }) {
   const [state, dispatch] = useReducer(routeQuizReducer, course.questions, questions =>
     routeQuizReducer(initialRouteQuizState, { type: 'start', questions: prepareRouteCourse(questions) }))
   const [arrivalReady, setArrivalReady] = useState(false)
-  const [checkpointIndex, setCheckpointIndex] = useState<number | null>(null)
   const heading = useRef<HTMLHeadingElement>(null)
   const stage = useRef<HTMLDivElement>(null)
   const options = useRef<HTMLDivElement>(null)
-  const checkpointQuestion = checkpointIndex === null ? undefined : state.questions[checkpointIndex]
-  const question = !checkpointQuestion && state.phase === 'answering' ? state.questions[state.index] : undefined
-  const mediaQuestion = checkpointQuestion ?? question
-  const hideClip = Boolean(checkpointQuestion) && !showCheckpointClip
-  const arrival = state.phase === 'finished' && !checkpointQuestion
+  const question = state.phase === 'answering' ? state.questions[state.index] : undefined
+  const arrival = state.phase === 'finished'
   const prompt = arrival ? '看完终点短片，完成停车收尾。' : question?.prompt
   const spokenPrompt = question ? `第 ${state.index + 1} 段。${question.prompt}` : prompt
   const speech = usePromptSpeech(question && state.index === 0 ? stagePrompt + spokenPrompt : spokenPrompt, voice, suspended)
@@ -40,7 +33,7 @@ export function RouteCourse({ source, course, stagePrompt, voice, suspended, has
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })
     stage.current?.scrollIntoView({ block: 'nearest' })
-  }, [state.phase, state.index, checkpointIndex])
+  }, [state.phase, state.index])
 
   useEffect(() => {
     if (state.optionsVisible) options.current?.focus({ preventScroll: true })
@@ -48,21 +41,16 @@ export function RouteCourse({ source, course, stagePrompt, voice, suspended, has
 
   function submit(unknown = false) {
     if (!question || suspended || !state.frameReady || (!unknown && state.selected === null)) return
-    if (hasCheckpoint(question.id)) setCheckpointIndex(state.index)
     dispatch({ type: 'submit', unknown })
   }
 
-  return <div ref={stage} className={`grid scroll-mt-4 items-start gap-4 ${hideClip ? '' : 'lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]'}`}>
-      {mediaQuestion?.clip && <div key={mediaQuestion.id} hidden={hideClip} className="min-w-0">
-        <QuizClip routeId={source.routeId} clip={mediaQuestion.clip} suspended={suspended || !!checkpointQuestion}
-          onReady={ready => dispatch({ type: 'frame-ready', questionId: mediaQuestion.id, ready })} />
+  return <div ref={stage} className="grid scroll-mt-4 items-start gap-4 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
+      {question?.clip && <div key={question.id} className="min-w-0">
+        <QuizClip routeId={source.routeId} clip={question.clip} suspended={suspended}
+          onReady={ready => dispatch({ type: 'frame-ready', questionId: question.id, ready })} />
       </div>}
       {arrival && <QuizClip key="arrival" routeId={source.routeId} clip={course.arrivalClip} suspended={suspended} onReady={setArrivalReady} />}
-      {checkpointQuestion ? renderCheckpoint(checkpointQuestion.id, { questions: state.questions, answers: state.answers }) ??
-        <section className="min-w-0 rounded-lg border p-4" aria-label="本段操作">
-          <Button ref={element => { element?.focus({ preventScroll: true }) }} disabled={suspended}
-            onClick={() => setCheckpointIndex(null)}>继续实景路线<ArrowRight aria-hidden /></Button>
-        </section> : <section className="min-w-0 space-y-4 rounded-lg border p-4" aria-label="路线接续答题区">
+      <section className="min-w-0 space-y-4 rounded-lg border p-4" aria-label="路线接续答题区">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Badge variant="secondary">{arrival ? '终点' : `第 ${state.index + 1} / ${state.questions.length} 段`}</Badge>
           <Button variant="outline" disabled={!voice || suspended} onClick={speech.replay}><Volume2 aria-hidden />{arrival ? '重听提示' : '重听题目'}</Button>
@@ -89,7 +77,7 @@ export function RouteCourse({ source, course, stagePrompt, voice, suspended, has
             onClick={() => submit(true)}><CircleHelp aria-hidden />想不起来，继续走</Button>
         </>}
         {arrival && <Button disabled={suspended || !arrivalReady} onClick={() => onComplete({ questions: state.questions, answers: state.answers })}>进入停车收尾<ArrowRight aria-hidden /></Button>}
-      </section>}
+      </section>
   </div>
 }
 

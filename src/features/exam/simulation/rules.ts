@@ -60,14 +60,4 @@ export function examRule(clause: string): Rule {
 }
 
 export const generalFail = '6.3.2.1.1-'
-export const generalDeduction = '6.3.2.1.2-'
 export const projectRule = (project: number, item: string) => `6.3.2.2.${project}-${item}`
-
-export function ruleApplicability(rule: Rule) {
-  if (['hh', 'ii', 'jj'].some(item => rule.clause === generalFail + item) ||
-    rule.clause === generalDeduction + 'g') return '不适用 C2'
-  if (rule.clause.startsWith('6.3.2.2.4-') || [
-    generalFail + 'i', generalFail + 'm', generalFail + 'n', generalDeduction + 'f', projectRule(2, 'd'),
-  ].includes(rule.clause)) return '待核对 C2 车型或考场口径'
-  return null
-}

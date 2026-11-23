@@ -1,7 +1,6 @@
-import { useLayoutEffect, useReducer, useRef, useState } from 'react'
+import { useReducer, useRef, useState } from 'react'
 import { Link, useBlocker } from '@tanstack/react-router'
 import { ArrowLeft, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -13,10 +12,10 @@ import { roadRoutes } from '@/features/content/queries'
 import { loadRouteCourse } from '@/features/memory/course/course'
 import { RouteCourse } from '@/features/memory/course/workspace'
 import type { MemorySource } from '@/features/memory/progress'
-import { ScoredControls } from './controls'
-import { checkpointKey, debugAttempt, newScoredAttempt, scoredAttemptReducer, type Operation } from './model'
-import { ScoredResults } from './results'
-import { prepareRoadScenarios, selectLightingScenarios, simulationStages, type SimulationStage } from './scenarios'
+import { SimulationLighting, StageGuide } from './controls'
+import { checkpointKey, newSimulationAttempt, simulationReducer, type Operation } from './model'
+import { SimulationResults } from './results'
+import { selectLightingScenarios, simulationStages, type SimulationStage } from './scenarios'
 
 export function SimulationWorkspace({ source }: { source: MemorySource }) {
   const routeName = roadRoutes.find(route => route.id === source.routeId)!.name
@@ -24,10 +23,9 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
   const [voice, setVoice] = useState(true)
   const [exiting, setExiting] = useState(false)
   const [debug, setDebug] = useState(false)
-  const [attempt, dispatch] = useReducer(scoredAttemptReducer, null)
+  const [attempt, dispatch] = useReducer(simulationReducer, null)
   const startButton = useRef<HTMLButtonElement>(null)
   const beforeDialog = useRef<HTMLElement>(null)
-  const activeClock = useRef<{ elapsed: number; since: number | null }>({ elapsed: 0, since: null })
   const stage = attempt?.step.id ?? 'ready'
   const stageIndex = simulationStages.findIndex(item => item.id === stage)
   const current = simulationStages[stageIndex]
@@ -36,32 +34,10 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
   const { openMobile } = useSidebar()
   const suspended = exiting || blocker.status === 'blocked' || openMobile
 
-  useLayoutEffect(() => {
-    const clock = activeClock.current
-    function pause() {
-      if (clock.since === null) return
-      clock.elapsed += performance.now() - clock.since
-      clock.since = null
-    }
-    function sync() {
-      if (!active || suspended || document.hidden) pause()
-      else clock.since ??= performance.now()
-    }
-    sync()
-    document.addEventListener('visibilitychange', sync)
-    return () => {
-      document.removeEventListener('visibilitychange', sync)
-      pause()
-    }
-  }, [active, suspended])
-
   function start(debugStage?: SimulationStage | 'result') {
     if (!course) return
-    const initial = newScoredAttempt(selectLightingScenarios(), prepareRoadScenarios(source, course))
     setDebug(debugStage !== undefined)
-    activeClock.current.elapsed = 0
-    if (activeClock.current.since !== null) activeClock.current.since = performance.now()
-    dispatch({ type: 'begin', attempt: debugStage ? debugAttempt(initial, debugStage) : initial })
+    dispatch({ type: 'begin', attempt: newSimulationAttempt(selectLightingScenarios(), debugStage) })
   }
 
   function clear() {
@@ -72,15 +48,12 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
 
   function operate(operation: Operation) {
     if (!attempt || !active || suspended || document.hidden) return
-    const { elapsed, since } = activeClock.current
-    dispatch({ type: 'operate', checkpoint: checkpointKey(attempt.step), operation,
-      activeMs: since === null ? elapsed : elapsed + performance.now() - since })
+    dispatch({ type: 'operate', checkpoint: checkpointKey(attempt.step), operation })
   }
 
   const stagePrompt = current ? `第 ${stageIndex + 1} 项，${current.title}。` : ''
-  const panelProps = { operate, voice, suspended, stagePrompt }
-  const inCourse = attempt?.step.id === 'road'
-  const scene = attempt?.step.id === 'road' ? attempt.roads[attempt.step.index] : undefined
+  const speechProps = { voice, suspended, stagePrompt }
+  const guideStage = stage === 'preparation' || stage === 'start' || stage === 'parking' ? stage : null
 
   return <div className="mx-auto max-w-6xl space-y-4">
     <header className="flex flex-wrap items-center justify-between gap-3">
@@ -102,17 +75,15 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
 
     <ol aria-label="模拟进度" className="flex flex-wrap gap-2">
       {simulationStages.map((item, index) => <li key={item.id} aria-current={stage === item.id ? 'step' : undefined}>
-        <Badge variant={stage === item.id ? 'default' : 'outline'} className="text-base">{index + 1}. {item.title}</Badge>
+        <Badge variant={stage === item.id ? 'default' : 'outline'} className="text-base">
+          {index + 1}. {item.title}
+        </Badge>
       </li>)}
     </ol>
 
     {stage === 'ready' && <Card><CardContent className="space-y-3">
-      <p>从上车准备考到停车下车。按操作扣分，结束后统一回顾。</p>
-      <p className="text-base text-muted-foreground">按驾校流程开场，先上车做模拟身份核验，再下车绕车检查。</p>
-      <Alert><AlertDescription className="text-base">
-        当前成绩覆盖已接入的模拟操作。10 段实景回忆单独统计，考场细节和未接入项目见结果页。
-        {source.routeId === '6' && '六号线略过一处待核实转弯。'}
-      </AlertDescription></Alert>
+      <p>听流程、练灯光，再看 10 段实景短片回答路线题。</p>
+      {source.routeId === '6' && <p className="text-base text-muted-foreground">六号线略过一处待核实转弯。</p>}
       {course ? <Button ref={startButton} onClick={() => start()}><Play aria-hidden />开始模拟考试</Button>
         : <p role="status">路线资料核对后会开放本线路的模拟。</p>}
     </CardContent></Card>}
@@ -129,16 +100,14 @@ export function SimulationWorkspace({ source }: { source: MemorySource }) {
       <Button variant="outline" onClick={clear}>返回调试选择</Button>
     </div>}
 
-    {current && <h2 className="text-xl font-semibold">{current.title}</h2>}
-    {attempt && active && !inCourse && <ScoredControls attempt={attempt} {...panelProps} />}
-    {attempt && inCourse && course && <RouteCourse source={source} course={course} stagePrompt={stagePrompt} voice={voice} suspended={suspended}
-      hasCheckpoint={id => attempt.roads.some(scene => scene.questionId === id)}
-      showCheckpointClip={scene?.eventId !== null}
-      renderCheckpoint={(id, answers) => scene?.questionId === id
-        ? <ScoredControls attempt={attempt} {...panelProps} stagePrompt="" course={answers} /> : null}
+    {current && (guideStage
+      ? <StageGuide stage={guideStage} title={current.title} {...speechProps} onConfirm={() => operate({ type: 'confirm-guide' })} />
+      : <h2 className="text-xl font-semibold">{current.title}</h2>)}
+    {attempt?.step.id === 'lighting' && <SimulationLighting step={attempt.step} lighting={attempt.lighting} operate={operate} {...speechProps} />}
+    {stage === 'road' && course && <RouteCourse source={source} course={course} {...speechProps}
       onComplete={answers => operate({ type: 'road-finish', course: answers })} />}
 
-    {attempt && stage === 'result' && <ScoredResults attempt={attempt} source={source} voice={voice} suspended={suspended}
+    {attempt && stage === 'result' && <SimulationResults attempt={attempt} source={source} voice={voice} suspended={suspended}
       restart={<Button variant="outline" onClick={() => start()}><RotateCcw aria-hidden />再模拟一次</Button>} />}
 
     <Dialog open={exiting || blocker.status === 'blocked'} onOpenChange={open => {
