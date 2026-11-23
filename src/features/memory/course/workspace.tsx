@@ -27,8 +27,14 @@ export function RouteCourse({ source, course, stagePrompt, voice, suspended, onC
   const question = state.phase === 'answering' ? state.questions[state.index] : undefined
   const arrival = state.phase === 'finished'
   const prompt = arrival ? '看完终点短片，完成停车收尾。' : question?.prompt
-  const spokenPrompt = question ? `第 ${state.index + 1} 段。${question.prompt}` : prompt
-  const speech = usePromptSpeech(question && state.index === 0 ? stagePrompt + spokenPrompt : spokenPrompt, voice, suspended)
+  const isFirst = question && state.index === 0
+  const isHalfway = question && state.index === Math.ceil(state.questions.length / 2)
+  const encouragement = arrival ? '整条路线都走完了，做得好！'
+    : isFirst ? '先看实景认位置，再想接下来怎么走。'
+    : isHalfway ? '已经走过一半了，按你的节奏继续。' : ''
+  const spokenPrompt = question ? `${isFirst ? stagePrompt : ''}第 ${state.index + 1} 段。${encouragement}${question.prompt}`
+    : prompt && encouragement + prompt
+  const speech = usePromptSpeech(spokenPrompt, voice, suspended)
 
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })
@@ -55,6 +61,7 @@ export function RouteCourse({ source, course, stagePrompt, voice, suspended, onC
           <Badge variant="secondary">{arrival ? '终点' : `第 ${state.index + 1} / ${state.questions.length} 段`}</Badge>
           <Button variant="outline" disabled={!voice || suspended} onClick={speech.replay}><Volume2 aria-hidden />{arrival ? '重听提示' : '重听题目'}</Button>
         </div>
+        {encouragement && <p className="text-base text-muted-foreground">{encouragement}</p>}
         <h2 ref={heading} tabIndex={-1} className="text-xl font-semibold leading-relaxed focus-visible:outline-2 focus-visible:outline-ring">
           {prompt}
         </h2>

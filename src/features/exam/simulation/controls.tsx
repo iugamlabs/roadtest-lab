@@ -9,6 +9,7 @@ import { lampNames } from './scenarios'
 
 const guides = {
   preparation: {
+    encouragement: '按自己的节奏来，一步一步做就好。',
     steps: [
       '首次上车，调整座椅和后视镜，按提示完成身份核验。',
       '下车关门，逆时针绕车一周，按考车要求完成检查。',
@@ -18,6 +19,7 @@ const guides = {
     next: '确认，进入灯光口令',
   },
   start: {
+    encouragement: '起步不用着急，先把顺序想清楚。',
     steps: [
       '确认车门关牢、安全带已系，检查仪表，踩住脚刹。',
       '打左转向灯，观察内外后视镜，回头观察左后方。',
@@ -26,6 +28,7 @@ const guides = {
     next: '确认，进入实景路线',
   },
   parking: {
+    encouragement: '就差最后一步了，稳稳收尾。',
     steps: [
       '听到靠边停车指令后，打右转向灯，观察右后方，确认安全后减速靠边。',
       '踩脚刹停稳，拉紧驻车制动，挂 P 挡，关闭转向灯并熄火。',
@@ -33,7 +36,7 @@ const guides = {
     ],
     next: '确认，完成考试',
   },
-} satisfies Record<GuideStage, { steps: string[]; next: string }>
+} satisfies Record<GuideStage, { encouragement: string; steps: string[]; next: string }>
 
 const lamps = [
   { lamp: 'off', icon: Lightbulb, theme: 'main' },
@@ -49,13 +52,14 @@ export function StageGuide({ stage, title, voice, suspended, stagePrompt, onConf
   title: string
   onConfirm: () => void
 }) {
-  const { steps, next } = guides[stage]
+  const { encouragement, steps, next } = guides[stage]
   const heading = useRef<HTMLHeadingElement>(null)
-  const speech = usePromptSpeech(stagePrompt + steps.join(''), voice, suspended)
+  const speech = usePromptSpeech(stagePrompt + encouragement + steps.join(''), voice, suspended)
   useEffect(() => { heading.current?.focus({ preventScroll: true }) }, [stage])
 
   return <Card><CardContent className="space-y-4">
     <h2 ref={heading} tabIndex={-1} className="text-xl font-semibold focus-visible:outline-2 focus-visible:outline-ring">{title}</h2>
+    <p className="text-base text-muted-foreground">{encouragement}</p>
     <ol className="list-decimal space-y-3 pl-7 leading-relaxed">
       {steps.map(step => <li key={step} className="pl-1">{step}</li>)}
     </ol>
